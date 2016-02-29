@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <scenes>
+        <!--Welcome View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="WelcomeViewController" customModule="cryptochat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="800"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="6k9-L3-KxA">
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="800"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to CryptoChat" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rrs-fR-BIv">
+                                        <rect key="frame" x="0.0" y="0.0" width="480" height="267"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your user id is 5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NV1-17-URX">
+                                        <rect key="frame" x="0.0" y="267" width="480" height="267"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1Gg-1S-VA5">
+                                        <rect key="frame" x="0.0" y="534" width="480" height="267"/>
+                                        <state key="normal" title="Continue">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <segue destination="czl-qF-eDB" kind="presentation" id="ggC-sZ-O9G"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.097906710366606031" green="0.62291425254818678" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="6k9-L3-KxA" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="3Wk-bV-UqL"/>
+                            <constraint firstItem="6k9-L3-KxA" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" id="FSp-bl-Arn"/>
+                            <constraint firstItem="6k9-L3-KxA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="SBZ-04-Ahb"/>
+                            <constraint firstItem="6k9-L3-KxA" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="hdU-My-68K"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="480" height="800"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-156" y="389"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="zWY-8j-F7k">
+            <objects>
+                <viewController id="czl-qF-eDB" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="eD0-yQ-nJc"/>
+                        <viewControllerLayoutGuide type="bottom" id="Em2-tV-s93"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BEn-Hd-ZkS">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="800"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Cty-qC-U0E">
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="800"/>
+                                <subviews>
+                                    <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4MR-7G-iaF">
+                                        <rect key="frame" x="0.0" y="0.0" width="480" height="70"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="70" id="rOh-Rl-iGE"/>
+                                        </constraints>
+                                        <items>
+                                            <navigationItem title="Conversations" id="1XA-Q3-5kt">
+                                                <barButtonItem key="leftBarButtonItem" title="Back" id="7So-3T-JYy">
+                                                    <connections>
+                                                        <segue destination="6I7-gs-gDJ" kind="unwind" unwindAction="unwindToThisViewController:" id="oZd-fc-wO7"/>
+                                                    </connections>
+                                                </barButtonItem>
+                                            </navigationItem>
+                                        </items>
+                                    </navigationBar>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="qxZ-yT-gYQ">
+                                        <rect key="frame" x="0.0" y="70" width="480" height="730"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </tableView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.18765843983118619" green="0.7068863764702219" blue="0.98039215686274506" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="Cty-qC-U0E" firstAttribute="centerY" secondItem="BEn-Hd-ZkS" secondAttribute="centerY" id="1Ox-DJ-A4U"/>
+                            <constraint firstItem="Cty-qC-U0E" firstAttribute="height" secondItem="BEn-Hd-ZkS" secondAttribute="height" id="7j9-bV-uaw"/>
+                            <constraint firstItem="Cty-qC-U0E" firstAttribute="width" secondItem="BEn-Hd-ZkS" secondAttribute="width" id="AHU-yw-dib"/>
+                            <constraint firstItem="Cty-qC-U0E" firstAttribute="centerX" secondItem="BEn-Hd-ZkS" secondAttribute="centerX" id="uCp-rn-5Zu"/>
+                        </constraints>
+                    </view>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="480" height="800"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GYd-Z3-IJD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="6I7-gs-gDJ" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="460" y="394"/>
+        </scene>
+        <!--Storyboard Reference-->
+        <scene sceneID="yok-js-3z0">
+            <objects>
+                <viewControllerPlaceholder id="NiT-L2-V2Y" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fVw-9W-PBv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+        </scene>
+    </scenes>
+</document>
