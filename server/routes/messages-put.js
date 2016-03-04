@@ -9,7 +9,7 @@ export default {
       message: Joi.string().required(),
     }
   },
-  handler: function (req, res) {
+  handler: function (req,reply) {
   	const params = req.payload;
   	const message = new MessageModel({
   		user_id: params.user_id,
@@ -18,7 +18,10 @@ export default {
   	});
     message
       .save()
-      .then(() => { console.log(12); res.json(200, { success: true }) })
-      .then(() => res.json(500, { reason: 'failed saving in NeDB' }));
+      .then(() => reply({ success: true }).code(200))
+      .catch(error => {
+        console.log(error, error.stack);
+        reply({ reason: 'failed saving in NeDB' }).code(500);
+      });
   }
 };
