@@ -1,6 +1,6 @@
 ###SERVER
 
-*INSTALLING SERVER*
+**INSTALLING SERVER**
 
 it's located at `/server`:
 
@@ -9,17 +9,22 @@ it's located at `/server`:
 3. `cd` into `/server/patches/import-export` and run `npm install` there too
 4. `cd` back to `/server` and run `node index`
 
-*SEND MESSAGE ENDPOINT*
+**SEND MESSAGE ENDPOINT**
 
 TYPE: `PUT`
+
 URL: `http://localhost:8005/messages`
+
 BODY PARAMS: `user_id`, `to_user_id`, message`
+
 RESPONSE: `{ success: true }`
 
-*GET MESSAGES ENDPOINT*
+**GET MESSAGES ENDPOINT**
 
 TYPE: `GET`
+
 URL: `localhost:8005/messages?user_id=USER_ID_HERE`
+
 RESPONSE:
 ```
 {
