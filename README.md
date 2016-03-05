@@ -28,31 +28,18 @@ URL: `localhost:8005/messages?user_id=USER_ID_HERE`
 RESPONSE:
 ```
 {
-  "messages": [
-    {
+  "messages": [{
       "user_id": "a",
       "to_user_id": "b",
       "message": "c",
       "created_at": "2016-03-04T16:20:27.145Z",
-      "_id": "smt34WSvJuRjwEjz",
       "id": "smt34WSvJuRjwEjz"
-    },
-    {
+    }, {
       "user_id": "a",
       "to_user_id": "b",
       "message": "c",
       "created_at": "2016-03-04T16:36:47.062Z",
-      "_id": "xZ7gYRfz0fWquW1p",
       "id": "xZ7gYRfz0fWquW1p"
-    },
-    {
-      "user_id": "a",
-      "to_user_id": "b",
-      "message": "c",
-      "created_at": "2016-03-04T16:19:57.642Z",
-      "_id": "zFK34UzvoNraJQt8",
-      "id": "zFK34UzvoNraJQt8"
-    }
-  ]
+    }]
 }
 ```
