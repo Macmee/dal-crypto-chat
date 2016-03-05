@@ -168,7 +168,9 @@ QueryBuilder.prototype.exec = function(callback) {
   // if no callback is given, return a promise
   callback = promiseFallback(this, callback);
   // push the callback on the queue and perform the query
+  console.log('b', this.actions.length);
   this.actions.push(['exec',callback]);
+    console.log('bc', this.actions.length);
   this.perform();
   return callback.chainValue;
 };
@@ -231,7 +233,11 @@ function QueryHandler(err, data, actions, model) {
     var op = actions[i];
     var action = op[0];
     var enumerator = op[1];
-    this[action](enumerator);
+    if (this[action]) {
+      this[action](enumerator);
+    } else {
+      throw Error('BaseModel cant find action ' + action + ' in QueryHandler');
+    }
   }
 }
 

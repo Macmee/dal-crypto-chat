@@ -60,18 +60,21 @@ Promise.delay = function(ms) {
   });
 };
 
-Object.getPrototypeOf(Promise.defer()).makeNodeResolver = function() {
-  var self = this;
-  return function(err /* , args... */) {
-    if (err) {
-      self.reject(err);
-    } else {
-      var args = arguments[1];
-      if (arguments.length > 2) {
-        args = [];
-        for(var i = 1; i < arguments.length; i++) args.push(arguments[i]);
+Object.defineProperty(Object.getPrototypeOf(Promise.defer()), 'makeNodeResolver', {
+  enumerable: false,
+  get: function() {
+    var self = this;
+    return function(err /* , args... */) {
+      if (err) {
+        self.reject(err);
+      } else {
+        var args = arguments[1];
+        if (arguments.length > 2) {
+          args = [];
+          for(var i = 1; i < arguments.length; i++) args.push(arguments[i]);
+        }
+        self.resolve(args);
       }
-      self.resolve(args);
-    }
-  };
-};
+    };
+  }
+});
