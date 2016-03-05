@@ -15,7 +15,7 @@ TYPE: `PUT`
 
 URL: `http://localhost:8005/messages`
 
-BODY PARAMS: `user_id`, `to_user_id`, message`
+BODY PARAMS: `user_id`, `to_user_id`, `message`
 
 RESPONSE: `{ success: true }`
 
