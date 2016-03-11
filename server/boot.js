@@ -1,8 +1,8 @@
 import Hapi from 'hapi';
 
 const server = new Hapi.Server();
-server.connection({ 
-  host: '0.0.0.0', 
+server.connection({
+  host: '0.0.0.0',
   port: 8005
 });
 
