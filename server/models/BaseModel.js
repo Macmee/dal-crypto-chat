@@ -1,4 +1,4 @@
-import Nedb from 'neDB';
+import Nedb from 'nedb';
 import Backbone from 'backbone';
 import _ from 'underscore';
 
