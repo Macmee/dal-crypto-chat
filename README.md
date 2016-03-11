@@ -1,6 +1,6 @@
 ###SERVER
 
-*INSTALLING SERVER*
+**INSTALLING SERVER**
 
 it's located at `/server`:
 
@@ -9,45 +9,37 @@ it's located at `/server`:
 3. `cd` into `/server/patches/import-export` and run `npm install` there too
 4. `cd` back to `/server` and run `node index`
 
-*SEND MESSAGE ENDPOINT*
+**SEND MESSAGE ENDPOINT**
 
 TYPE: `PUT`
+
 URL: `http://localhost:8005/messages`
-BODY PARAMS: `user_id`, `to_user_id`, message`
+
+BODY PARAMS: `user_id`, `to_user_id`, `message`
+
 RESPONSE: `{ success: true }`
 
-*GET MESSAGES ENDPOINT*
+**GET MESSAGES ENDPOINT**
 
 TYPE: `GET`
+
 URL: `localhost:8005/messages?user_id=USER_ID_HERE`
+
 RESPONSE:
 ```
 {
-  "messages": [
-    {
+  "messages": [{
       "user_id": "a",
       "to_user_id": "b",
       "message": "c",
       "created_at": "2016-03-04T16:20:27.145Z",
-      "_id": "smt34WSvJuRjwEjz",
       "id": "smt34WSvJuRjwEjz"
-    },
-    {
+    }, {
       "user_id": "a",
       "to_user_id": "b",
       "message": "c",
       "created_at": "2016-03-04T16:36:47.062Z",
-      "_id": "xZ7gYRfz0fWquW1p",
       "id": "xZ7gYRfz0fWquW1p"
-    },
-    {
-      "user_id": "a",
-      "to_user_id": "b",
-      "message": "c",
-      "created_at": "2016-03-04T16:19:57.642Z",
-      "_id": "zFK34UzvoNraJQt8",
-      "id": "zFK34UzvoNraJQt8"
-    }
-  ]
+    }]
 }
 ```
