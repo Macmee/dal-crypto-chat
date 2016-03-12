@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		350DE6B91C948EC000FEC1CC /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350DE6B61C948EC000FEC1CC /* SQLiteDB.swift */; };
+		350DE6BA1C948EC000FEC1CC /* SQLTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350DE6B71C948EC000FEC1CC /* SQLTable.swift */; };
+		350DE6BB1C948EC000FEC1CC /* String-Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350DE6B81C948EC000FEC1CC /* String-Extras.swift */; };
+		350DE6C01C948FF300FEC1CC /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350DE6BF1C948FF300FEC1CC /* DataManager.swift */; };
+		350DE6C21C949F0500FEC1CC /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350DE6C11C949F0500FEC1CC /* Message.swift */; };
+		3552E3071C9489F60046B5C3 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 357E85441C9484E600B4E5C7 /* libsqlite3.0.tbd */; };
 		975B18861C7E24C500F320D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975B18851C7E24C500F320D0 /* AppDelegate.swift */; };
 		975B18881C7E24C500F320D0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975B18871C7E24C500F320D0 /* ViewController.swift */; };
 		975B188B1C7E24C500F320D0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 975B18891C7E24C500F320D0 /* Main.storyboard */; };
@@ -35,6 +41,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		350DE6B61C948EC000FEC1CC /* SQLiteDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SQLiteDB.swift; path = "SQLiteDB-master/SQLiteDB.swift"; sourceTree = "<group>"; };
+		350DE6B71C948EC000FEC1CC /* SQLTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SQLTable.swift; path = "SQLiteDB-master/SQLTable.swift"; sourceTree = "<group>"; };
+		350DE6B81C948EC000FEC1CC /* String-Extras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String-Extras.swift"; path = "SQLiteDB-master/String-Extras.swift"; sourceTree = "<group>"; };
+		350DE6BC1C948EFD00FEC1CC /* Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Bridging-Header.h"; path = "SQLiteDB-master/Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		350DE6BF1C948FF300FEC1CC /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		350DE6C11C949F0500FEC1CC /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		357E85441C9484E600B4E5C7 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		975B18821C7E24C500F320D0 /* cryptochat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cryptochat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		975B18851C7E24C500F320D0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		975B18871C7E24C500F320D0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -56,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3552E3071C9489F60046B5C3 /* libsqlite3.0.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,9 +90,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		350DE6AD1C948CEA00FEC1CC /* SQLiteDB */ = {
+			isa = PBXGroup;
+			children = (
+				350DE6B61C948EC000FEC1CC /* SQLiteDB.swift */,
+				350DE6B71C948EC000FEC1CC /* SQLTable.swift */,
+				350DE6B81C948EC000FEC1CC /* String-Extras.swift */,
+			);
+			name = SQLiteDB;
+			sourceTree = "<group>";
+		};
 		975B18791C7E24C500F320D0 = {
 			isa = PBXGroup;
 			children = (
+				350DE6AD1C948CEA00FEC1CC /* SQLiteDB */,
+				357E85441C9484E600B4E5C7 /* libsqlite3.0.tbd */,
 				975B18841C7E24C500F320D0 /* cryptochat */,
 				975B18991C7E24C500F320D0 /* cryptochatTests */,
 				975B18A41C7E24C500F320D0 /* cryptochatUITests */,
@@ -99,6 +125,7 @@
 		975B18841C7E24C500F320D0 /* cryptochat */ = {
 			isa = PBXGroup;
 			children = (
+				350DE6BC1C948EFD00FEC1CC /* Bridging-Header.h */,
 				975B18851C7E24C500F320D0 /* AppDelegate.swift */,
 				975B18871C7E24C500F320D0 /* ViewController.swift */,
 				975B18891C7E24C500F320D0 /* Main.storyboard */,
@@ -106,6 +133,8 @@
 				975B188E1C7E24C500F320D0 /* LaunchScreen.storyboard */,
 				975B18911C7E24C500F320D0 /* Info.plist */,
 				975B18B31C7E29C500F320D0 /* WelcomeViewController.swift */,
+				350DE6BF1C948FF300FEC1CC /* DataManager.swift */,
+				350DE6C11C949F0500FEC1CC /* Message.swift */,
 			);
 			path = cryptochat;
 			sourceTree = "<group>";
@@ -261,7 +290,12 @@
 			files = (
 				975B18B41C7E29C500F320D0 /* WelcomeViewController.swift in Sources */,
 				975B18881C7E24C500F320D0 /* ViewController.swift in Sources */,
+				350DE6B91C948EC000FEC1CC /* SQLiteDB.swift in Sources */,
 				975B18861C7E24C500F320D0 /* AppDelegate.swift in Sources */,
+				350DE6BB1C948EC000FEC1CC /* String-Extras.swift in Sources */,
+				350DE6C21C949F0500FEC1CC /* Message.swift in Sources */,
+				350DE6C01C948FF300FEC1CC /* DataManager.swift in Sources */,
+				350DE6BA1C948EC000FEC1CC /* SQLTable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,10 +437,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = cryptochat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.macmee.sudoku.cryptochat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "cryptochat-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -414,10 +451,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = cryptochat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.macmee.sudoku.cryptochat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "cryptochat-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -488,6 +527,7 @@
 				975B18AC1C7E24C500F320D0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		975B18AD1C7E24C500F320D0 /* Build configuration list for PBXNativeTarget "cryptochatTests" */ = {
 			isa = XCConfigurationList;
@@ -496,6 +536,7 @@
 				975B18AF1C7E24C500F320D0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		975B18B01C7E24C500F320D0 /* Build configuration list for PBXNativeTarget "cryptochatUITests" */ = {
 			isa = XCConfigurationList;
@@ -504,6 +545,7 @@
 				975B18B21C7E24C500F320D0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
