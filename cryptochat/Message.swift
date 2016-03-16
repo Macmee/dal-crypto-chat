@@ -6,14 +6,12 @@
 //  Copyright © 2016年 David Zorychta. All rights reserved.
 //
 
-import Cocoa
+import UIKit
 
-class Message: UICollectionViewCell {
-    
-    var sender
-    var receiver
-    var msg
-    var msgID
-    var time
-
+struct Message {
+    var sender : String
+    var receiver : String
+    var msg : String
+    var id : String
+    var time : String
 }

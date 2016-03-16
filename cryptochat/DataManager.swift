@@ -6,7 +6,7 @@
 //  Copyright © 2016年 David Zorychta. All rights reserved.
 //
 
-import Cocoa
+import UIKit
 
 class DataManager: UIViewController {
     
@@ -15,7 +15,7 @@ class DataManager: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         db = SQLiteDB.sharedInstance()
-        db.execute("create table if not exists message(sender varchar(30), receiver varchar(30), msg varchar(120), msgID varchar(50), time varchar(30))")
+        db.execute("create table if not exists message(sender varchar(30), receiver varchar(30), msg varchar(120), id varchar(50), time varchar(30))")
         db.execute("create table if not exists keys(public_key varchar(100), private_key varchar(100))")
         
     }
@@ -28,16 +28,24 @@ class DataManager: UIViewController {
     }
     
     func storeMessage(m: Message) {
-        let sql = "insert into message(sender, receiver, msg, msgID time) values('\(m.sender)', '\(m.receiver)', '\(m.msg)', '\(m.msgID)','\(m.time)')"
+        let sql = "insert into message(sender, receiver, msg, id time) values('\(m.sender)', '\(m.receiver)', '\(m.msg)', '\(m.id)','\(m.time)')"
         print("sql: \(sql)")
         let result = db.execute(sql)
         print(result)
     }
     
-    func getMessage(id: String) {
+    func getMessages(id: String) -> [Message] {
         let sql = "select * from message WHERE message.sender='\(id)' OR message.receiver='\(id)'"
-        let res = db.execute(sql)
-        return res
+        let res = db.query(sql)
+        return res.map({ message in
+            return Message(
+                sender: (message["sender"] as? String) ?? "",
+                receiver: (message["receiver"] as? String) ?? "",
+                msg: (message["msg"] as? String) ?? "",
+                id: (message["id"] as? String) ?? "",
+                time: (message["time"] as? String) ?? ""
+            )
+        })
     }
     
     func getConversations() {
