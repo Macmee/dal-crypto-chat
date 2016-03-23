@@ -5,18 +5,22 @@
 //  Created by Yuanjiang Lin on 16/3/12.
 //  Copyright © 2016年 David Zorychta. All rights reserved.
 //
+import Foundation
 
-import UIKit
-
-class DataManager: UIViewController {
+class DataManager {
+    //Let's make it a singleton
+    static let dataManager = DataManager()
+    var msgCollection = [Message]()
+    let USER_ID = "Ario Khoshzamir"
     
     var db: SQLiteDB!
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    init() {
         db = SQLiteDB.sharedInstance()
-        db.execute("create table if not exists message(sender varchar(30), receiver varchar(30), msg varchar(120), id varchar(50), time varchar(30))")
-        db.execute("create table if not exists keys(public_key varchar(100), private_key varchar(100))")
+        //        db.execute("DELETE FROM message")
+        db.execute("CREATE TABLE IF NOT EXISTS message(sender varchar(30), receiver varchar(30), msg varchar(120), id varchar(50), time varchar(30))")
+        //        db.execute("create table if not exists message(sender varchar(30), receiver varchar(30), msg varchar(120), id varchar(50), time varchar(30))")
+        //        db.execute("create table if not exists keys(public_key varchar(100), private_key varchar(100))")
         
     }
     
@@ -28,29 +32,44 @@ class DataManager: UIViewController {
     }
     
     func storeMessage(m: Message) {
-        let sql = "insert into message(sender, receiver, msg, id time) values('\(m.sender)', '\(m.receiver)', '\(m.msg)', '\(m.id)','\(m.time)')"
+        let sql = "INSERT INTO message(sender, receiver, msg, id, time) values('\(m.sender)', '\(m.receiver)', '\(m.msg)', '\(m.id)','\(m.time)')"
         print("sql: \(sql)")
         let result = db.execute(sql)
         print(result)
     }
     
     func getMessages(id: String) -> [Message] {
-        let sql = "select * from message WHERE message.sender='\(id)' OR message.receiver='\(id)'"
+        let sql = "SELECT * FROM message WHERE message.sender='\(id)' OR message.receiver='\(id)'"
         let res = db.query(sql)
-        return res.map({ message in
-            return Message(
-                sender: (message["sender"] as? String) ?? "",
-                receiver: (message["receiver"] as? String) ?? "",
-                msg: (message["msg"] as? String) ?? "",
-                id: (message["id"] as? String) ?? "",
-                time: (message["time"] as? String) ?? ""
-            )
+        msgCollection = res.map({ message in
+            if USER_ID == message["sender"] as? String {
+                return Message(
+                    sender: (message["sender"] as? String) ?? "",
+                    receiver: (message["receiver"] as? String) ?? "",
+                    msg: (message["msg"] as? String) ?? "",
+                    id: (message["id"] as? String) ?? "",
+                    time: (message["time"] as? String) ?? "",
+                    isFromUser: true
+                )
+            } else {
+                return Message(
+                    sender: (message["sender"] as? String) ?? "",
+                    receiver: (message["receiver"] as? String) ?? "",
+                    msg: (message["msg"] as? String) ?? "",
+                    id: (message["id"] as? String) ?? "",
+                    time: (message["time"] as? String) ?? "",
+                    isFromUser: false
+                )
+            }
+            
         })
+        print("map!!!",msgCollection)
+        return msgCollection
     }
     
     func getConversations() {
         
     }
     
-
+    
 }

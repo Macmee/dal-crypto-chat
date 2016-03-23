@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05EDE8511CA232C400B36131 /* ConversationInboxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EDE8501CA232C400B36131 /* ConversationInboxViewController.swift */; };
+		05EDE8571CA232D200B36131 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EDE8521CA232D200B36131 /* ConversationViewController.swift */; };
+		05EDE8581CA232D200B36131 /* DataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EDE8531CA232D200B36131 /* DataFetcher.swift */; };
+		05EDE8591CA232D200B36131 /* MessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EDE8541CA232D200B36131 /* MessageTableViewCell.swift */; };
+		05EDE85A1CA232D200B36131 /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EDE8551CA232D200B36131 /* NewConversationViewController.swift */; };
+		05EDE85B1CA232D200B36131 /* SpeechBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EDE8561CA232D200B36131 /* SpeechBubbleView.swift */; };
+		05EDE85F1CA2550E00B36131 /* msg.db in Resources */ = {isa = PBXBuildFile; fileRef = 05EDE85E1CA2550E00B36131 /* msg.db */; };
 		350DE6B91C948EC000FEC1CC /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350DE6B61C948EC000FEC1CC /* SQLiteDB.swift */; };
 		350DE6BA1C948EC000FEC1CC /* SQLTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350DE6B71C948EC000FEC1CC /* SQLTable.swift */; };
 		350DE6BB1C948EC000FEC1CC /* String-Extras.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350DE6B81C948EC000FEC1CC /* String-Extras.swift */; };
@@ -42,6 +49,13 @@
 
 /* Begin PBXFileReference section */
 		05DA81D11C99C84A00BA0577 /* cryptochat-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "cryptochat-Bridging-Header.h"; sourceTree = "<group>"; };
+		05EDE8501CA232C400B36131 /* ConversationInboxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationInboxViewController.swift; sourceTree = "<group>"; };
+		05EDE8521CA232D200B36131 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
+		05EDE8531CA232D200B36131 /* DataFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataFetcher.swift; sourceTree = "<group>"; };
+		05EDE8541CA232D200B36131 /* MessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageTableViewCell.swift; sourceTree = "<group>"; };
+		05EDE8551CA232D200B36131 /* NewConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewConversationViewController.swift; sourceTree = "<group>"; };
+		05EDE8561CA232D200B36131 /* SpeechBubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechBubbleView.swift; sourceTree = "<group>"; };
+		05EDE85E1CA2550E00B36131 /* msg.db */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = msg.db; sourceTree = "<group>"; };
 		350DE6B61C948EC000FEC1CC /* SQLiteDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SQLiteDB.swift; path = "SQLiteDB-master/SQLiteDB.swift"; sourceTree = "<group>"; };
 		350DE6B71C948EC000FEC1CC /* SQLTable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SQLTable.swift; path = "SQLiteDB-master/SQLTable.swift"; sourceTree = "<group>"; };
 		350DE6B81C948EC000FEC1CC /* String-Extras.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String-Extras.swift"; path = "SQLiteDB-master/String-Extras.swift"; sourceTree = "<group>"; };
@@ -125,6 +139,13 @@
 		975B18841C7E24C500F320D0 /* cryptochat */ = {
 			isa = PBXGroup;
 			children = (
+				05EDE85E1CA2550E00B36131 /* msg.db */,
+				05EDE8521CA232D200B36131 /* ConversationViewController.swift */,
+				05EDE8531CA232D200B36131 /* DataFetcher.swift */,
+				05EDE8541CA232D200B36131 /* MessageTableViewCell.swift */,
+				05EDE8551CA232D200B36131 /* NewConversationViewController.swift */,
+				05EDE8561CA232D200B36131 /* SpeechBubbleView.swift */,
+				05EDE8501CA232C400B36131 /* ConversationInboxViewController.swift */,
 				05DA81D11C99C84A00BA0577 /* cryptochat-Bridging-Header.h */,
 				975B18851C7E24C500F320D0 /* AppDelegate.swift */,
 				975B18871C7E24C500F320D0 /* ViewController.swift */,
@@ -262,6 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				975B18901C7E24C500F320D0 /* LaunchScreen.storyboard in Resources */,
+				05EDE85F1CA2550E00B36131 /* msg.db in Resources */,
 				975B188D1C7E24C500F320D0 /* Assets.xcassets in Resources */,
 				975B188B1C7E24C500F320D0 /* Main.storyboard in Resources */,
 			);
@@ -289,10 +311,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				975B18B41C7E29C500F320D0 /* WelcomeViewController.swift in Sources */,
+				05EDE8581CA232D200B36131 /* DataFetcher.swift in Sources */,
 				975B18881C7E24C500F320D0 /* ViewController.swift in Sources */,
+				05EDE85A1CA232D200B36131 /* NewConversationViewController.swift in Sources */,
+				05EDE8571CA232D200B36131 /* ConversationViewController.swift in Sources */,
 				350DE6B91C948EC000FEC1CC /* SQLiteDB.swift in Sources */,
+				05EDE8591CA232D200B36131 /* MessageTableViewCell.swift in Sources */,
+				05EDE8511CA232C400B36131 /* ConversationInboxViewController.swift in Sources */,
 				975B18861C7E24C500F320D0 /* AppDelegate.swift in Sources */,
 				350DE6BB1C948EC000FEC1CC /* String-Extras.swift in Sources */,
+				05EDE85B1CA232D200B36131 /* SpeechBubbleView.swift in Sources */,
 				350DE6C21C949F0500FEC1CC /* Message.swift in Sources */,
 				350DE6C01C948FF300FEC1CC /* DataManager.swift in Sources */,
 				350DE6BA1C948EC000FEC1CC /* SQLTable.swift in Sources */,

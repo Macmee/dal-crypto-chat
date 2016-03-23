@@ -14,4 +14,5 @@ struct Message {
     var msg : String
     var id : String
     var time : String
+    var isFromUser: Bool
 }
