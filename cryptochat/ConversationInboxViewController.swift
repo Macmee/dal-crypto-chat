@@ -27,7 +27,6 @@ class ConversationInboxViewController: UIViewController, UITableViewDataSource, 
         // Do any additional setup after loading the view.
         tableView.dataSource = self
         tableView.delegate = self
-        self.dataManager = DataManager.dataManager
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -53,7 +52,6 @@ class ConversationInboxViewController: UIViewController, UITableViewDataSource, 
         if (segue.identifier == "toConvo") {
             let destinationVC = segue.destinationViewController as! ConversationViewController
             destinationVC.nameTitle = name
-            dataManager.getMessages(name!)
         }
     }
     

@@ -320,7 +320,7 @@ BaseModel.count = function(query, callback) {
 BaseModel.findOne = function(query, callback) {
   callback = promiseFallback(this, callback);
   this.find(query).limit(1).exec(function(err, items) {
-    callback(err, items.length > 0 ? items[0] : undefined);
+    callback(err, items.length > 0 ? items[0] : null);
   });
   return callback.chainValue;
 };

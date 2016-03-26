@@ -14,6 +14,14 @@ server.route([{
   method: 'GET',
   path:'/messages',
   config: require('./routes/messages-get')
+}, {
+  method: 'PUT',
+  path:'/users',
+  config: require('./routes/users-put')
+}, {
+  method: 'GET',
+  path:'/users',
+  config: require('./routes/users-get')
 }]);
 
 server.start(error => {

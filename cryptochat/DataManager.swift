@@ -9,8 +9,7 @@ import Foundation
 
 class DataManager {
     //Let's make it a singleton
-    static let dataManager = DataManager()
-    var msgCollection = [Message]()
+    static let sharedInstance = DataManager()
     let USER_ID = "Ario Khoshzamir"
     
     var db: SQLiteDB!
@@ -18,7 +17,7 @@ class DataManager {
     init() {
         db = SQLiteDB.sharedInstance()
         //        db.execute("DELETE FROM message")
-        db.execute("CREATE TABLE IF NOT EXISTS message(sender varchar(30), receiver varchar(30), msg varchar(120), id varchar(50), time varchar(30))")
+        db.execute("CREATE TABLE IF NOT EXISTS message(sender varchar(255), receiver varchar(255), msg TEXT, id varchar(255), time varchar(255))")
         //        db.execute("create table if not exists message(sender varchar(30), receiver varchar(30), msg varchar(120), id varchar(50), time varchar(30))")
         //        db.execute("create table if not exists keys(public_key varchar(100), private_key varchar(100))")
         
@@ -41,7 +40,7 @@ class DataManager {
     func getMessages(id: String) -> [Message] {
         let sql = "SELECT * FROM message WHERE message.sender='\(id)' OR message.receiver='\(id)'"
         let res = db.query(sql)
-        msgCollection = res.map({ message in
+        return res.map({ message in
             if USER_ID == message["sender"] as? String {
                 return Message(
                     sender: (message["sender"] as? String) ?? "",
@@ -63,12 +62,6 @@ class DataManager {
             }
             
         })
-        print("map!!!",msgCollection)
-        return msgCollection
-    }
-    
-    func getConversations() {
-        
     }
     
     

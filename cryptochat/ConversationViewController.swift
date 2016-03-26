@@ -13,37 +13,38 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
 
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     var nameTitle: String?
-    var dataManager: DataManager!
     
     @IBOutlet weak var tableMessages: UITableView!
     @IBOutlet weak var userTextField: UITextField!
+    var messages = [Message]()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
         tableMessages.dataSource = self
         tableMessages.delegate = self
         self.navigationItem.title = nameTitle
-        self.dataManager = DataManager.dataManager
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil);
+        reloadConversations()
     }
     
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self);
     }
 
+    func reloadConversations() {
+        messages = DataManager.sharedInstance.getMessages(nameTitle!)
+        tableMessages.reloadData()
+    }
+
 
     @IBAction func userSendButton(sender: AnyObject) {
         print(userTextField.text)
-        let m = Message(sender: self.dataManager.USER_ID, receiver: self.navigationItem.title!, msg: userTextField.text!, id: "1234", time: "1234", isFromUser: true)
-        dataManager.storeMessage(m)
-        dataManager.getMessages(nameTitle!)
+        let m = Message(sender: DataManager.sharedInstance.USER_ID, receiver: self.navigationItem.title!, msg: userTextField.text!, id: "1234", time: "1234", isFromUser: true)
+        DataManager.sharedInstance.storeMessage(m)
         userTextField.text = ""
-        tableMessages.reloadData()
-        
+        reloadConversations()
     }
     
     override func didReceiveMemoryWarning() {
@@ -52,7 +53,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataManager.msgCollection.count
+        return messages.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -64,33 +65,31 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         }
         cell?.backgroundColor = UIColor.clearColor()
         cell?.textLabel?.textColor = UIColor.whiteColor()
-        let msg = dataManager.msgCollection[indexPath.row]
+        let msg = messages[indexPath.row]
         cell?.setMessage(msg);
         return cell!
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let msg = dataManager.msgCollection[indexPath.row]
+        let msg = messages[indexPath.row]
         let bublesize = SpeechBubbleView.sizeForText((msg.msg)) as CGSize
         return bublesize.height + 16
     }
     
     func keyboardWillShow(notification: NSNotification) {
-        var info = notification.userInfo!
-        var keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-        print(-(keyboardFrame.size.height + 20))
-        UIView.animateWithDuration(0.1, animations: { () -> Void in
-            self.bottomConstraint.constant = -(keyboardFrame.size.height)
-        })
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.CGRectValue() {
+            self.bottomConstraint.constant = -keyboardSize.height
+            UIView.animateWithDuration(0.5) {
+                self.view.layoutIfNeeded()
+            }
+        }
     }
-    
+
     func keyboardWillHide(notification: NSNotification) {
-        var info = notification.userInfo!
-        var keyboardFrame: CGRect = (info[UIKeyboardFrameEndUserInfoKey] as! NSValue).CGRectValue()
-        print(-(keyboardFrame.size.height + 20))
-        UIView.animateWithDuration(0.1, animations: { () -> Void in
-            self.bottomConstraint.constant = (keyboardFrame.size.height)
-        })
+        self.bottomConstraint.constant = 0
+        UIView.animateWithDuration(0.5) {
+            self.view.layoutIfNeeded()
+        }
     }
-    
+
 }

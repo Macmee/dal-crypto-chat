@@ -1,0 +1,10 @@
+PODS:
+  - Heimdall (0.2.5)
+
+DEPENDENCIES:
+  - Heimdall (~> 0.2.1)
+
+SPEC CHECKSUMS:
+  Heimdall: e388795a9bb50c8403e27cbc48093b9b0380c879
+
+COCOAPODS: 0.39.0
