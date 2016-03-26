@@ -9,8 +9,7 @@
 import UIKit
 
 class DataFetcher: NSObject {
-    
-    
+
     /*function called to send data to server*/
     func SendMessages(user_id: String, to_user_id: String, message: String, completion:(success:Bool) ->Void){
         
@@ -34,8 +33,7 @@ class DataFetcher: NSObject {
             })
         }
     }
-    
-   
+
     func getMessages(user_id:String, complete:(success: Bool, messages:AnyObject)->Void){
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             var response_data = NSString()
@@ -57,8 +55,7 @@ class DataFetcher: NSObject {
             })
         })
     }
-    
-    
+
     func parseJSON(messages:NSString) -> AnyObject
     {
         let message = messages.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
@@ -70,6 +67,27 @@ class DataFetcher: NSObject {
         }
        return jsonDict!
     }
-    
-    
+
+    func getUsername(username:String, complete:(success: Bool, messages:AnyObject)->Void) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            var response_data = NSString()
+            let url = NSURL(string: "http://davidz.xyz:8005/users?username=" + username)
+            let request = NSMutableURLRequest(URL: url!)
+            request.HTTPMethod = "GET"
+            let session = NSURLSession.sharedSession()
+            let task = session.dataTaskWithRequest(request){ (data, response, error) -> Void in
+                if error != nil {
+                    return
+                }else{
+                    response_data = NSString(data: data!, encoding: NSUTF8StringEncoding)!
+                    complete(success: true, messages: self.parseJSON(response_data))
+                }
+            }
+            dispatch_async(dispatch_get_main_queue(), {
+                task.resume()
+
+            })
+        })
+    }
+
 }

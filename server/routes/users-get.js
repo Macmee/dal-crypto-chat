@@ -3,14 +3,17 @@ import UserModel from '../models/UserModel';
 
 export default {
   validate: { 
-    query: { 
+    params: { 
       username: Joi.string().required(),
     }
   },
   handler: function (req, reply) {
     UserModel
-      .findOne({ username: req.query.username })
-      .then(user => reply({ exists: (user !== null) }))
+      .findOne({ username: req.params.username })
+      .then(user => reply({
+        exists: (user !== null),
+        public_key: (user || {}).public_key
+      }))
       .catch(error => {
         console.log(error, error.stack);
         reply({ reason: 'failed fetching in NeDB' }).code(500);

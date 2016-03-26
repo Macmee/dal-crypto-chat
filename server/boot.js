@@ -20,7 +20,7 @@ server.route([{
   config: require('./routes/users-put')
 }, {
   method: 'GET',
-  path:'/users',
+  path:'/users/{username}',
   config: require('./routes/users-get')
 }]);
 
