@@ -40,6 +40,7 @@ class WelcomeViewController: BaseViewController
         defaultWelcomeHeightConstraint = self.welcomeHeightConstraint.constant
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil)
+        input.addTarget(self, action: "textFieldDidChange:", forControlEvents: UIControlEvents.EditingChanged)
         input.addSubview(spinner)
         spinner.activityIndicatorViewStyle = .Gray
         spinner.startAnimating()
@@ -48,6 +49,10 @@ class WelcomeViewController: BaseViewController
         NSLayoutConstraint.activateConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[spinner]-|", options: [], metrics: nil, views: views))
         NSLayoutConstraint.activateConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-[spinner]-|", options: [], metrics: nil, views: views))
         view.addConstraint(NSLayoutConstraint(item: spinner, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: spinner, attribute: NSLayoutAttribute.Width, multiplier: 1, constant: 0))
+
+        DataFetcher.sharedInstance.getUser("test") { messages in
+            let exists = (messages["exists"] as? Bool) == false
+        }
     }
 
     override func didReceiveMemoryWarning() {

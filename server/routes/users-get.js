@@ -12,7 +12,8 @@ export default {
       .findOne({ username: req.params.username })
       .then(user => reply({
         exists: (user !== null),
-        public_key: (user || {}).public_key
+        public_key: (user || {}).public_key,
+        username: req.params.username
       }))
       .catch(error => {
         console.log(error, error.stack);
