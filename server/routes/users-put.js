@@ -14,7 +14,7 @@ const user_is_valid = (username, public_key) => {
       console.log(username, public_key.length, public_key);
       console.log('@@@', !!user);
       console.log('##', !user && username.length >= 1 && public_key.length > 350);
-      return !user && username.length >= 1 && public_key.length > 350;
+      return Promise.resolve(!user && username.length >= 1 && public_key.length > 350);
     });
 };
 
