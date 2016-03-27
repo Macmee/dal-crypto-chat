@@ -17,7 +17,7 @@ const user_is_valid = (username, public_key) => {
 
 export default {
   validate: { 
-    query: { 
+    payload: { 
       username: Joi.string().required(),
       public_key: Joi.string().required()
     }

@@ -30,7 +30,7 @@
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please choose a username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NV1-17-URX">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Please choose a username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NV1-17-URX">
                                         <rect key="frame" x="0.0" y="278" width="420" height="21"/>
                                         <color key="backgroundColor" red="0.29411764709999999" green="0.56862745100000001" blue="0.86274509799999999" alpha="0.0" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -78,11 +78,65 @@
                         <outlet property="input" destination="Zw0-cC-NEN" id="z2b-QP-pqj"/>
                         <outlet property="userIdContainer" destination="NV1-17-URX" id="yFK-qc-isB"/>
                         <outlet property="welcomeHeightConstraint" destination="jOg-QR-l6m" id="esw-zZ-Hfb"/>
+                        <segue destination="CHD-1Z-Ey9" kind="show" identifier="continue" id="oPk-Kf-usb"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-356" y="251"/>
+            <point key="canvasLocation" x="-661" y="255"/>
+        </scene>
+        <!--Register View Controller-->
+        <scene sceneID="4I1-zw-0Nv">
+            <objects>
+                <viewController id="CHD-1Z-Ey9" customClass="RegisterViewController" customModule="cryptochat" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Erw-LK-K4l"/>
+                        <viewControllerLayoutGuide type="bottom" id="n2O-lr-jPN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="2rP-j9-S2v">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="800"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Hsh-00-va6">
+                                <rect key="frame" x="0.0" y="20" width="480" height="800"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Registering..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UQD-Y4-TYf">
+                                        <rect key="frame" x="0.0" y="0.0" width="480" height="400"/>
+                                        <color key="backgroundColor" red="0.29411764709999999" green="0.56862745100000001" blue="0.86274509799999999" alpha="0.0" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="180" id="NLn-WH-21Q"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="26"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="NLn-WH-21Q"/>
+                                            </mask>
+                                        </variation>
+                                    </label>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="yyc-n4-hHU">
+                                        <rect key="frame" x="0.0" y="400" width="480" height="400"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.20392156859999999" green="0.43529411759999997" blue="0.78039215689999997" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="Hsh-00-va6" firstAttribute="height" secondItem="2rP-j9-S2v" secondAttribute="height" id="D5L-Fh-sO9"/>
+                            <constraint firstItem="Hsh-00-va6" firstAttribute="centerX" secondItem="2rP-j9-S2v" secondAttribute="centerX" id="R0c-Fr-xYZ"/>
+                            <constraint firstItem="Hsh-00-va6" firstAttribute="width" secondItem="2rP-j9-S2v" secondAttribute="width" id="deB-9d-Nyi"/>
+                            <constraint firstItem="Hsh-00-va6" firstAttribute="top" secondItem="Erw-LK-K4l" secondAttribute="bottom" id="zi9-ln-EkP"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <segue destination="kdG-uS-4c1" kind="unwind" identifier="registerFailed" unwindAction="unwindToThisViewController:" id="cGp-Ao-zBR"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="84j-os-uMd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="kdG-uS-4c1" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="55" y="276"/>
         </scene>
         <!--Inbox-->
         <scene sceneID="ziN-be-bYU">
@@ -289,7 +343,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tKV-lA-nqw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="276" y="261"/>
+            <point key="canvasLocation" x="252" y="1259"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4IT-Rm-IOR">

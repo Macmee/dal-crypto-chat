@@ -39,6 +39,9 @@
 		975F4DE11CA76D45002F4E89 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975F4DE01CA76D45002F4E89 /* CustomTextField.swift */; };
 		975F4DE21CA76D45002F4E89 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975F4DE01CA76D45002F4E89 /* CustomTextField.swift */; };
 		975F4DE31CA76D45002F4E89 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975F4DE01CA76D45002F4E89 /* CustomTextField.swift */; };
+		975F4DE51CA7845F002F4E89 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975F4DE41CA7845F002F4E89 /* RegisterViewController.swift */; };
+		975F4DE61CA7845F002F4E89 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975F4DE41CA7845F002F4E89 /* RegisterViewController.swift */; };
+		975F4DE71CA7845F002F4E89 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975F4DE41CA7845F002F4E89 /* RegisterViewController.swift */; };
 		97B4E3C51CA7358F00BFB545 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B4E3C31CA7358F00BFB545 /* CustomButton.swift */; };
 		97B4E3C61CA7358F00BFB545 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B4E3C31CA7358F00BFB545 /* CustomButton.swift */; };
 		97B4E3C71CA7358F00BFB545 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B4E3C31CA7358F00BFB545 /* CustomButton.swift */; };
@@ -103,6 +106,7 @@
 		975F4DD81CA7380C002F4E89 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		975F4DDC1CA75D43002F4E89 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		975F4DE01CA76D45002F4E89 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		975F4DE41CA7845F002F4E89 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		97B4E3C31CA7358F00BFB545 /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		97B4E3C41CA7358F00BFB545 /* CustomButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomButton.xib; sourceTree = "<group>"; };
 		B983473CBBA6F39337063498 /* Pods-cryptochatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cryptochatUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-cryptochatUITests/Pods-cryptochatUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -210,6 +214,7 @@
 				350DE6C11C949F0500FEC1CC /* Message.swift */,
 				975F4DDC1CA75D43002F4E89 /* User.swift */,
 				975F4DE01CA76D45002F4E89 /* CustomTextField.swift */,
+				975F4DE41CA7845F002F4E89 /* RegisterViewController.swift */,
 			);
 			path = cryptochat;
 			sourceTree = "<group>";
@@ -521,6 +526,7 @@
 				05EDE8581CA232D200B36131 /* DataFetcher.swift in Sources */,
 				975B18881C7E24C500F320D0 /* ViewController.swift in Sources */,
 				05EDE85A1CA232D200B36131 /* NewConversationViewController.swift in Sources */,
+				975F4DE51CA7845F002F4E89 /* RegisterViewController.swift in Sources */,
 				05EDE8571CA232D200B36131 /* ConversationViewController.swift in Sources */,
 				350DE6B91C948EC000FEC1CC /* SQLiteDB.swift in Sources */,
 				05EDE8591CA232D200B36131 /* MessageTableViewCell.swift in Sources */,
@@ -545,6 +551,7 @@
 				975F4DDE1CA75D43002F4E89 /* User.swift in Sources */,
 				97B4E3C61CA7358F00BFB545 /* CustomButton.swift in Sources */,
 				975B189B1C7E24C500F320D0 /* cryptochatTests.swift in Sources */,
+				975F4DE61CA7845F002F4E89 /* RegisterViewController.swift in Sources */,
 				975F4DDA1CA7380C002F4E89 /* BaseViewController.swift in Sources */,
 				975F4DE21CA76D45002F4E89 /* CustomTextField.swift in Sources */,
 			);
@@ -557,6 +564,7 @@
 				975F4DDF1CA75D43002F4E89 /* User.swift in Sources */,
 				97B4E3C71CA7358F00BFB545 /* CustomButton.swift in Sources */,
 				975B18A61C7E24C500F320D0 /* cryptochatUITests.swift in Sources */,
+				975F4DE71CA7845F002F4E89 /* RegisterViewController.swift in Sources */,
 				975F4DDB1CA7380C002F4E89 /* BaseViewController.swift in Sources */,
 				975F4DE31CA76D45002F4E89 /* CustomTextField.swift in Sources */,
 			);

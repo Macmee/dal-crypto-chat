@@ -7,11 +7,8 @@
 //
 
 import UIKit
-import Heimdall
-import Security
-import CommonCrypto
 
-class WelcomeViewController: BaseViewController
+class WelcomeViewController: BaseViewController, UITextFieldDelegate
 {
     @IBOutlet var continueButton: CustomButton!
     @IBOutlet var input: CustomTextField!
@@ -19,6 +16,7 @@ class WelcomeViewController: BaseViewController
     @IBOutlet var welcomeHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     var defaultBottomConstraint : CGFloat = 0.0
+    let transparentButtonAmount : CGFloat = 0.2
     var defaultWelcomeHeightConstraint : CGFloat = 0.0
     let spinner : UIActivityIndicatorView = UIActivityIndicatorView()
     let check = UIImageView(image: UIImage(named: "check"))
@@ -26,27 +24,14 @@ class WelcomeViewController: BaseViewController
     var fetchUserDebounce = NSTimer()
     override func viewDidLoad() {
         super.viewDidLoad()
-        let localHeimdall = Heimdall(tagPrefix: "com.example")
-        if let heimdall = localHeimdall, publicKeyData = heimdall.publicKeyDataX509() {
-
-            var publicKeyString = publicKeyData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
-
-            // If you want to make this string URL safe,
-            // you have to remember to do the reverse on the other side later
-            publicKeyString = publicKeyString.stringByReplacingOccurrencesOfString("/", withString: "_")
-            publicKeyString = publicKeyString.stringByReplacingOccurrencesOfString("+", withString: "-")
-
-            print(publicKeyString) // Something along the lines of "MIGfMA0GCSqGSIb3DQEBAQUAA..."
-            
-            userIdContainer.text = publicKeyString
-        }
         defaultBottomConstraint = self.bottomConstraint.constant
         defaultWelcomeHeightConstraint = self.welcomeHeightConstraint.constant
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(WelcomeViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(WelcomeViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil)
+        input.delegate = self
         input.addTarget(self, action: #selector(WelcomeViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
         spinner.activityIndicatorViewStyle = .Gray
-        continueButton.alpha = 0.2
+        continueButton.alpha = transparentButtonAmount
         for view in [check, x, spinner] {
             view.hidden = true
             input.addSubview(view)
@@ -56,6 +41,7 @@ class WelcomeViewController: BaseViewController
             NSLayoutConstraint.activateConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-[view]-|", options: [], metrics: nil, views: views))
             view.addConstraint(NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Width, multiplier: 1, constant: 0))
         }
+        continueButton.button.addTarget(self, action: "pressedContinue:", forControlEvents: .TouchUpInside)
     }
 
     @objc func handleGetUserResult(timer : NSTimer) {
@@ -65,8 +51,17 @@ class WelcomeViewController: BaseViewController
             self.spinner.stopAnimating()
             self.check.hidden = user.exists
             self.x.hidden = !user.exists
-            self.continueButton.alpha = user.exists ? 0.2 : 1.0
+            UIView.animateWithDuration(0.5) {
+                self.continueButton.alpha = user.exists ? self.transparentButtonAmount : 1.0
+            }
         }
+    }
+
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+        let aSet = NSCharacterSet(charactersInString:"abcdefghijklmnopqrstuvwxyz0123456789").invertedSet
+        let compSepByCharInSet = string.componentsSeparatedByCharactersInSet(aSet)
+        let numberFiltered = compSepByCharInSet.joinWithSeparator("")
+        return string == numberFiltered
     }
 
     func textFieldDidChange(textField: UITextField) {
@@ -76,14 +71,14 @@ class WelcomeViewController: BaseViewController
             spinner.stopAnimating()
             check.hidden = true
             x.hidden = true
-            continueButton.alpha = 0.2
+            continueButton.alpha = transparentButtonAmount
             return
         }
         spinner.hidden = false
         spinner.startAnimating()
         check.hidden = true
         x.hidden = true
-        continueButton.alpha = 0.2
+        continueButton.alpha = transparentButtonAmount
         DataFetcher.sharedInstance.getUser(inputName) { user in
             self.fetchUserDebounce.invalidate()
             self.fetchUserDebounce = NSTimer.scheduledTimerWithTimeInterval(0.25, target: self, selector: #selector(WelcomeViewController.handleGetUserResult(_:)), userInfo: (user as AnyObject), repeats: false)
@@ -113,6 +108,20 @@ class WelcomeViewController: BaseViewController
         self.welcomeHeightConstraint.constant = defaultWelcomeHeightConstraint
         UIView.animateWithDuration(0.5) {
             self.view.layoutIfNeeded()
+        }
+    }
+
+    func pressedContinue(sender: UIButton) {
+        if continueButton.alpha == 1.0 {
+            self.performSegueWithIdentifier("continue", sender: sender)
+        }
+    }
+
+    override func prepareForSegue(segue: UIStoryboardSegue!, sender: AnyObject!) {
+        if (segue.identifier == "continue") {
+            var registerVC = segue!.destinationViewController as! RegisterViewController
+            registerVC.username = input.text ?? ""
+            
         }
     }
 
