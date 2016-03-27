@@ -13,6 +13,7 @@ const user_is_valid = (username, public_key) => {
     .then(user => {
       console.log(username, public_key.length, public_key);
       console.log('@@@', !!user);
+      console.log('##', !user && username.length >= 1 && public_key.length > 350);
       return !user && username.length >= 1 && public_key.length > 350;
     });
 };
@@ -31,12 +32,16 @@ export default {
         if (!is_valid) {
           return false;
         }
+        console.log('WOO');
         return new UserModel({
   		    username: params.username,
   		    public_key: params.public_key
   	    }).save();
       })
-      .then(user => reply({ success: !!user }).code(200))
+      .then(user => {
+        console.log('ee', user);
+        reply({ success: !!user }).code(200);
+      })
       .catch(error => {
         console.log(error, error.stack);
         reply({ reason: 'failed saving in NeDB' }).code(500);
