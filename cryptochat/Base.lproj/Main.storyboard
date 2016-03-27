@@ -31,22 +31,27 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please choose a username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NV1-17-URX">
-                                        <rect key="frame" x="0.0" y="243" width="420" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="278" width="420" height="21"/>
                                         <color key="backgroundColor" red="0.29411764709999999" green="0.56862745100000001" blue="0.86274509799999999" alpha="0.0" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="center" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zw0-cC-NEN">
-                                        <rect key="frame" x="0.0" y="394" width="420" height="45"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="center" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zw0-cC-NEN" customClass="CustomTextField" customModule="cryptochat" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="464" width="420" height="45"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="45" id="4kc-pR-OAf"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="inset">
+                                                <real key="value" value="10"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kWY-cK-1Bw" customClass="CustomButton" customModule="cryptochat" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="439" width="420" height="281"/>
+                                        <rect key="frame" x="0.0" y="650" width="420" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="czB-RJ-Keg"/>
                                         </constraints>
@@ -69,6 +74,7 @@
                     <size key="freeformSize" width="480" height="800"/>
                     <connections>
                         <outlet property="bottomConstraint" destination="1az-sS-5Q4" id="k4r-b2-03r"/>
+                        <outlet property="continueButton" destination="kWY-cK-1Bw" id="uEp-l3-MmO"/>
                         <outlet property="input" destination="Zw0-cC-NEN" id="z2b-QP-pqj"/>
                         <outlet property="userIdContainer" destination="NV1-17-URX" id="yFK-qc-isB"/>
                         <outlet property="welcomeHeightConstraint" destination="jOg-QR-l6m" id="esw-zZ-Hfb"/>

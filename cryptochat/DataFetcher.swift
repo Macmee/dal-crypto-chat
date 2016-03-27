@@ -70,7 +70,7 @@ class DataFetcher: NSObject {
        return jsonDict!
     }
 
-    func getUser(username:String, complete:(messages:AnyObject)->Void) {
+    func getUser(username:String, complete:(user:User)->Void) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             var response_data = NSString()
             let url = NSURL(string: "http://davidz.xyz:8005/users/" + username)
@@ -83,12 +83,42 @@ class DataFetcher: NSObject {
                 }else{
                     response_data = NSString(data: data!, encoding: NSUTF8StringEncoding)!
                     dispatch_async(dispatch_get_main_queue(), {
-                        var response = [String: AnyObject]()
+                        let response = User()
                         if let data = self.parseJSON(response_data) as? Dictionary<String, AnyObject> {
-                            response["exists"] = ((data["exists"] as? Bool) ?? false)
-                            response["public_key"] = ((data["public_key"] as? String) ?? nil)
+                            response.exists = ((data["exists"] as? Bool) ?? false)
+                            response.public_key = ((data["public_key"] as? String) ?? "")
+                            response.username = ((data["username"] as? String) ?? "")
                         }
-                        complete(messages: response)
+                        complete(user: response)
+                    })
+                }
+            }
+            task.resume()
+        })
+    }
+
+    func register(username:String, public_key:String, complete:(user:User)->Void) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            var response_data = NSString()
+            let url = NSURL(string: "http://davidz.xyz:8005/users/")
+            let request = NSMutableURLRequest(URL: url!)
+            request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+            request.HTTPMethod = "PUT"
+            let paramString = "username=" + username + "&public_key=" + public_key
+            let session = NSURLSession.sharedSession()
+            let task = session.dataTaskWithRequest(request){ (data, response, error) -> Void in
+                if error != nil {
+                    return
+                }else{
+                    response_data = NSString(data: data!, encoding: NSUTF8StringEncoding)!
+                    dispatch_async(dispatch_get_main_queue(), {
+                        let response = User()
+                        if let data = self.parseJSON(response_data) as? Dictionary<String, AnyObject> {
+                            response.exists = ((data["exists"] as? Bool) ?? false)
+                            response.public_key = ((data["public_key"] as? String) ?? "")
+                            response.username = ((data["username"] as? String) ?? "")
+                        }
+                        complete(user: response)
                     })
                 }
             }

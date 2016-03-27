@@ -1,6 +1,7 @@
 import Nedb from 'nedb';
 import Backbone from 'backbone';
 import _ from 'underscore';
+import Promise from 'enhanced-promises';
 
 /**
  * instead of doing ugly queries like model.find({ $lte: { created_at: new Date } })

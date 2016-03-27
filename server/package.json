@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "backbone": "^1.2.3",
+    "enhanced-promises": "^1.0.4",
     "hapi": "^13.0.0",
     "joi": "^8.0.3",
     "nedb": "^1.8.0",
