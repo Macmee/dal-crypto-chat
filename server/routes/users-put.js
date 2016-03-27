@@ -24,7 +24,7 @@ export default {
   },
   handler: function (req, reply) {
   	const params = req.payload;
-    user_is_valid()
+    user_is_valid(params.username, params.public_key)
       .then(is_valid => {
         if (!is_valid) {
           return false;
