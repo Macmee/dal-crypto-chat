@@ -29,6 +29,7 @@ export default {
   	const params = req.payload;
     user_is_valid(params.username, params.public_key)
       .then(is_valid => {
+        console.log('oo', is_valid);
         if (!is_valid) {
           return false;
         }
