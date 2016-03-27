@@ -10,7 +10,6 @@ import UIKit
 
 class User : NSObject {
     var exists : Bool = false
-    var is_self : Bool = false
     var username : String = ""
     var public_key : String = ""
 }

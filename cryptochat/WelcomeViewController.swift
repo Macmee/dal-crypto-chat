@@ -24,6 +24,13 @@ class WelcomeViewController: BaseViewController, UITextFieldDelegate
     var fetchUserDebounce = NSTimer()
     override func viewDidLoad() {
         super.viewDidLoad()
+        if let user = DataManager.sharedInstance.getSelfUser() {
+            performSegueWithIdentifier("registered", sender: self)
+            for item in view.subviews {
+                item.hidden = true
+            }
+            return
+        }
         defaultBottomConstraint = self.bottomConstraint.constant
         defaultWelcomeHeightConstraint = self.welcomeHeightConstraint.constant
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(WelcomeViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil)
@@ -32,16 +39,22 @@ class WelcomeViewController: BaseViewController, UITextFieldDelegate
         input.addTarget(self, action: #selector(WelcomeViewController.textFieldDidChange(_:)), forControlEvents: UIControlEvents.EditingChanged)
         spinner.activityIndicatorViewStyle = .Gray
         continueButton.alpha = transparentButtonAmount
-        for view in [check, x, spinner] {
-            view.hidden = true
-            input.addSubview(view)
-            view.translatesAutoresizingMaskIntoConstraints = false
-            let views = [ "view": view ]
+        for item in [check, x, spinner] {
+            item.hidden = true
+            input.addSubview(item)
+            item.translatesAutoresizingMaskIntoConstraints = false
+            let views = [ "view": item ]
             NSLayoutConstraint.activateConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:[view]-10-|", options: [], metrics: nil, views: views))
             NSLayoutConstraint.activateConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-[view]-|", options: [], metrics: nil, views: views))
-            view.addConstraint(NSLayoutConstraint(item: view, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: view, attribute: NSLayoutAttribute.Width, multiplier: 1, constant: 0))
+            item.addConstraint(NSLayoutConstraint(item: item, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: item, attribute: NSLayoutAttribute.Width, multiplier: 1, constant: 0))
         }
         continueButton.button.addTarget(self, action: "pressedContinue:", forControlEvents: .TouchUpInside)
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        if let user = DataManager.sharedInstance.getSelfUser() {
+            performSegueWithIdentifier("registered", sender: self)
+        }
     }
 
     @objc func handleGetUserResult(timer : NSTimer) {

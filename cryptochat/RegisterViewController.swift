@@ -18,17 +18,11 @@ class RegisterViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let localHeimdall = Heimdall(tagPrefix: "com.example")
+        let localHeimdall = Heimdall(tagPrefix: DataManager.sharedInstance.getNamespace())
         if let heimdall = localHeimdall, publicKeyData = heimdall.publicKeyDataX509() {
-
             var publicKeyString = publicKeyData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
-
-            // If you want to make this string URL safe,
-            // you have to remember to do the reverse on the other side later
             publicKeyString = publicKeyString.stringByReplacingOccurrencesOfString("/", withString: "_")
             publicKeyString = publicKeyString.stringByReplacingOccurrencesOfString("+", withString: "-")
-
-            print(publicKeyString) // Something along the lines of "MIGfMA0GCSqGSIb3DQEBAQUAA..."
             if let username = username {
                 DataFetcher.sharedInstance.register(username, public_key: publicKeyString) { success in
                     if !success {
@@ -38,8 +32,9 @@ class RegisterViewController: BaseViewController {
                     let user = User()
                     user.username = username
                     user.public_key = publicKeyString
-                    user.is_self = true
                     DataManager.sharedInstance.storeUser(user)
+                    DataManager.sharedInstance.setSetting("self_id", value: publicKeyString)
+                    self.performSegueWithIdentifier("registered", sender: self)
                 }
             }
         }

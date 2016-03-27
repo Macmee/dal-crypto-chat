@@ -15,10 +15,11 @@ class DataManager {
     
     init() {
         db = SQLiteDB.sharedInstance()
-        db.execute("DROP TABLE IF EXISTS message")
-        db.execute("DROP TABLE IF EXISTS user")
+        //db.execute("DROP TABLE IF EXISTS message")
+        //db.execute("DROP TABLE IF EXISTS user")
         db.execute("CREATE TABLE IF NOT EXISTS message(sender text, receiver text, msg TEXT, id varchar(255), time varchar(255))")
-        db.execute("CREATE TABLE IF NOT EXISTS user(username text, public_key text, is_self text)")
+        db.execute("CREATE TABLE IF NOT EXISTS user(username text, public_key text)")
+        db.execute("CREATE TABLE IF NOT EXISTS setting(key text, value text)")
         
     }
     
@@ -28,6 +29,31 @@ class DataManager {
         let result = db.execute(sql)
         print(result)
     }
+
+    func randomStringWithLength (len : Int) -> NSString {
+
+        let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+
+        var randomString : NSMutableString = NSMutableString(capacity: len)
+
+        for (var i=0; i < len; i++){
+            var length = UInt32 (letters.length)
+            var rand = arc4random_uniform(length)
+            randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
+        }
+        
+        return randomString
+    }
+
+    func getNamespace() -> String {
+        if let namespace = getSetting("namespace") {
+            return namespace
+        } else {
+            let namespace = randomStringWithLength(25) as String
+            setSetting("namespace", value: namespace)
+            return namespace
+        }
+    }
     
     func storeMessage(m: Message) {
         let sql = "INSERT INTO message(sender, receiver, msg, id, time) values('\(m.sender)', '\(m.receiver)', '\(m.msg)', '\(m.id)','\(m.time)')"
@@ -36,10 +62,27 @@ class DataManager {
         print(result)
     }
 
+    func setSetting(key : String, value : String) {
+        db.execute("DELETE FROM setting WHERE key = '\(key)'")
+        let sql = "INSERT INTO setting(key, value) values('\(key)', '\(value)')"
+        print("sql: \(sql)")
+        let result = db.execute(sql)
+        print(result)
+    }
+
+    func getSetting(key : String) -> String? {
+        let sql = "SELECT * FROM setting WHERE key = '\(key)'"
+        print("sql: \(sql)")
+        let result = db.query(sql)
+        if result.count == 0 {
+            return nil
+        }
+        return (result[0]["value"] as? String) ?? ""
+    }
+
     func storeUser(m: User) {
         db.execute("DELETE FROM user WHERE public_key = '\(m.public_key)'")
-        let is_self = m.is_self ? "yes" : "no"
-        let sql = "INSERT INTO user(username, public_key, is_self) values('\(m.username)', '\(m.public_key)', '\(is_self)')"
+        let sql = "INSERT INTO user(username, public_key) values('\(m.username)', '\(m.public_key)')"
         print("sql: \(sql)")
         let result = db.execute(sql)
         print(result)
@@ -49,18 +92,15 @@ class DataManager {
         let user = User()
         user.username = (result["username"] as? String) ?? ""
         user.public_key = (result["public_key"] as? String) ?? ""
-        user.is_self = ((result["is_self"] as? String) ?? "") == "yes"
         return user
     }
 
-    func getSelfUser(public_key : String) -> User? {
-        let sql = "SELECT * FROM user WHERE private_key != ''"
-        print("sql: \(sql)")
-        let result = db.query(sql)
-        if result.count == 0 {
+    func getSelfUser() -> User? {
+        if let id = getSetting("self_id") {
+            return getUser(id)
+        } else {
             return nil
         }
-        return mapSingleUser(result[0])
     }
 
     func getUser(public_key : String) -> User? {

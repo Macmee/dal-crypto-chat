@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Pje-G3-CvB">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -17,8 +17,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="480" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="6k9-L3-KxA">
-                                <rect key="frame" x="30" y="40" width="420" height="720"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" misplaced="YES" axis="vertical" distribution="equalCentering" translatesAutoresizingMaskIntoConstraints="NO" id="6k9-L3-KxA">
+                                <rect key="frame" x="30" y="40" width="420" height="676"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Welcome to CryptoChat" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rrs-fR-BIv">
                                         <rect key="frame" x="0.0" y="0.0" width="420" height="180"/>
@@ -31,14 +31,14 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Please choose a username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NV1-17-URX">
-                                        <rect key="frame" x="0.0" y="278" width="420" height="21"/>
+                                        <rect key="frame" x="0.0" y="264" width="420" height="21"/>
                                         <color key="backgroundColor" red="0.29411764709999999" green="0.56862745100000001" blue="0.86274509799999999" alpha="0.0" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="center" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zw0-cC-NEN" customClass="CustomTextField" customModule="cryptochat" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="464" width="420" height="45"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="center" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Zw0-cC-NEN" customClass="CustomTextField" customModule="cryptochat" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="435" width="420" height="45"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="45" id="4kc-pR-OAf"/>
                                         </constraints>
@@ -50,8 +50,8 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </textField>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kWY-cK-1Bw" customClass="CustomButton" customModule="cryptochat" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="650" width="420" height="70"/>
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kWY-cK-1Bw" customClass="CustomButton" customModule="cryptochat" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="606" width="420" height="70"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="70" id="czB-RJ-Keg"/>
                                         </constraints>
@@ -70,6 +70,7 @@
                             <constraint firstItem="6k9-L3-KxA" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="SBZ-04-Ahb"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="1Oi-RN-Y8N"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="480" height="800"/>
                     <connections>
@@ -79,11 +80,12 @@
                         <outlet property="userIdContainer" destination="NV1-17-URX" id="yFK-qc-isB"/>
                         <outlet property="welcomeHeightConstraint" destination="jOg-QR-l6m" id="esw-zZ-Hfb"/>
                         <segue destination="CHD-1Z-Ey9" kind="show" identifier="continue" id="oPk-Kf-usb"/>
+                        <segue destination="hkx-ZS-Ysf" kind="show" identifier="registered" id="mHI-cG-AzO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-661" y="255"/>
+            <point key="canvasLocation" x="-703" y="179"/>
         </scene>
         <!--Register View Controller-->
         <scene sceneID="4I1-zw-0Nv">
@@ -131,6 +133,7 @@
                     </view>
                     <connections>
                         <segue destination="kdG-uS-4c1" kind="unwind" identifier="registerFailed" unwindAction="unwindToThisViewController:" id="cGp-Ao-zBR"/>
+                        <segue destination="hkx-ZS-Ysf" kind="show" identifier="registered" id="lVx-OX-NvA"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="84j-os-uMd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -147,18 +150,18 @@
                         <viewControllerLayoutGuide type="bottom" id="Uya-Gc-Wy1"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="kU1-YE-sGD">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="800"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BBN-g0-AlO">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="480" height="800"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="ConversationCell" textLabel="oMZ-Yy-0Mg" detailTextLabel="quL-KY-Ngj" rowHeight="44" style="IBUITableViewCellStyleSubtitle" id="GSG-N5-vjN">
-                                        <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                        <rect key="frame" x="0.0" y="92" width="480" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GSG-N5-vjN" id="JGe-G2-2pK">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="480" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="oMZ-Yy-0Mg">
@@ -199,7 +202,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="p9i-u2-15z">
                             <button key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nhR-Cd-1nK">
-                                <rect key="frame" x="558" y="11" width="22" height="22"/>
+                                <rect key="frame" x="438" y="11" width="22" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="add"/>
                                 <connections>
@@ -337,13 +340,17 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
+                    <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="2I7-7h-lhB">
+                        <rect key="frame" x="0.0" y="556" width="600" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </toolbar>
                     <connections>
-                        <segue destination="hkx-ZS-Ysf" kind="relationship" relationship="rootViewController" id="WOq-Tb-xx1"/>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="3CO-7a-y2O"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tKV-lA-nqw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="252" y="1259"/>
+            <point key="canvasLocation" x="-1592" y="295"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="4IT-Rm-IOR">
@@ -371,4 +378,7 @@
         <image name="close" width="22" height="20"/>
         <image name="setting" width="16" height="16"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="mHI-cG-AzO"/>
+    </inferredMetricsTieBreakers>
 </document>

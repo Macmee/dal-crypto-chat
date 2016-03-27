@@ -11,9 +11,6 @@ const user_is_valid = (username, public_key) => {
       ]
     })
     .then(user => {
-      console.log(username, public_key.length, public_key);
-      console.log('@@@', !!user);
-      console.log('##', !user && username.length >= 1 && public_key.length > 350);
       return Promise.resolve(!user && username.length >= 1 && public_key.length > 350);
     });
 };
@@ -29,18 +26,15 @@ export default {
   	const params = req.payload;
     user_is_valid(params.username, params.public_key)
       .then(is_valid => {
-        console.log('oo', is_valid);
         if (!is_valid) {
           return false;
         }
-        console.log('WOO');
         return new UserModel({
   		    username: params.username,
   		    public_key: params.public_key
   	    }).save();
       })
       .then(user => {
-        console.log('ee', user);
         reply({ success: !!user }).code(200);
       })
       .catch(error => {
