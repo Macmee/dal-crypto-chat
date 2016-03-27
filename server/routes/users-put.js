@@ -11,6 +11,8 @@ const user_is_valid = (username, public_key) => {
       ]
     })
     .then(user => {
+      console.log(username, public_key.length, public_key);
+      console.log('@@@', !!user);
       return !user && username.length >= 1 && public_key.length > 350;
     });
 };
