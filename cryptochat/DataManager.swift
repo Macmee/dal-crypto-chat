@@ -36,7 +36,7 @@ class DataManager {
 
         var randomString : NSMutableString = NSMutableString(capacity: len)
 
-        for (var i=0; i < len; i++){
+        for (var i=0; i < len; i+=1){
             var length = UInt32 (letters.length)
             var rand = arc4random_uniform(length)
             randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))

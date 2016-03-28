@@ -42,6 +42,9 @@
 		975F4DE51CA7845F002F4E89 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975F4DE41CA7845F002F4E89 /* RegisterViewController.swift */; };
 		975F4DE61CA7845F002F4E89 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975F4DE41CA7845F002F4E89 /* RegisterViewController.swift */; };
 		975F4DE71CA7845F002F4E89 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975F4DE41CA7845F002F4E89 /* RegisterViewController.swift */; };
+		975F4DE91CA9C50E002F4E89 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975F4DE81CA9C50E002F4E89 /* UserManager.swift */; };
+		975F4DEA1CA9C50E002F4E89 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975F4DE81CA9C50E002F4E89 /* UserManager.swift */; };
+		975F4DEB1CA9C50E002F4E89 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975F4DE81CA9C50E002F4E89 /* UserManager.swift */; };
 		97B4E3C51CA7358F00BFB545 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B4E3C31CA7358F00BFB545 /* CustomButton.swift */; };
 		97B4E3C61CA7358F00BFB545 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B4E3C31CA7358F00BFB545 /* CustomButton.swift */; };
 		97B4E3C71CA7358F00BFB545 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B4E3C31CA7358F00BFB545 /* CustomButton.swift */; };
@@ -107,6 +110,7 @@
 		975F4DDC1CA75D43002F4E89 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		975F4DE01CA76D45002F4E89 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		975F4DE41CA7845F002F4E89 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		975F4DE81CA9C50E002F4E89 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
 		97B4E3C31CA7358F00BFB545 /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		97B4E3C41CA7358F00BFB545 /* CustomButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomButton.xib; sourceTree = "<group>"; };
 		B983473CBBA6F39337063498 /* Pods-cryptochatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cryptochatUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-cryptochatUITests/Pods-cryptochatUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -215,6 +219,7 @@
 				975F4DDC1CA75D43002F4E89 /* User.swift */,
 				975F4DE01CA76D45002F4E89 /* CustomTextField.swift */,
 				975F4DE41CA7845F002F4E89 /* RegisterViewController.swift */,
+				975F4DE81CA9C50E002F4E89 /* UserManager.swift */,
 			);
 			path = cryptochat;
 			sourceTree = "<group>";
@@ -540,6 +545,7 @@
 				350DE6C01C948FF300FEC1CC /* DataManager.swift in Sources */,
 				975F4DD91CA7380C002F4E89 /* BaseViewController.swift in Sources */,
 				350DE6BA1C948EC000FEC1CC /* SQLTable.swift in Sources */,
+				975F4DE91CA9C50E002F4E89 /* UserManager.swift in Sources */,
 				97B4E3C51CA7358F00BFB545 /* CustomButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -550,6 +556,7 @@
 			files = (
 				975F4DDE1CA75D43002F4E89 /* User.swift in Sources */,
 				97B4E3C61CA7358F00BFB545 /* CustomButton.swift in Sources */,
+				975F4DEA1CA9C50E002F4E89 /* UserManager.swift in Sources */,
 				975B189B1C7E24C500F320D0 /* cryptochatTests.swift in Sources */,
 				975F4DE61CA7845F002F4E89 /* RegisterViewController.swift in Sources */,
 				975F4DDA1CA7380C002F4E89 /* BaseViewController.swift in Sources */,
@@ -563,6 +570,7 @@
 			files = (
 				975F4DDF1CA75D43002F4E89 /* User.swift in Sources */,
 				97B4E3C71CA7358F00BFB545 /* CustomButton.swift in Sources */,
+				975F4DEB1CA9C50E002F4E89 /* UserManager.swift in Sources */,
 				975B18A61C7E24C500F320D0 /* cryptochatUITests.swift in Sources */,
 				975F4DE71CA7845F002F4E89 /* RegisterViewController.swift in Sources */,
 				975F4DDB1CA7380C002F4E89 /* BaseViewController.swift in Sources */,

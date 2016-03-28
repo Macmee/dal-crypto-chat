@@ -70,10 +70,37 @@ class DataFetcher: NSObject {
        return jsonDict!
     }
 
-    func getUser(username:String, complete:(user:User)->Void) {
+    func getUserByName(username:String, complete:(user:User)->Void) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             var response_data = NSString()
             let url = NSURL(string: "http://davidz.xyz:8005/users/" + username)
+            let request = NSMutableURLRequest(URL: url!)
+            request.HTTPMethod = "GET"
+            let session = NSURLSession.sharedSession()
+            let task = session.dataTaskWithRequest(request){ (data, response, error) -> Void in
+                dispatch_async(dispatch_get_main_queue(), {
+                    let response = User()
+                    if error != nil {
+                        complete(user: response)
+                    }else{
+                        response_data = NSString(data: data!, encoding: NSUTF8StringEncoding)!
+                        if let data = self.parseJSON(response_data) as? Dictionary<String, AnyObject> {
+                            response.exists = ((data["exists"] as? Bool) ?? false)
+                            response.public_key = ((data["public_key"] as? String) ?? "")
+                            response.username = ((data["username"] as? String) ?? "")
+                        }
+                        complete(user: response)
+                    }
+                })
+            }
+            task.resume()
+        })
+    }
+
+    func getUser(public_key:String, complete:(user:User)->Void) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
+            var response_data = NSString()
+            let url = NSURL(string: "http://davidz.xyz:8005/public-key/" + public_key)
             let request = NSMutableURLRequest(URL: url!)
             request.HTTPMethod = "GET"
             let session = NSURLSession.sharedSession()

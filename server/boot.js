@@ -22,6 +22,10 @@ server.route([{
   method: 'GET',
   path:'/users/{username}',
   config: require('./routes/users-get')
+}, {
+  method: 'GET',
+  path:'/public-key/{key}',
+  config: require('./routes/public-key-get')
 }]);
 
 server.start(error => {
