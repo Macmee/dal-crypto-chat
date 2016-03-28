@@ -7,13 +7,21 @@
 //
 
 import Foundation
+import UIKit
 
 public class UserManager {
 
     public static let sharedInstance = UserManager()
 
-    func getUser(username:String, complete:(user:User)->Void) {
-        
+    func getUser(public_key:String, complete:(user:User)->Void) {
+        let user = DataManager.sharedInstance.getUser(public_key)
+        if let user = user {
+            complete(user: user)
+            return
+        }
+        DataFetcher.sharedInstance.getUser(public_key) { user in
+            complete(user: user)
+        }
     }
 
 }

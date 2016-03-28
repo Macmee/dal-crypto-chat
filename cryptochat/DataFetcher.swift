@@ -13,7 +13,7 @@ class DataFetcher: NSObject {
     static let sharedInstance = DataFetcher()
 
     /*function called to send data to server*/
-    func SendMessages(user_id: String, to_user_id: String, message: String, completion:(success:Bool) ->Void){
+    func SendMessage(user_id: String, to_user_id: String, message: String, completion:(success:Bool) ->Void){
         
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
             let url = NSURL(string: "http://davidz.xyz:8005/messages")
@@ -22,21 +22,16 @@ class DataFetcher: NSObject {
             request.HTTPMethod = "PUT"
             let paramString = "user_id=" + user_id + "&to_user_id=" + to_user_id + "&message=" + message
             request.HTTPBody = paramString.dataUsingEncoding(NSUTF8StringEncoding)
-            let task = NSURLSession.sharedSession().dataTaskWithRequest(request){
-                (let data, let response, let error) in guard let _:NSData = data, let _:NSURLResponse = response where error == nil
-                    else{
-                        return
-                }
-                
+            let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) -> Void in
+                dispatch_async(dispatch_get_main_queue(), {
+                    completion(success:true)
+                })
             }
-            dispatch_async(dispatch_get_main_queue(), {
-                task.resume()
-                completion(success:true)
-            })
+            task.resume()
         }
     }
 
-    func getMessages(user_id:String, complete:(success: Bool, messages:AnyObject)->Void){
+    func getMessages(user_id:String, complete:(success: Bool, messages:[Message])->Void) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             var response_data = NSString()
             let url = NSURL(string: "http://davidz.xyz:8005/messages?user_id=" + user_id)
@@ -44,17 +39,32 @@ class DataFetcher: NSObject {
             request.HTTPMethod = "GET"
             let session = NSURLSession.sharedSession()
             let task = session.dataTaskWithRequest(request){ (data, response, error) -> Void in
-                if error != nil {
-                    return
-                }else{
-                    response_data = NSString(data: data!, encoding: NSUTF8StringEncoding)!
-                    complete(success: true, messages: self.parseJSON(response_data))
-                }
+                dispatch_async(dispatch_get_main_queue(), {
+                    if error != nil {
+                        complete(success: false, messages: [Message]())
+                    }else{
+                        var messages = [Message]()
+                        response_data = NSString(data: data!, encoding: NSUTF8StringEncoding)!
+                        if let data = self.parseJSON(response_data) as? Dictionary<String, AnyObject> {
+                            let json_messages = (data["messages"] as? Array) ?? [AnyObject]()
+                            for json in json_messages {
+                                let sender = ((data["user_id"] as? String) ?? "")
+                                let message = Message(
+                                    sender: sender,
+                                    receiver: ((data["to_user_id"] as? String) ?? ""),
+                                    msg: ((data["message"] as? String) ?? ""),
+                                    id: ((data["id"] as? String) ?? ""),
+                                    time: ((data["created_at"] as? String) ?? ""),
+                                    isFromUser: (sender == DataManager.sharedInstance.getSelfUser()!.public_key)
+                                )
+                                messages.append(message)
+                            }
+                        }
+                        complete(success: true, messages: messages)
+                    }
+                })
             }
-            dispatch_async(dispatch_get_main_queue(), {
-                task.resume()
-                
-            })
+            task.resume()
         })
     }
 

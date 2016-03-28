@@ -12,7 +12,7 @@ class ConversationInboxViewController: UIViewController, UITableViewDataSource, 
 
     @IBOutlet weak var tableView: UITableView!
     var name : String?
-    var dataManager: DataManager!
+    var messages = [Message]()
 
     let filters = [
         "David Zorychta",
@@ -27,6 +27,9 @@ class ConversationInboxViewController: UIViewController, UITableViewDataSource, 
         // Do any additional setup after loading the view.
         tableView.dataSource = self
         tableView.delegate = self
+    }
+
+    public func reload() {
     }
 
     override func viewWillAppear(animated: Bool) {

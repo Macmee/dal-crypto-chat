@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "cryptochat/DataFetcher.swift"
-            timestampString = "480742001.228104"
+            timestampString = "480892489.117335"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
             landmarkName = "register(_:public_key:complete:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -170,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "cryptochat/DataFetcher.swift"
-            timestampString = "480742025.123874"
+            timestampString = "480892489.117335"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
+            startingLineNumber = "154"
+            endingLineNumber = "154"
             landmarkName = "register(_:public_key:complete:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -186,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "cryptochat/DataFetcher.swift"
-            timestampString = "480742031.77181"
+            timestampString = "480892489.117335"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
             landmarkName = "register(_:public_key:complete:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "cryptochat/DataFetcher.swift"
-            timestampString = "480742116.214403"
+            timestampString = "480892489.117335"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "108"
-            endingLineNumber = "108"
+            startingLineNumber = "145"
+            endingLineNumber = "145"
             landmarkName = "register(_:public_key:complete:)"
             landmarkType = "5">
          </BreakpointContent>

@@ -10,7 +10,7 @@ import Foundation
 class DataManager {
     static let sharedInstance = DataManager()
     let USER_ID = "Ario Khoshzamir"
-    
+    var myself : User?
     var db: SQLiteDB!
     
     init() {
@@ -96,8 +96,11 @@ class DataManager {
     }
 
     func getSelfUser() -> User? {
-        if let id = getSetting("self_id") {
-            return getUser(id)
+        if let user = myself {
+            return user
+        } else if let id = getSetting("self_id") {
+            myself = getUser(id)
+            return myself
         } else {
             return nil
         }
@@ -111,6 +114,24 @@ class DataManager {
             return nil
         }
         return mapSingleUser(result[0])
+    }
+
+    func getConversations() -> [Message] {
+        if let myself = myself {
+            var table = [ String : Message ]()
+            for message in getMessages(myself.public_key) {
+                if let value = table[message.otherUserId()] {
+                    if message.time > value.time {
+                        table[message.otherUserId()] = message
+                    }
+                } else {
+                    table[message.otherUserId()] = message
+                }
+            }
+            return table.values.sort({ $0.time > $1.time })
+        } else {
+            return [Message]()
+        }
     }
     
     func getMessages(id: String) -> [Message] {
