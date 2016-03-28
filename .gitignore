@@ -1,3 +1,4 @@
 Pods/ 
 .DS_Store
 node_modules/
+server/db_data/
