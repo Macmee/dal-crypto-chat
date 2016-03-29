@@ -29,6 +29,10 @@ public class Message : NSObject {
         get {
             if _decryptedMessage == nil {
                 _decryptedMessage = MessageManager.sharedInstance.decrypt(sender, message: msg)
+                // we failed to decrypt the msg, but it's from ourself, we store messages we SENT *NOT* signed by their pub
+                if _decryptedMessage == "[MALFORMED]" && isFromUser {
+                    _decryptedMessage = msg
+                }
             }
             return _decryptedMessage!
         }

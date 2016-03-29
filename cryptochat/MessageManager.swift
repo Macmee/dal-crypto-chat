@@ -48,7 +48,7 @@ public class MessageManager {
         if let heimdall = localHeimdall {
             let parts = message.componentsSeparatedByString("@")
             if parts.count < 2 {
-                return "[MESSAGE IS MALFORMED, POTENTIAL SECURITY ISSUE!]"
+                return "[MALFORMED]"
             }
             let signature = parts[0].base64Decoded()
             let encryptedMessage = parts[1].base64Decoded()

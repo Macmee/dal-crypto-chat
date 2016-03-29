@@ -74,13 +74,14 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     @IBAction func userSendButton(sender: AnyObject) {
         if let selfUser = DataManager.sharedInstance.getSelfUser(), let otherUser = user where userTextField.text != "" {
             let message = MessageManager.sharedInstance.encrypt(otherUser, message: userTextField.text!)
-            let m = Message(sender: selfUser.public_key, receiver: otherUser.public_key, msg: message, id: selfUser.public_key, time: NSDate().formattedISO8601)
-            userTextField.text = ""
-            DataManager.sharedInstance.storeMessage(m)
-            reloadConversations()
+            let m = Message(sender: selfUser.public_key, receiver: otherUser.public_key, msg: message, id: DataManager.sharedInstance.randomStringWithLength(40), time: NSDate().formattedISO8601)
             DataFetcher.sharedInstance.sendMessage(otherUser.public_key, message: message, completion: { (success) in
                 self.downloadAndReloadConversations()
             })
+            m.msg = userTextField.text!
+            DataManager.sharedInstance.storeMessage(m)
+            userTextField.text = ""
+            reloadConversations()
         }
     }
     

@@ -30,7 +30,7 @@ class DataManager {
         print(result)
     }
 
-    func randomStringWithLength (len : Int) -> NSString {
+    public func randomStringWithLength (len : Int) -> String {
 
         let letters : NSString = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
@@ -42,7 +42,7 @@ class DataManager {
             randomString.appendFormat("%C", letters.characterAtIndex(Int(rand)))
         }
         
-        return randomString
+        return randomString as String
     }
 
     func getNamespace() -> String {
@@ -51,7 +51,7 @@ class DataManager {
         } else if let namespace = getSetting("namespace") {
             self.namespace = namespace
         } else {
-            let namespace = randomStringWithLength(25) as String
+            let namespace = randomStringWithLength(25)
             setSetting("namespace", value: namespace)
             self.namespace = namespace
         }
