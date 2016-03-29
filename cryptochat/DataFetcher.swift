@@ -13,8 +13,8 @@ class DataFetcher: NSObject {
     static let sharedInstance = DataFetcher()
 
     /*function called to send data to server*/
-    func SendMessage(user_id: String, to_user_id: String, message: String, completion:(success:Bool) ->Void){
-        
+    func sendMessage(to_user_id: String, message: String, completion:(success:Bool) ->Void) {
+        let user_id = DataManager.sharedInstance.getSelfUser()?.public_key ?? ""
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
             let url = NSURL(string: "http://davidz.xyz:8005/messages")
             let request = NSMutableURLRequest(URL: url!)
@@ -23,6 +23,7 @@ class DataFetcher: NSObject {
             let paramString = "user_id=" + user_id + "&to_user_id=" + to_user_id + "&message=" + message
             request.HTTPBody = paramString.dataUsingEncoding(NSUTF8StringEncoding)
             let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) -> Void in
+                let response_data = NSString(data: data!, encoding: NSUTF8StringEncoding)!
                 dispatch_async(dispatch_get_main_queue(), {
                     completion(success:true)
                 })
@@ -31,7 +32,8 @@ class DataFetcher: NSObject {
         }
     }
 
-    func getMessages(user_id:String, complete:(success: Bool, messages:[Message])->Void) {
+    func getMessages(complete:(success: Bool, messages:[Message])->Void) {
+        let user_id = DataManager.sharedInstance.getSelfUser()?.public_key ?? ""
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             var response_data = NSString()
             let url = NSURL(string: "http://davidz.xyz:8005/messages?user_id=" + user_id)
@@ -48,14 +50,13 @@ class DataFetcher: NSObject {
                         if let data = self.parseJSON(response_data) as? Dictionary<String, AnyObject> {
                             let json_messages = (data["messages"] as? Array) ?? [AnyObject]()
                             for json in json_messages {
-                                let sender = ((data["user_id"] as? String) ?? "")
+                                let sender = ((json["user_id"] as? String) ?? "")
                                 let message = Message(
                                     sender: sender,
-                                    receiver: ((data["to_user_id"] as? String) ?? ""),
-                                    msg: ((data["message"] as? String) ?? ""),
-                                    id: ((data["id"] as? String) ?? ""),
-                                    time: ((data["created_at"] as? String) ?? ""),
-                                    isFromUser: (sender == DataManager.sharedInstance.getSelfUser()!.public_key)
+                                    receiver: ((json["to_user_id"] as? String) ?? ""),
+                                    msg: ((json["message"] as? String) ?? ""),
+                                    id: ((json["id"] as? String) ?? ""),
+                                    time: ((json["created_at"] as? String) ?? "")
                                 )
                                 messages.append(message)
                             }
@@ -111,6 +112,11 @@ class DataFetcher: NSObject {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             var response_data = NSString()
             let url = NSURL(string: "http://davidz.xyz:8005/public-key/" + public_key)
+            if url == nil {
+                print("nil url for " + public_key)
+                complete(user: User.dummy())
+                return
+            }
             let request = NSMutableURLRequest(URL: url!)
             request.HTTPMethod = "GET"
             let session = NSURLSession.sharedSession()

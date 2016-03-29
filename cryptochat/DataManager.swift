@@ -9,15 +9,15 @@ import Foundation
 
 class DataManager {
     static let sharedInstance = DataManager()
-    let USER_ID = "Ario Khoshzamir"
     var myself : User?
+    var namespace : String?
     var db: SQLiteDB!
     
     init() {
         db = SQLiteDB.sharedInstance()
         //db.execute("DROP TABLE IF EXISTS message")
         //db.execute("DROP TABLE IF EXISTS user")
-        db.execute("CREATE TABLE IF NOT EXISTS message(sender text, receiver text, msg TEXT, id varchar(255), time varchar(255))")
+        db.execute("CREATE TABLE IF NOT EXISTS message(sender text, receiver text, msg TEXT, id varchar(255) PRIMARY KEY, time varchar(255))")
         db.execute("CREATE TABLE IF NOT EXISTS user(username text, public_key text)")
         db.execute("CREATE TABLE IF NOT EXISTS setting(key text, value text)")
         
@@ -46,13 +46,16 @@ class DataManager {
     }
 
     func getNamespace() -> String {
-        if let namespace = getSetting("namespace") {
-            return namespace
+        if self.namespace != nil {
+            // do nothing
+        } else if let namespace = getSetting("namespace") {
+            self.namespace = namespace
         } else {
             let namespace = randomStringWithLength(25) as String
             setSetting("namespace", value: namespace)
-            return namespace
+            self.namespace = namespace
         }
+        return self.namespace!
     }
     
     func storeMessage(m: Message) {
@@ -135,31 +138,18 @@ class DataManager {
     }
     
     func getMessages(id: String) -> [Message] {
-        let sql = "SELECT * FROM message WHERE message.sender='\(id)' OR message.receiver='\(id)'"
+        let sql = "SELECT * FROM message WHERE message.sender='\(id)' OR message.receiver='\(id)' ORDER BY time ASC"
         let res = db.query(sql)
         return res.map({ message in
-            if USER_ID == message["sender"] as? String {
-                return Message(
-                    sender: (message["sender"] as? String) ?? "",
-                    receiver: (message["receiver"] as? String) ?? "",
-                    msg: (message["msg"] as? String) ?? "",
-                    id: (message["id"] as? String) ?? "",
-                    time: (message["time"] as? String) ?? "",
-                    isFromUser: true
-                )
-            } else {
-                return Message(
-                    sender: (message["sender"] as? String) ?? "",
-                    receiver: (message["receiver"] as? String) ?? "",
-                    msg: (message["msg"] as? String) ?? "",
-                    id: (message["id"] as? String) ?? "",
-                    time: (message["time"] as? String) ?? "",
-                    isFromUser: false
-                )
-            }
-            
+            return Message(
+                sender: (message["sender"] as? String) ?? "",
+                receiver: (message["receiver"] as? String) ?? "",
+                msg: (message["msg"] as? String) ?? "",
+                id: (message["id"] as? String) ?? "",
+                time: (message["time"] as? String) ?? ""
+            )
         })
     }
-    
-    
+
+
 }

@@ -92,7 +92,7 @@ class WelcomeViewController: BaseViewController, UITextFieldDelegate
         check.hidden = true
         x.hidden = true
         continueButton.alpha = transparentButtonAmount
-        DataFetcher.sharedInstance.getUser(inputName) { user in
+        DataFetcher.sharedInstance.getUserByName(inputName) { user in
             self.fetchUserDebounce.invalidate()
             self.fetchUserDebounce = NSTimer.scheduledTimerWithTimeInterval(0.25, target: self, selector: #selector(WelcomeViewController.handleGetUserResult(_:)), userInfo: (user as AnyObject), repeats: false)
         }

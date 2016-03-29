@@ -63,8 +63,8 @@ class MessageTableViewCell: UITableViewCell {
         // We display messages that are sent by the user on the left-hand side of
         // the screen. Incoming messages are displayed on the right-hand side.
         var bubbleType: BubbleType
-        
-        let bubbleSize: CGSize = SpeechBubbleView.sizeForText(message.msg)
+        let text = message.decryptedMessage
+        let bubbleSize: CGSize = SpeechBubbleView.sizeForText(text)
 
         if ((message.isFromUser) == false)  {
             bubbleType = BubbleType.Lefthand
@@ -80,7 +80,7 @@ class MessageTableViewCell: UITableViewCell {
         rect.origin = point
         rect.size = bubbleSize
         self.bubbleView!.frame = rect
-        bubbleView!.setText(message.msg, bubbleType: bubbleType)
+        bubbleView!.setText(text, bubbleType: bubbleType)
         label!.sizeToFit()
         self.label!.frame = CGRectMake(8, bubbleSize.height, self.contentView.bounds.size.width - 16, 16)
     }

@@ -12,7 +12,7 @@ import UIKit
 class ConversationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
-    var nameTitle: String?
+    var user: User?
     
     @IBOutlet weak var tableMessages: UITableView!
     @IBOutlet weak var userTextField: UITextField!
@@ -23,7 +23,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         super.viewDidLoad()
         tableMessages.dataSource = self
         tableMessages.delegate = self
-        self.navigationItem.title = nameTitle
+        self.navigationItem.title = user?.username
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil);
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil);
         reloadConversations()
@@ -33,18 +33,45 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         NSNotificationCenter.defaultCenter().removeObserver(self);
     }
 
+    func tableViewScrollToBottom(animated: Bool) {
+        let numberOfSections = self.tableMessages.numberOfSections
+        let numberOfRows = self.tableMessages.numberOfRowsInSection(numberOfSections-1)
+
+        if numberOfRows > 0 {
+            let indexPath = NSIndexPath(forRow: numberOfRows-1, inSection: (numberOfSections-1))
+            self.tableMessages.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: animated)
+        }
+    }
     func reloadConversations() {
-        messages = DataManager.sharedInstance.getMessages(nameTitle!)
-        tableMessages.reloadData()
+        if let user = user {
+            self.messages = DataManager.sharedInstance.getMessages(user.public_key)
+            self.tableMessages.reloadData()
+            tableViewScrollToBottom(false)
+        }
+    }
+
+    func downloadAndReloadConversations() {
+        reloadConversations()
+        if user != nil {
+            MessageManager.sharedInstance.downloadAndStoreMessages {
+                self.reloadConversations()
+            }
+        }
     }
 
 
     @IBAction func userSendButton(sender: AnyObject) {
         print(userTextField.text)
-        let m = Message(sender: DataManager.sharedInstance.USER_ID, receiver: self.navigationItem.title!, msg: userTextField.text!, id: "1234", time: "1234", isFromUser: true)
-        DataManager.sharedInstance.storeMessage(m)
-        userTextField.text = ""
-        reloadConversations()
+        if let selfUser = DataManager.sharedInstance.getSelfUser(), let otherUser = user where userTextField.text != "" {
+            let message = MessageManager.sharedInstance.encrypt(otherUser, message: userTextField.text!)
+            let m = Message(sender: selfUser.public_key, receiver: otherUser.public_key, msg: message, id: selfUser.public_key, time: NSDate().formattedISO8601)
+            DataManager.sharedInstance.storeMessage(m)
+            userTextField.text = ""
+            reloadConversations()
+            DataFetcher.sharedInstance.sendMessage(otherUser.public_key, message: message, completion: { (success) in
+                self.downloadAndReloadConversations()
+            })
+        }
     }
     
     override func didReceiveMemoryWarning() {

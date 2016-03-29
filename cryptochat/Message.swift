@@ -14,20 +14,33 @@ public class Message : NSObject {
     var msg : String
     var id : String
     var time : String
-    var isFromUser: Bool
+    var isFromUser: Bool {
+        get {
+            if let myself = DataManager.sharedInstance.getSelfUser() {
+                return myself.public_key == sender
+            } else {
+                return false
+            }
+        }
+    }
 
-    init(sender : String, receiver : String, msg : String, id : String, time : String, isFromUser : Bool) {
+    var _decryptedMessage : String?
+    var decryptedMessage: String {
+        get {
+            return MessageManager.sharedInstance.decrypt(sender, message: msg)
+        }
+    }
+
+    init(sender : String, receiver : String, msg : String, id : String, time : String) {
         self.sender = sender
         self.receiver = receiver
         self.msg = msg
         self.id = id
         self.time = time
-        self.isFromUser = isFromUser
     }
 
     func otherUserId() -> String {
-        let myself = DataManager.sharedInstance.getSelfUser()
-        if let myself = myself {
+        if let myself = DataManager.sharedInstance.getSelfUser() {
             return myself.public_key == sender ? receiver : sender
         } else {
             return ""

@@ -22,6 +22,12 @@
 		350DE6C01C948FF300FEC1CC /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350DE6BF1C948FF300FEC1CC /* DataManager.swift */; };
 		350DE6C21C949F0500FEC1CC /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350DE6C11C949F0500FEC1CC /* Message.swift */; };
 		3552E3071C9489F60046B5C3 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 357E85441C9484E600B4E5C7 /* libsqlite3.0.tbd */; };
+		971AC6091CAA0C4200557090 /* MessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971AC6081CAA0C4200557090 /* MessageManager.swift */; };
+		971AC60A1CAA0C4200557090 /* MessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971AC6081CAA0C4200557090 /* MessageManager.swift */; };
+		971AC60B1CAA0C4200557090 /* MessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971AC6081CAA0C4200557090 /* MessageManager.swift */; };
+		971AC60D1CAA12BC00557090 /* NSDate+8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971AC60C1CAA12BC00557090 /* NSDate+8601.swift */; };
+		971AC60E1CAA12BC00557090 /* NSDate+8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971AC60C1CAA12BC00557090 /* NSDate+8601.swift */; };
+		971AC60F1CAA12BC00557090 /* NSDate+8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971AC60C1CAA12BC00557090 /* NSDate+8601.swift */; };
 		975B18861C7E24C500F320D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975B18851C7E24C500F320D0 /* AppDelegate.swift */; };
 		975B18881C7E24C500F320D0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975B18871C7E24C500F320D0 /* ViewController.swift */; };
 		975B188B1C7E24C500F320D0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 975B18891C7E24C500F320D0 /* Main.storyboard */; };
@@ -92,6 +98,8 @@
 		80739B6CFC9AFBFC0EAADF45 /* Pods-cryptochat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cryptochat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-cryptochat/Pods-cryptochat.debug.xcconfig"; sourceTree = "<group>"; };
 		86DEEF27A1F451A51D3297A6 /* Pods_cryptochat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_cryptochat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		87E31104C6F08529BE6CA17B /* Pods_cryptochatUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_cryptochatUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		971AC6081CAA0C4200557090 /* MessageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageManager.swift; sourceTree = "<group>"; };
+		971AC60C1CAA12BC00557090 /* NSDate+8601.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+8601.swift"; sourceTree = "<group>"; };
 		975B18821C7E24C500F320D0 /* cryptochat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cryptochat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		975B18851C7E24C500F320D0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		975B18871C7E24C500F320D0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -220,6 +228,8 @@
 				975F4DE01CA76D45002F4E89 /* CustomTextField.swift */,
 				975F4DE41CA7845F002F4E89 /* RegisterViewController.swift */,
 				975F4DE81CA9C50E002F4E89 /* UserManager.swift */,
+				971AC6081CAA0C4200557090 /* MessageManager.swift */,
+				971AC60C1CAA12BC00557090 /* NSDate+8601.swift */,
 			);
 			path = cryptochat;
 			sourceTree = "<group>";
@@ -542,9 +552,11 @@
 				350DE6BB1C948EC000FEC1CC /* String-Extras.swift in Sources */,
 				05EDE85B1CA232D200B36131 /* SpeechBubbleView.swift in Sources */,
 				350DE6C21C949F0500FEC1CC /* Message.swift in Sources */,
+				971AC60D1CAA12BC00557090 /* NSDate+8601.swift in Sources */,
 				350DE6C01C948FF300FEC1CC /* DataManager.swift in Sources */,
 				975F4DD91CA7380C002F4E89 /* BaseViewController.swift in Sources */,
 				350DE6BA1C948EC000FEC1CC /* SQLTable.swift in Sources */,
+				971AC6091CAA0C4200557090 /* MessageManager.swift in Sources */,
 				975F4DE91CA9C50E002F4E89 /* UserManager.swift in Sources */,
 				97B4E3C51CA7358F00BFB545 /* CustomButton.swift in Sources */,
 			);
@@ -555,12 +567,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				975F4DDE1CA75D43002F4E89 /* User.swift in Sources */,
+				971AC60E1CAA12BC00557090 /* NSDate+8601.swift in Sources */,
 				97B4E3C61CA7358F00BFB545 /* CustomButton.swift in Sources */,
 				975F4DEA1CA9C50E002F4E89 /* UserManager.swift in Sources */,
 				975B189B1C7E24C500F320D0 /* cryptochatTests.swift in Sources */,
 				975F4DE61CA7845F002F4E89 /* RegisterViewController.swift in Sources */,
 				975F4DDA1CA7380C002F4E89 /* BaseViewController.swift in Sources */,
 				975F4DE21CA76D45002F4E89 /* CustomTextField.swift in Sources */,
+				971AC60A1CAA0C4200557090 /* MessageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -569,12 +583,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				975F4DDF1CA75D43002F4E89 /* User.swift in Sources */,
+				971AC60F1CAA12BC00557090 /* NSDate+8601.swift in Sources */,
 				97B4E3C71CA7358F00BFB545 /* CustomButton.swift in Sources */,
 				975F4DEB1CA9C50E002F4E89 /* UserManager.swift in Sources */,
 				975B18A61C7E24C500F320D0 /* cryptochatUITests.swift in Sources */,
 				975F4DE71CA7845F002F4E89 /* RegisterViewController.swift in Sources */,
 				975F4DDB1CA7380C002F4E89 /* BaseViewController.swift in Sources */,
 				975F4DE31CA76D45002F4E89 /* CustomTextField.swift in Sources */,
+				971AC60B1CAA0C4200557090 /* MessageManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

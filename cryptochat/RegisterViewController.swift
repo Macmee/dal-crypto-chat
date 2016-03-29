@@ -20,7 +20,7 @@ class RegisterViewController: BaseViewController {
         super.viewDidLoad()
         let localHeimdall = Heimdall(tagPrefix: DataManager.sharedInstance.getNamespace())
         if let heimdall = localHeimdall, publicKeyData = heimdall.publicKeyDataX509() {
-            var publicKeyString = publicKeyData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions())
+            var publicKeyString = publicKeyData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
             publicKeyString = publicKeyString.stringByReplacingOccurrencesOfString("/", withString: "_")
             publicKeyString = publicKeyString.stringByReplacingOccurrencesOfString("+", withString: "-")
             if let username = username {
@@ -34,7 +34,9 @@ class RegisterViewController: BaseViewController {
                     user.public_key = publicKeyString
                     DataManager.sharedInstance.storeUser(user)
                     DataManager.sharedInstance.setSetting("self_id", value: publicKeyString)
-                    self.performSegueWithIdentifier("registered", sender: self)
+                    DataFetcher.sharedInstance.sendMessage(publicKeyString, message: "Hi me!", completion: { (success) in
+                        self.performSegueWithIdentifier("registered", sender: self)
+                    })
                 }
             }
         }

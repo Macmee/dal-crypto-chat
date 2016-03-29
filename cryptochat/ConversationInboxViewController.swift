@@ -7,19 +7,13 @@
 //
 
 import UIKit
+import Heimdall
 
 class ConversationInboxViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     @IBOutlet weak var tableView: UITableView!
-    var name : String?
+    var selectedUser : User?
     var messages = [Message]()
-
-    let filters = [
-        "David Zorychta",
-        "Xuhui Lu",
-        "Yaunjiang Lin",
-        "Ario Khoshzamir",
-    ]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,38 +21,64 @@ class ConversationInboxViewController: UIViewController, UITableViewDataSource, 
         // Do any additional setup after loading the view.
         tableView.dataSource = self
         tableView.delegate = self
+        reload()
+        /*let localHeimdall = Heimdall(tagPrefix: DataManager.sharedInstance.getNamespace())
+        if let heimdall = localHeimdall, publicKeyData = heimdall.publicKeyDataX509() {
+            var publicKeyString = publicKeyData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+            let data = NSData(base64EncodedString: publicKeyString, options:NSDataBase64DecodingOptions(rawValue: 0))
+            if publicKeyData.isEqualToData(data!) {
+                print("SAME")
+            } else {
+                print("FACK")
+            }
+        }*/
     }
 
-    public func reload() {
+    func reload() {
+        self.tableView.reloadData()
+        MessageManager.sharedInstance.downloadAndStoreMessages {
+            self.messages = DataManager.sharedInstance.getConversations()
+            self.tableView.reloadData()
+        }
     }
 
     override func viewWillAppear(animated: Bool) {
+        reload()
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return filters.count
+        return messages.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ConversationCell", forIndexPath: indexPath)
-        cell.detailTextLabel?.text = "1 New Message"
-        cell.textLabel?.text = filters[indexPath.row]
+        let message = messages[indexPath.row]
+        cell.detailTextLabel?.text = message.decryptedMessage
+        cell.textLabel?.text = "Loading..."
+        UserManager.sharedInstance.getUser(message.otherUserId()) { (user) in
+            if message.otherUserId() == user.public_key {
+                cell.textLabel?.text = user.username
+            }
+        }
         
         return cell
     }
     
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print(filters[indexPath.row])
-        name = filters[indexPath.row]
+        let message = messages[indexPath.row]
+        UserManager.sharedInstance.getUser(message.otherUserId()) { (user) in
+            self.selectedUser = user
+        }
         self.performSegueWithIdentifier("toConvo", sender: self)
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if (segue.identifier == "toConvo") {
             let destinationVC = segue.destinationViewController as! ConversationViewController
-            destinationVC.nameTitle = name
+            destinationVC.user = selectedUser
+
         }
     }
     
