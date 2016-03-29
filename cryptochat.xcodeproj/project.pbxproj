@@ -28,6 +28,9 @@
 		971AC60D1CAA12BC00557090 /* NSDate+8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971AC60C1CAA12BC00557090 /* NSDate+8601.swift */; };
 		971AC60E1CAA12BC00557090 /* NSDate+8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971AC60C1CAA12BC00557090 /* NSDate+8601.swift */; };
 		971AC60F1CAA12BC00557090 /* NSDate+8601.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971AC60C1CAA12BC00557090 /* NSDate+8601.swift */; };
+		971AC6111CAA39EE00557090 /* String+Base64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971AC6101CAA39EE00557090 /* String+Base64.swift */; };
+		971AC6121CAA39EE00557090 /* String+Base64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971AC6101CAA39EE00557090 /* String+Base64.swift */; };
+		971AC6131CAA39EE00557090 /* String+Base64.swift in Sources */ = {isa = PBXBuildFile; fileRef = 971AC6101CAA39EE00557090 /* String+Base64.swift */; };
 		975B18861C7E24C500F320D0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975B18851C7E24C500F320D0 /* AppDelegate.swift */; };
 		975B18881C7E24C500F320D0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975B18871C7E24C500F320D0 /* ViewController.swift */; };
 		975B188B1C7E24C500F320D0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 975B18891C7E24C500F320D0 /* Main.storyboard */; };
@@ -100,6 +103,7 @@
 		87E31104C6F08529BE6CA17B /* Pods_cryptochatUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_cryptochatUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		971AC6081CAA0C4200557090 /* MessageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageManager.swift; sourceTree = "<group>"; };
 		971AC60C1CAA12BC00557090 /* NSDate+8601.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+8601.swift"; sourceTree = "<group>"; };
+		971AC6101CAA39EE00557090 /* String+Base64.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Base64.swift"; sourceTree = "<group>"; };
 		975B18821C7E24C500F320D0 /* cryptochat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cryptochat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		975B18851C7E24C500F320D0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		975B18871C7E24C500F320D0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -230,6 +234,7 @@
 				975F4DE81CA9C50E002F4E89 /* UserManager.swift */,
 				971AC6081CAA0C4200557090 /* MessageManager.swift */,
 				971AC60C1CAA12BC00557090 /* NSDate+8601.swift */,
+				971AC6101CAA39EE00557090 /* String+Base64.swift */,
 			);
 			path = cryptochat;
 			sourceTree = "<group>";
@@ -547,6 +552,7 @@
 				05EDE8591CA232D200B36131 /* MessageTableViewCell.swift in Sources */,
 				975F4DDD1CA75D43002F4E89 /* User.swift in Sources */,
 				975F4DE11CA76D45002F4E89 /* CustomTextField.swift in Sources */,
+				971AC6111CAA39EE00557090 /* String+Base64.swift in Sources */,
 				05EDE8511CA232C400B36131 /* ConversationInboxViewController.swift in Sources */,
 				975B18861C7E24C500F320D0 /* AppDelegate.swift in Sources */,
 				350DE6BB1C948EC000FEC1CC /* String-Extras.swift in Sources */,
@@ -573,6 +579,7 @@
 				975B189B1C7E24C500F320D0 /* cryptochatTests.swift in Sources */,
 				975F4DE61CA7845F002F4E89 /* RegisterViewController.swift in Sources */,
 				975F4DDA1CA7380C002F4E89 /* BaseViewController.swift in Sources */,
+				971AC6121CAA39EE00557090 /* String+Base64.swift in Sources */,
 				975F4DE21CA76D45002F4E89 /* CustomTextField.swift in Sources */,
 				971AC60A1CAA0C4200557090 /* MessageManager.swift in Sources */,
 			);
@@ -589,6 +596,7 @@
 				975B18A61C7E24C500F320D0 /* cryptochatUITests.swift in Sources */,
 				975F4DE71CA7845F002F4E89 /* RegisterViewController.swift in Sources */,
 				975F4DDB1CA7380C002F4E89 /* BaseViewController.swift in Sources */,
+				971AC6131CAA39EE00557090 /* String+Base64.swift in Sources */,
 				975F4DE31CA76D45002F4E89 /* CustomTextField.swift in Sources */,
 				971AC60B1CAA0C4200557090 /* MessageManager.swift in Sources */,
 			);

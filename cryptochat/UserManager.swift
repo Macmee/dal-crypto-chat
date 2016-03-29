@@ -20,6 +20,7 @@ public class UserManager {
             return
         }
         DataFetcher.sharedInstance.getUser(public_key) { user in
+            DataManager.sharedInstance.storeUser(user)
             complete(user: user)
         }
     }

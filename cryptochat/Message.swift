@@ -27,7 +27,10 @@ public class Message : NSObject {
     var _decryptedMessage : String?
     var decryptedMessage: String {
         get {
-            return MessageManager.sharedInstance.decrypt(sender, message: msg)
+            if _decryptedMessage == nil {
+                _decryptedMessage = MessageManager.sharedInstance.decrypt(sender, message: msg)
+            }
+            return _decryptedMessage!
         }
     }
 

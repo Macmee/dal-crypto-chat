@@ -37,8 +37,8 @@ public class MessageManager {
         if let heimdall = Heimdall(tagPrefix: DataManager.sharedInstance.getNamespace()) {
             signature = heimdall.sign(message) ?? ""
         }
-        if let partnerHeimdall = Heimdall(publicTag: DataManager.sharedInstance.getNamespace(), publicKeyData: Heimdall(tagPrefix: DataManager.sharedInstance.getNamespace())!.publicKeyDataX509() ) {
-            return /*signature + "\n" + */partnerHeimdall.encrypt(message)!
+        if let partnerHeimdall = Heimdall(publicTag: DataManager.sharedInstance.getNamespace(), publicKeyData: public_key_data(otherUser.public_key) ) {
+            return signature.base64Encoded() + "@" + partnerHeimdall.encrypt(message)!.base64Encoded()
         }
         return ""
     }
@@ -46,10 +46,19 @@ public class MessageManager {
     public func decrypt(public_key : String, message : String) -> String {
         let localHeimdall = Heimdall(tagPrefix: DataManager.sharedInstance.getNamespace())
         if let heimdall = localHeimdall {
-            /*let parts = message.componentsSeparatedByString("\n")
-            if parts.count < 2 { return message }*/
-            if let decryptedMessage = heimdall.decrypt(/*parts[1]*/message) {
-                return decryptedMessage
+            let parts = message.componentsSeparatedByString("@")
+            if parts.count < 2 {
+                return "[MESSAGE IS MALFORMED, POTENTIAL SECURITY ISSUE!]"
+            }
+            let signature = parts[0].base64Decoded()
+            let encryptedMessage = parts[1].base64Decoded()
+            if let decryptedMessage = heimdall.decrypt(encryptedMessage) {
+                let decrypted = decryptedMessage
+                let verified = heimdall.verify(decrypted, signatureBase64: signature)
+                if !verified {
+                    return "[UNVERIFIED] " + decrypted
+                }
+                return decrypted
             }
         }
         return message

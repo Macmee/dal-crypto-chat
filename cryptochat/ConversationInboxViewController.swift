@@ -22,16 +22,6 @@ class ConversationInboxViewController: UIViewController, UITableViewDataSource, 
         tableView.dataSource = self
         tableView.delegate = self
         reload()
-        /*let localHeimdall = Heimdall(tagPrefix: DataManager.sharedInstance.getNamespace())
-        if let heimdall = localHeimdall, publicKeyData = heimdall.publicKeyDataX509() {
-            var publicKeyString = publicKeyData.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
-            let data = NSData(base64EncodedString: publicKeyString, options:NSDataBase64DecodingOptions(rawValue: 0))
-            if publicKeyData.isEqualToData(data!) {
-                print("SAME")
-            } else {
-                print("FACK")
-            }
-        }*/
     }
 
     func reload() {

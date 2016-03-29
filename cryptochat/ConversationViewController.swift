@@ -17,20 +17,21 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var tableMessages: UITableView!
     @IBOutlet weak var userTextField: UITextField!
     var messages = [Message]()
-    
+    var refreshTimer = NSTimer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableMessages.dataSource = self
         tableMessages.delegate = self
         self.navigationItem.title = user?.username
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil);
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil);
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil)
         reloadConversations()
     }
     
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self);
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+        refreshTimer.invalidate()
     }
 
     func tableViewScrollToBottom(animated: Bool) {
@@ -59,6 +60,16 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
 
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        refreshTimer.invalidate()
+        refreshTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(ConversationViewController.downloadAndReloadConversations), userInfo: nil, repeats: true)
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillAppear(animated)
+        refreshTimer.invalidate()
+    }
 
     @IBAction func userSendButton(sender: AnyObject) {
         print(userTextField.text)
@@ -99,7 +110,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let msg = messages[indexPath.row]
-        let bublesize = SpeechBubbleView.sizeForText((msg.msg)) as CGSize
+        let bublesize = SpeechBubbleView.sizeForText((msg.decryptedMessage)) as CGSize
         return bublesize.height + 16
     }
     

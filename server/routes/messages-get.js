@@ -9,7 +9,7 @@ export default {
   },
   handler: function (req, reply) {
     MessageModel
-      .find({ user_id: req.query.user_id })
+      .find({ to_user_id: req.query.user_id })
       .then(messages => reply({ messages }).code(200))
       .catch(error => {
         console.log(error, error.stack);
