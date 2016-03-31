@@ -7,10 +7,11 @@
 //
 
 import UIKit
-
+import MobileCoreServices
+import Foundation
 
 class ConversationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+    
     @IBOutlet weak var bottomConstraint: NSLayoutConstraint!
     var user: User?
     
@@ -18,6 +19,9 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var userTextField: UITextField!
     var messages = [Message]()
     var refreshTimer = NSTimer()
+    let imgconv = ImageCom()
+    var usrimg: UIImage?
+    var imagePicker: UIImagePickerController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,11 +37,11 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         NSNotificationCenter.defaultCenter().removeObserver(self)
         refreshTimer.invalidate()
     }
-
+    
     func tableViewScrollToBottom(animated: Bool) {
         let numberOfSections = self.tableMessages.numberOfSections
         let numberOfRows = self.tableMessages.numberOfRowsInSection(numberOfSections-1)
-
+        
         if numberOfRows > 0 {
             let indexPath = NSIndexPath(forRow: numberOfRows-1, inSection: (numberOfSections-1))
             self.tableMessages.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: animated)
@@ -50,7 +54,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
             tableViewScrollToBottom(false)
         }
     }
-
+    
     func downloadAndReloadConversations() {
         reloadConversations()
         if user != nil {
@@ -59,18 +63,18 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
             }
         }
     }
-
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         refreshTimer.invalidate()
         refreshTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(ConversationViewController.downloadAndReloadConversations), userInfo: nil, repeats: true)
     }
-
+    
     override func viewWillDisappear(animated: Bool) {
         super.viewWillAppear(animated)
         refreshTimer.invalidate()
     }
-
+    
     @IBAction func userSendButton(sender: AnyObject) {
         if let selfUser = DataManager.sharedInstance.getSelfUser(), let otherUser = user where userTextField.text != "" {
             let message = MessageManager.sharedInstance.encrypt(otherUser, message: userTextField.text!)
@@ -93,7 +97,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
-
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let CellIdentifier = "MessageCellIdentifier"
         var cell:MessageTableViewCell? = tableView.dequeueReusableCellWithIdentifier(CellIdentifier) as? MessageTableViewCell
@@ -104,14 +108,32 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         cell?.backgroundColor = UIColor.clearColor()
         cell?.textLabel?.textColor = UIColor.whiteColor()
         let msg = messages[indexPath.row]
-        cell?.setMessage(msg);
+        
+        if msg.msg.containsString("IMG: ") {
+            let index = msg.msg.startIndex.advancedBy(5)
+            let image = msg.msg.substringFromIndex(index)
+            imgconv.toImage(image) {
+                (image) in
+                cell?.setImageMsg(image, message: msg)
+            }
+        } else {
+            cell?.setMessage(msg)
+        }
+        
         return cell!
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         let msg = messages[indexPath.row]
-        let bublesize = SpeechBubbleView.sizeForText((msg.decryptedMessage)) as CGSize
-        return bublesize.height + 16
+        let bublesize: CGSize
+        var ret: CGFloat
+        if msg.msg.containsString("IMG: ") {
+            ret = 150 + 16
+        } else {
+            bublesize = SpeechBubbleView.sizeForText((msg.decryptedMessage)) as CGSize
+            ret = bublesize.height + 16
+        }
+        return ret
     }
     
     func keyboardWillShow(notification: NSNotification) {
@@ -122,12 +144,88 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
             }
         }
     }
-
+    
     func keyboardWillHide(notification: NSNotification) {
         self.bottomConstraint.constant = 0
         UIView.animateWithDuration(0.5) {
             self.view.layoutIfNeeded()
         }
     }
+    
+    @IBAction func displayImagePickerActionSheet(sender: AnyObject) {
+        let optionOneText = "Take Photo"
+        let optionTwoText = "Choose from Library"
+        let optionThreeText = "Cancel"
+        
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+        
+        let actionOne = UIAlertAction(title: optionOneText, style: .Default) { (ACTION) in
+            print("Take photo tapped")
+            self.choosePhoto(.Camera)
+        }
+        let actionTwo = UIAlertAction(title: optionTwoText, style: .Default) { (ACTION) in
+            print("Choose library tapped")
+            self.choosePhoto(.PhotoLibrary)
+        }
+        let actionThree = UIAlertAction(title: optionThreeText, style: .Default, handler: nil)
+        
+        actionSheet.addAction(actionOne)
+        actionSheet.addAction(actionTwo)
+        actionSheet.addAction(actionThree)
+        self.presentViewController(actionSheet, animated: true, completion: nil)
+    }
+    
+    func choosePhoto(caseType: UIImagePickerControllerSourceType ) {
+        imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        
+        if UIImagePickerController.isSourceTypeAvailable(caseType) {
+            imagePicker.sourceType = caseType
+        } else {
+            imagePicker.sourceType = caseType
+        }
+        imagePicker.allowsEditing = false
+        imagePicker.mediaTypes = UIImagePickerController.availableMediaTypesForSourceType(imagePicker.sourceType)!
+        self.presentViewController(imagePicker, animated: true, completion: nil)
+    }
+    
+    func userSendImage() {
+        imgconv.toText(usrimg!) {
+            (text) in
+            if let selfUser = DataManager.sharedInstance.getSelfUser(), let otherUser = self.user /*where self.userTextField.text != ""*/ {
+                let imageData = "IMG: " + (text as String)
 
+                let message = MessageManager.sharedInstance.encrypt(otherUser, message: imageData)
+                let m = Message(sender: selfUser.public_key, receiver: otherUser.public_key, msg: message, id: DataManager.sharedInstance.randomStringWithLength(40), time: NSDate().formattedISO8601)
+                DataFetcher.sharedInstance.sendMessage(otherUser.public_key, message: "", completion: { (success) in
+                    self.downloadAndReloadConversations()
+                })
+                m.msg = imageData
+                DataManager.sharedInstance.storeMessage(m)
+                self.reloadConversations()
+            }
+            self.tableMessages.reloadData()
+        }
+    }
+}
+
+extension ConversationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+        print("user canceled the camera library")
+    }
+    
+    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+        let mediaType = info[UIImagePickerControllerMediaType] as! String
+        if mediaType == (kUTTypeImage as String) {
+            //user picks a photo to send
+            self.usrimg = info[UIImagePickerControllerOriginalImage] as? UIImage
+            print("The loaded image: \(info[UIImagePickerControllerOriginalImage] as? UIImage)")
+            print("The loaded image: \(self.usrimg)")
+            self.userSendImage()
+        } else {
+            //video
+        }
+        self.dismissViewControllerAnimated(true , completion: nil)
+    }
 }

@@ -14,6 +14,7 @@ var color: UIColor? = nil
 class MessageTableViewCell: UITableViewCell {
     var bubbleView:SpeechBubbleView?
     var label:UILabel?
+    var imgUser:UIImageView?
     
     override class func initialize() {
         if self == MessageTableViewCell.self {
@@ -28,6 +29,7 @@ class MessageTableViewCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .None
+        
         // Create the speech bubble view
         self.bubbleView = SpeechBubbleView(frame: CGRectZero)
         //_bubbleView.backgroundColor = color;
@@ -37,6 +39,7 @@ class MessageTableViewCell: UITableViewCell {
         self.bubbleView!.contentMode = .Redraw
         self.bubbleView!.autoresizingMask = UIViewAutoresizing.None
         self.contentView.addSubview(bubbleView!)
+        
         // Create the label
         self.label = UILabel(frame: CGRectZero)
         //_label.backgroundColor = color;
@@ -48,8 +51,14 @@ class MessageTableViewCell: UITableViewCell {
         self.label!.font = UIFont.systemFontOfSize(13)
 //        self.label!.textColor = UIColor(red: 64 / 255.0, green: 64 / 255.0, blue: 64 / 255.0, alpha: 1.0)
         self.label!.textColor =  UIColor(red: 220 / 255.0, green: 225 / 255.0, blue: 240 / 255.0, alpha: 1.0)
-//        self.label!.textColor = UIColor.whiteColor()
+        //self.label!.textColor = UIColor.whiteColor()
         self.contentView.addSubview(label!)
+        
+        
+        self.imgUser = UIImageView(frame: CGRectZero)
+        self.imgUser!.layer.borderColor = UIColor.blueColor().CGColor
+        self.contentView.addSubview(imgUser!)
+
     }
     
     override func layoutSubviews() {
@@ -66,11 +75,10 @@ class MessageTableViewCell: UITableViewCell {
         let text = message.decryptedMessage
         let bubbleSize: CGSize = SpeechBubbleView.sizeForText(text)
 
-        if ((message.isFromUser) == false)  {
+        if (message.isFromUser) == false {
             bubbleType = BubbleType.Lefthand
             self.label!.textAlignment = .Left
-        }
-        else {
+        } else {
             bubbleType = BubbleType.Righthand
             point.x = self.bounds.size.width - bubbleSize.width
         }
@@ -85,6 +93,49 @@ class MessageTableViewCell: UITableViewCell {
         self.label!.frame = CGRectMake(8, bubbleSize.height, self.contentView.bounds.size.width - 16, 16)
     }
     
+    func setImageMsg(img: UIImage, message: Message) {
+        var point: CGPoint = CGPointZero
+        let image = img
+        let newImage = self.sizeForImage(image , size: CGSizeMake(150,150))
+        
+        if (message.isFromUser) == false {
+             point.x = 5
+        } else {
+            point.x = self.bounds.size.width - 155
+        }
+        
+        var rect: CGRect = CGRect()
+        rect.origin = point
+        rect.size =  CGSizeMake(150,150)
+        self.imgUser!.frame = rect
+        imgUser!.image = newImage
+        imgUser!.layer.cornerRadius = 10
+//        UIGraphicsBeginImageContextWithOptions(size, false, 0);
+//        image.drawInRect(rr)
+//        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+//        UIGraphicsEndImageContext()
+    }
+    
+    func sizeForImage(image: UIImage, size: CGSize) -> UIImage{
+        let scale = CGFloat(max(size.width/image.size.width,
+            size.height/image.size.height))
+        var bubbleSize: CGSize = CGSize()
+        bubbleSize.width  = image.size.width * scale
+        bubbleSize.height = image.size.height * scale
+        
+        let rr:CGRect = CGRectMake( 0, 0, bubbleSize.width, bubbleSize.height)
+        
+        UIGraphicsBeginImageContextWithOptions(size, false, 0);
+        image.drawInRect(rr)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage
+    }
+    
+    override func prepareForReuse() {
+        imgUser!.image = nil
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -95,5 +146,7 @@ class MessageTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+
+
 
 }

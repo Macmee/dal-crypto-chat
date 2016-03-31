@@ -14,6 +14,7 @@
 		05EDE85A1CA232D200B36131 /* NewConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EDE8551CA232D200B36131 /* NewConversationViewController.swift */; };
 		05EDE85B1CA232D200B36131 /* SpeechBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EDE8561CA232D200B36131 /* SpeechBubbleView.swift */; };
 		05EDE85F1CA2550E00B36131 /* data.db in Resources */ = {isa = PBXBuildFile; fileRef = 05EDE85E1CA2550E00B36131 /* data.db */; };
+		05EF8A5D1CAA3D7600E2D321 /* ImageCom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05EF8A5C1CAA3D7600E2D321 /* ImageCom.swift */; };
 		0BD974CBEF4B4086D683DC9F /* Pods_cryptochatUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87E31104C6F08529BE6CA17B /* Pods_cryptochatUITests.framework */; };
 		2E5A6FC63EBE1302D76E12B2 /* Pods_cryptochat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 86DEEF27A1F451A51D3297A6 /* Pods_cryptochat.framework */; };
 		350DE6B91C948EC000FEC1CC /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 350DE6B61C948EC000FEC1CC /* SQLiteDB.swift */; };
@@ -89,6 +90,7 @@
 		05EDE8551CA232D200B36131 /* NewConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewConversationViewController.swift; sourceTree = "<group>"; };
 		05EDE8561CA232D200B36131 /* SpeechBubbleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechBubbleView.swift; sourceTree = "<group>"; };
 		05EDE85E1CA2550E00B36131 /* data.db */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = data.db; sourceTree = "<group>"; };
+		05EF8A5C1CAA3D7600E2D321 /* ImageCom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageCom.swift; sourceTree = "<group>"; };
 		08456A854DF969C5295DF817 /* Pods-cryptochatUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cryptochatUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-cryptochatUITests/Pods-cryptochatUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		2F48D4FE0AB08BFFAF05C4DF /* Pods-cryptochat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cryptochat.release.xcconfig"; path = "Pods/Target Support Files/Pods-cryptochat/Pods-cryptochat.release.xcconfig"; sourceTree = "<group>"; };
 		350DE6B61C948EC000FEC1CC /* SQLiteDB.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SQLiteDB.swift; path = "SQLiteDB-master/SQLiteDB.swift"; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 		975B18841C7E24C500F320D0 /* cryptochat */ = {
 			isa = PBXGroup;
 			children = (
+				05EF8A5C1CAA3D7600E2D321 /* ImageCom.swift */,
 				97B4E3C21CA7357A00BFB545 /* customButton */,
 				05EDE85E1CA2550E00B36131 /* data.db */,
 				975F4DD81CA7380C002F4E89 /* BaseViewController.swift */,
@@ -545,6 +548,7 @@
 				975B18B41C7E29C500F320D0 /* WelcomeViewController.swift in Sources */,
 				05EDE8581CA232D200B36131 /* DataFetcher.swift in Sources */,
 				975B18881C7E24C500F320D0 /* ViewController.swift in Sources */,
+				05EF8A5D1CAA3D7600E2D321 /* ImageCom.swift in Sources */,
 				05EDE85A1CA232D200B36131 /* NewConversationViewController.swift in Sources */,
 				975F4DE51CA7845F002F4E89 /* RegisterViewController.swift in Sources */,
 				05EDE8571CA232D200B36131 /* ConversationViewController.swift in Sources */,
