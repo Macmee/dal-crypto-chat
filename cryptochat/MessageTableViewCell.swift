@@ -133,7 +133,7 @@ class MessageTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
-        imgUser!.image = nil
+//        imgUser!.image = nil
     }
     
     override func awakeFromNib() {

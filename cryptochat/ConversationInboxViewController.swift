@@ -9,7 +9,7 @@
 import UIKit
 import Heimdall
 
-class ConversationInboxViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ConversationInboxViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, NewConversationDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     var selectedUser : User?
@@ -37,6 +37,10 @@ class ConversationInboxViewController: UIViewController, UITableViewDataSource, 
         navigationController?.setNavigationBarHidden(false, animated: true)
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
@@ -55,6 +59,9 @@ class ConversationInboxViewController: UIViewController, UITableViewDataSource, 
         return cell
     }
     
+    @IBAction func newMessageSelected(sender: AnyObject) {
+        self.performSegueWithIdentifier("NewMessageSegue", sender: self)
+    }
 
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let message = messages[indexPath.row]
@@ -68,9 +75,18 @@ class ConversationInboxViewController: UIViewController, UITableViewDataSource, 
         if (segue.identifier == "toConvo") {
             let destinationVC = segue.destinationViewController as! ConversationViewController
             destinationVC.user = selectedUser
-
+        }
+        if (segue.identifier == "NewMessageSegue") {
+            let nav = segue.destinationViewController as! UINavigationController
+            let svc = nav.topViewController as! NewConversationViewController
+            svc.delegate = self
         }
     }
     
+    func backFromNewMessage(user: User) {
+        self.selectedUser = user
+        self.performSegueWithIdentifier("toConvo", sender: self)
+
+    }
 
 }

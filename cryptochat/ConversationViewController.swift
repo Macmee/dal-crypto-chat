@@ -67,7 +67,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         refreshTimer.invalidate()
-        refreshTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(ConversationViewController.downloadAndReloadConversations), userInfo: nil, repeats: true)
+//        refreshTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(ConversationViewController.downloadAndReloadConversations), userInfo: nil, repeats: true)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -77,6 +77,8 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     
     @IBAction func userSendButton(sender: AnyObject) {
         if let selfUser = DataManager.sharedInstance.getSelfUser(), let otherUser = user where userTextField.text != "" {
+            print("otherUser", otherUser.username)
+            
             let message = MessageManager.sharedInstance.encrypt(otherUser, message: userTextField.text!)
             let m = Message(sender: selfUser.public_key, receiver: otherUser.public_key, msg: message, id: DataManager.sharedInstance.randomStringWithLength(40), time: NSDate().formattedISO8601)
             DataFetcher.sharedInstance.sendMessage(otherUser.public_key, message: message, completion: { (success) in
@@ -115,9 +117,11 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
             imgconv.toImage(image) {
                 (image) in
                 cell?.setImageMsg(image, message: msg)
+                cell?.label!.text = nil
             }
         } else {
             cell?.setMessage(msg)
+            cell?.imgUser!.image = nil
         }
         
         return cell!
