@@ -67,7 +67,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         refreshTimer.invalidate()
-//        refreshTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(ConversationViewController.downloadAndReloadConversations), userInfo: nil, repeats: true)
+        refreshTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(ConversationViewController.downloadAndReloadConversations), userInfo: nil, repeats: true)
     }
     
     override func viewWillDisappear(animated: Bool) {
