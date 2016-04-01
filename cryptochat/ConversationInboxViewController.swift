@@ -48,7 +48,7 @@ class ConversationInboxViewController: UIViewController, UITableViewDataSource, 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ConversationCell", forIndexPath: indexPath)
         let message = messages[indexPath.row]
-        cell.detailTextLabel?.text = message.decryptedMessage
+        cell.detailTextLabel?.text = message.isImage ? "Image" : message.decryptedMessage
         cell.textLabel?.text = "Loading..."
         UserManager.sharedInstance.getUser(message.otherUserId()) { (user) in
             if message.otherUserId() == user.public_key {

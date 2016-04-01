@@ -19,7 +19,6 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var userTextField: UITextField!
     var messages = [Message]()
     var refreshTimer = NSTimer()
-    let imgconv = ImageCom()
     var usrimg: UIImage?
     var imagePicker: UIImagePickerController!
     
@@ -110,20 +109,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         cell?.backgroundColor = UIColor.clearColor()
         cell?.textLabel?.textColor = UIColor.whiteColor()
         let msg = messages[indexPath.row]
-        
-        if msg.msg.containsString("IMG: ") {
-            let index = msg.msg.startIndex.advancedBy(5)
-            let image = msg.msg.substringFromIndex(index)
-            imgconv.toImage(image) {
-                (image) in
-                cell?.setImageMsg(image, message: msg)
-                cell?.label!.text = nil
-            }
-        } else {
-            cell?.setMessage(msg)
-            cell?.imgUser!.image = nil
-        }
-        
+        cell?.setMessage(msg)
         return cell!
     }
     
@@ -194,7 +180,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func userSendImage() {
-        imgconv.toText(usrimg!) {
+        ImageCom.sharedInstance.toText(usrimg!) {
             (text) in
             if let selfUser = DataManager.sharedInstance.getSelfUser(), let otherUser = self.user /*where self.userTextField.text != ""*/ {
                 let imageData = "IMG: " + (text as String)
@@ -224,8 +210,6 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         if mediaType == (kUTTypeImage as String) {
             //user picks a photo to send
             self.usrimg = info[UIImagePickerControllerOriginalImage] as? UIImage
-            print("The loaded image: \(info[UIImagePickerControllerOriginalImage] as? UIImage)")
-            print("The loaded image: \(self.usrimg)")
             self.userSendImage()
         } else {
             //video

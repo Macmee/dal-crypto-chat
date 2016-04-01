@@ -113,7 +113,6 @@ class DataFetcher: NSObject {
             var response_data = NSString()
             let url = NSURL(string: "http://davidz.xyz:8005/public-key/" + public_key)
             if url == nil {
-                print("nil url for " + public_key)
                 complete(user: User.dummy())
                 return
             }

@@ -25,9 +25,7 @@ class DataManager {
     
     func initKeys(public_key: String,  private_key: String) {
         let sql = "insert into keys(public_key, private_key) values('\(public_key)','\(private_key)')"
-        print("sql: \(sql)")
         let result = db.execute(sql)
-        print(result)
     }
 
     public func randomStringWithLength (len : Int) -> String {
@@ -60,22 +58,17 @@ class DataManager {
     
     func storeMessage(m: Message) {
         let sql = "INSERT INTO message(sender, receiver, msg, id, time) values('\(m.sender)', '\(m.receiver)', '\(m.msg)', '\(m.id)','\(m.time)')"
-        print("sql: \(sql)")
-        let result = db.execute(sql)
-        print(result)
+        db.execute(sql)
     }
 
     func setSetting(key : String, value : String) {
         db.execute("DELETE FROM setting WHERE key = '\(key)'")
         let sql = "INSERT INTO setting(key, value) values('\(key)', '\(value)')"
-        print("sql: \(sql)")
-        let result = db.execute(sql)
-        print(result)
+        db.execute(sql)
     }
 
     func getSetting(key : String) -> String? {
         let sql = "SELECT * FROM setting WHERE key = '\(key)'"
-        print("sql: \(sql)")
         let result = db.query(sql)
         if result.count == 0 {
             return nil
@@ -86,9 +79,7 @@ class DataManager {
     func storeUser(m: User) {
         db.execute("DELETE FROM user WHERE public_key = '\(m.public_key)'")
         let sql = "INSERT INTO user(username, public_key) values('\(m.username)', '\(m.public_key)')"
-        print("sql: \(sql)")
-        let result = db.execute(sql)
-        print(result)
+        db.execute(sql)
     }
 
     func mapSingleUser(result : AnyObject) -> User {
@@ -111,7 +102,6 @@ class DataManager {
 
     func getUser(public_key : String) -> User? {
         let sql = "SELECT * FROM user WHERE public_key = '\(public_key)'"
-        print("sql: \(sql)")
         let result = db.query(sql)
         if result.count == 0 {
             return nil

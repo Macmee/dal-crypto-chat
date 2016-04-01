@@ -9,6 +9,9 @@
 import UIKit
 
 class ImageCom: NSObject {
+    
+    static let sharedInstance = ImageCom()
+    
     func toText(image : UIImage, completion:(text:NSString) -> Void) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
 //            let imageData = UIImagePNGRepresentation(image)
@@ -25,9 +28,7 @@ class ImageCom: NSObject {
     func toImage(text: NSString, completion:(image:UIImage) -> Void) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
             let imageData = NSData(base64EncodedString: text as String, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)!
-//        print("IMAGEDATA", imageData)
             dispatch_async(dispatch_get_main_queue(), {
-//                let imageData = NSData(base64EncodedString: text as String, options: NSDataBase64DecodingOptions.IgnoreUnknownCharacters)!
                 completion(image: UIImage(data: imageData)!);
             })
         }

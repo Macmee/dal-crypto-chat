@@ -23,6 +23,11 @@ public class Message : NSObject {
             }
         }
     }
+    var isImage: Bool {
+        get {
+            return decryptedMessage.hasPrefix("IMG: ")
+        }
+    }
 
     var _decryptedMessage : String?
     var decryptedMessage: String {

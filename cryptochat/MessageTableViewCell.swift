@@ -67,12 +67,24 @@ class MessageTableViewCell: UITableViewCell {
     }
     
     func setMessage(message: Message) {
-        print(message);
+        let text = message.decryptedMessage
+        if message.isImage {
+            let index = text.startIndex.advancedBy(5)
+            let image = text.substringFromIndex(index)
+            ImageCom.sharedInstance.toImage(image) {
+                (image) in
+                self.setImageMsg(image, message: message)
+                self.label?.text = nil
+            }
+            return
+        } else {
+            imgUser!.image = nil
+        }
+        
         var point: CGPoint = CGPointZero
         // We display messages that are sent by the user on the left-hand side of
         // the screen. Incoming messages are displayed on the right-hand side.
         var bubbleType: BubbleType
-        let text = message.decryptedMessage
         let bubbleSize: CGSize = SpeechBubbleView.sizeForText(text)
 
         if (message.isFromUser) == false {
