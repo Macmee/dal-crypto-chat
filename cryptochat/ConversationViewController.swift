@@ -241,8 +241,6 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 let image = pickedImage.scaleWithNewWidth(300)
                 self.userSendImage(image)
             }
-        } else {
-            //video
         }
         self.dismissViewControllerAnimated(true , completion: nil)
     }
