@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import QRCodeReader
+import AVFoundation
 
 protocol NewConversationDelegate {
     func backFromNewMessage(user: User)
@@ -20,6 +22,8 @@ class NewConversationViewController: UIViewController {
     var otherUser: User?
     var delegate: NewConversationDelegate! = nil
     @IBOutlet weak var sendButton: UIButton!
+    var readerVC = QRCodeReaderViewController(metadataObjectTypes: [AVMetadataObjectTypeQRCode])
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +32,7 @@ class NewConversationViewController: UIViewController {
         self.navigationItem.title = "New Message"
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NewConversationViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NewConversationViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil)
-        
+
     }
     
     override func didReceiveMemoryWarning() {
@@ -38,6 +42,24 @@ class NewConversationViewController: UIViewController {
     
     @IBAction func close(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    @IBAction func scanQRAction(sender: AnyObject) {
+        // Retrieve the QRCode content
+        // By using the delegate pattern
+        readerVC.delegate = self
+
+        // Or by using the closure pattern
+        readerVC.completionBlock = { (result: QRCodeReaderResult?) in
+            DataFetcher.sharedInstance.getUser((result?.value)!) {
+                user in
+                // set the result from the QR code to the destination textfield
+                self.toUserTextField.text! = user.username
+            }
+        }
+        // Presents the readerVC as modal form sheet
+        readerVC.modalPresentationStyle = .FormSheet
+        presentViewController(readerVC, animated: true, completion: nil)
     }
     
     @IBAction func sendButton(sender: AnyObject) {
@@ -75,5 +97,17 @@ class NewConversationViewController: UIViewController {
         UIView.animateWithDuration(0.5) {
             self.view.layoutIfNeeded()
         }
+    }
+}
+
+extension NewConversationViewController: QRCodeReaderViewControllerDelegate {
+    func reader(reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+
+    }
+    
+    func readerDidCancel(reader: QRCodeReaderViewController) {
+        self.dismissViewControllerAnimated(true, completion: nil)
+
     }
 }
