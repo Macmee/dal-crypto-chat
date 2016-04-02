@@ -8,6 +8,7 @@
 
 import UIKit
 import Heimdall
+import QRCode
 
 class ConversationInboxViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -133,7 +134,9 @@ class ConversationInboxViewController: UIViewController, UITableViewDataSource, 
     @IBAction func displayImagePickerActionSheet(sender: AnyObject) {
         let optionOneText = "Delete Everything"
         let optionTwoText = "Change Servers"
-        let optionThreeText = "Cancel"
+        let optionThreeText = "My QRCode"
+        let optionFourText = "Cancel"
+        
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
 
         let actionOne = UIAlertAction(title: optionOneText, style: .Destructive) { (ACTION) in
@@ -143,11 +146,15 @@ class ConversationInboxViewController: UIViewController, UITableViewDataSource, 
         let actionTwo = UIAlertAction(title: optionTwoText, style: .Default) { (ACTION) in
             self.showServerChangePrompt()
         }
-        let actionThree = UIAlertAction(title: optionThreeText, style: .Default, handler: nil)
+        let actionThree = UIAlertAction(title: optionThreeText, style: .Default) { (ACTION) in
+            self.showMyQRCodePrompt()
+        }
+        let actionFour = UIAlertAction(title: optionFourText, style: .Default, handler: nil)
 
         actionSheet.addAction(actionOne)
         actionSheet.addAction(actionTwo)
         actionSheet.addAction(actionThree)
+        actionSheet.addAction(actionFour)
         self.presentViewController(actionSheet, animated: true, completion: nil)
     }
 
@@ -161,6 +168,20 @@ class ConversationInboxViewController: UIViewController, UITableViewDataSource, 
             DataManager.sharedInstance.setSetting("serverPath", value: textField.text!)
         }))
         
+        // 4. Present the alert.
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    
+    func showMyQRCodePrompt() {
+        let alert = UIAlertController(title: "My QRCode", message: "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", preferredStyle: .Alert)
+        var qrCode = QRCode((DataManager.sharedInstance.getSelfUser()?.public_key)!)
+        qrCode!.size = CGSize(width: 250, height: 250)
+        let myQRImage = qrCode?.image
+        let imageView = UIImageView(frame: CGRectMake(10, 50, 250, 250))
+        imageView.image = myQRImage
+        alert.view.addSubview(imageView)
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: nil))
         // 4. Present the alert.
         self.presentViewController(alert, animated: true, completion: nil)
     }
