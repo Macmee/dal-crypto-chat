@@ -4,14 +4,17 @@
 use_frameworks!
 
 target 'cryptochat' do
+pod 'PromiseKit'
 pod 'Heimdall', '~> 0.2.1'
 end
 
 target 'cryptochatTests' do
+pod 'PromiseKit'
 pod 'Heimdall', '~> 0.2.1'
 end
 
 target 'cryptochatUITests' do
+pod 'PromiseKit'
 pod 'Heimdall', '~> 0.2.1'
 end
 

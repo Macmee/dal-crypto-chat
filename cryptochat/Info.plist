@@ -29,6 +29,8 @@
 	</dict>
 	<key>NSExceptionAllowsInsecureHTTPLoads</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>GPS is used IF you want to share your location with others</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

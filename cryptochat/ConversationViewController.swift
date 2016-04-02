@@ -9,6 +9,7 @@
 import UIKit
 import MobileCoreServices
 import Foundation
+import PromiseKit
 
 class ConversationViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -19,9 +20,9 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var userTextField: UITextField!
     var messages = [Message]()
     var refreshTimer = NSTimer()
-    var imageView: UIImageView!
     var latestMessageTime : String?
     var imagePicker: UIImagePickerController!
+    var locationResolver : LocationManager?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +32,6 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil)
         reloadConversations()
-        imageView = UIImageView(frame:CGRectMake(0, 0, 150, 150));
     }
     
     deinit {
@@ -98,10 +98,9 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
-    func userSendImage() {
+    func userSendImage(image : UIImage) {
         if let selfUser = DataManager.sharedInstance.getSelfUser(), let otherUser = user where userTextField.text == "" {
-           let image = imageView.image
-            ImageCom.sharedInstance.toText(image!) {
+            ImageCom.sharedInstance.toText(image) {
                 (text) in
                 let imageData = "IMG: " + (text as String)
                 let message = MessageManager.sharedInstance.encrypt(otherUser, message: imageData)
@@ -167,34 +166,42 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
             self.view.layoutIfNeeded()
         }
     }
+
+    // MARK - action sheet logic for "attach" button in bottom left
     
     @IBAction func displayImagePickerActionSheet(sender: AnyObject) {
-        let optionOneText = "Take Photo"
-        let optionTwoText = "Choose from Library"
-        let optionThreeText = "Cancel"
+        let optionOneText = "Share Location"
+        let optionTwoText = "Take Photo"
+        let optionThreeText = "Choose Photo from Library"
+        let optionFourText = "Cancel"
         
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
-        
+
         let actionOne = UIAlertAction(title: optionOneText, style: .Default) { (ACTION) in
+            print("Share location tapped")
+            self.shareLocation()
+        }
+        let actionTwo = UIAlertAction(title: optionTwoText, style: .Default) { (ACTION) in
             print("Take photo tapped")
             self.choosePhoto(.Camera)
         }
-        let actionTwo = UIAlertAction(title: optionTwoText, style: .Default) { (ACTION) in
+        let actionThree = UIAlertAction(title: optionThreeText, style: .Default) { (ACTION) in
             print("Choose library tapped")
             self.choosePhoto(.PhotoLibrary)
         }
-        let actionThree = UIAlertAction(title: optionThreeText, style: .Default, handler: nil)
+        let actionFour = UIAlertAction(title: optionFourText, style: .Default, handler: nil)
         
         actionSheet.addAction(actionOne)
         actionSheet.addAction(actionTwo)
         actionSheet.addAction(actionThree)
+        actionSheet.addAction(actionFour)
         self.presentViewController(actionSheet, animated: true, completion: nil)
     }
     
     func choosePhoto(caseType: UIImagePickerControllerSourceType ) {
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
-        
+
         if UIImagePickerController.isSourceTypeAvailable(caseType) {
             imagePicker.sourceType = caseType
         } else {
@@ -204,17 +211,18 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         imagePicker.mediaTypes = UIImagePickerController.availableMediaTypesForSourceType(imagePicker.sourceType)!
         self.presentViewController(imagePicker, animated: true, completion: nil)
     }
-    
-    func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage {
-        
-        let scale = newWidth / image.size.width
-        let newHeight = image.size.height * scale
-        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight))
-        image.drawInRect(CGRectMake(0, 0, newWidth, newHeight))
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return newImage
+
+    func shareLocation() {
+        locationResolver = LocationManager()
+        locationResolver?.imagePromise?.then { image in
+            self.userSendImage(image)
+        }.error { error in
+            let alert = UIAlertView()
+            alert.title = "Oh no 😢"
+            alert.message = "We're really sorry but we couldn't access your GPS"
+            alert.addButtonWithTitle("Okay")
+            alert.show()
+        }
     }
 
 }
@@ -230,8 +238,8 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         if mediaType == (kUTTypeImage as String) {
             //user picks a photo to send
             if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
-                imageView.image = self.resizeImage(pickedImage, newWidth: 300)
-                self.userSendImage()
+                let image = pickedImage.scaleWithNewWidth(300)
+                self.userSendImage(image)
             }
         } else {
             //video
