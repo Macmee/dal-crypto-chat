@@ -48,7 +48,6 @@ class SpeechBubbleView: UILabel {
     }
     
     class func sizeForText(text: String) -> CGSize {
-        
         heightCalculatingLabel.text = text
         heightCalculatingLabel.frame = CGRectMake(0, 0, SpeechBubbleView.maxWidth, CGFloat.max)
         var rect = heightCalculatingLabel.sizeThatFits(heightCalculatingLabel.frame.size)

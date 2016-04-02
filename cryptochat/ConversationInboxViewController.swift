@@ -77,6 +77,10 @@ class ConversationInboxViewController: UIViewController, UITableViewDataSource, 
         // since our array of messages is our data source, there is one cell per message
         return messages.count
     }
+
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 60.0
+    }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // this method generates a cell for a given index in the table, first dequeue a recycled cell

@@ -11,10 +11,10 @@ import UIKit
 
 var color: UIColor? = nil
 
-var cellPadding : CGFloat = 5.0
 var imageLength : CGFloat = 150.0
 
 class MessageTableViewCell : UITableViewCell {
+    static var cellPadding : CGFloat = 8.0
     var bubbleView : SpeechBubbleView = SpeechBubbleView(frame: CGRectZero)
     var imgUser : UIImageView = UIImageView(frame: CGRectZero)
     var currentMessage : Message?
@@ -77,7 +77,7 @@ class MessageTableViewCell : UITableViewCell {
 
     func setTextMsg(text : String) {
         bubbleView.alpha = 1
-        var point: CGPoint = CGPointMake(cellPadding, 0)
+        var point: CGPoint = CGPointMake(MessageTableViewCell.cellPadding, 0)
         // We display messages that are sent by the user on the left-hand side of
         // the screen. Incoming messages are displayed on the right-hand side.
         var bubbleType: BubbleType
@@ -87,7 +87,7 @@ class MessageTableViewCell : UITableViewCell {
             bubbleType = BubbleType.Lefthand
         } else {
             bubbleType = BubbleType.Righthand
-            point.x = UIScreen.mainScreen().bounds.size.width - bubbleSize.width - cellPadding
+            point.x = UIScreen.mainScreen().bounds.size.width - bubbleSize.width - MessageTableViewCell.cellPadding
         }
 
         // Resize the bubble view and tell it to display the message text
@@ -104,9 +104,9 @@ class MessageTableViewCell : UITableViewCell {
         let newImage = img.scaleToFitSize(CGSizeMake(imageLength, imageLength))
         
         if (currentMessage?.isFromUser) == false {
-            point.x = cellPadding
+            point.x = MessageTableViewCell.cellPadding
         } else {
-            point.x = self.bounds.size.width - imageLength - cellPadding
+            point.x = self.bounds.size.width - imageLength - MessageTableViewCell.cellPadding
         }
         
         var rect: CGRect = CGRect()

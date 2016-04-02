@@ -26,9 +26,14 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableMessages.alpha = 0
+        UIView.animateWithDuration(2.0) {
+            self.tableMessages.alpha = 1
+        }
         tableMessages.dataSource = self
         tableMessages.delegate = self
         tableMessages.separatorStyle = .None
+        tableMessages.contentInset = UIEdgeInsetsMake(MessageTableViewCell.cellPadding, 0.0, 0.0, 0.0)
         self.navigationItem.title = user?.username
         NSNotificationCenter.defaultCenter().addObserver(self,
                                                 selector: #selector(ConversationViewController.keyboardWillShow(_:)),
@@ -62,7 +67,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
             let lastGotMsgTime = self.messages.last?.time ?? "now"
             if lastSeenMsgTime != lastGotMsgTime {
                 self.tableMessages.reloadData()
-                tableViewScrollToBottom(false)
+                tableViewScrollToBottom(true)
                 latestMessageTime = lastGotMsgTime
             }
         }
@@ -82,10 +87,16 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         refreshTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self,
                                                               selector: #selector(ConversationViewController.downloadAndReloadConversations), userInfo: nil,
                                                               repeats: true)
+        tableViewScrollToBottom(true)
     }
-    
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        tableViewScrollToBottom(true)
+    }
+
     override func viewWillDisappear(animated: Bool) {
-        super.viewWillAppear(animated)
+        super.viewWillDisappear(animated)
         refreshTimer.invalidate()
     }
     
@@ -165,8 +176,9 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
                 self.view.layoutIfNeeded()
             }
         }
+        tableViewScrollToBottom(true)
     }
-    
+
     func keyboardWillHide(notification: NSNotification) {
         self.bottomConstraint.constant = 0
         UIView.animateWithDuration(0.5) {

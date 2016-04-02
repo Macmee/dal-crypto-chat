@@ -25,4 +25,16 @@ public class UserManager {
         }
     }
 
+    func getUserByName(name:String, complete:(user:User)->Void) {
+        let user = DataManager.sharedInstance.getUserByName(name)
+        if let user = user {
+            complete(user: user)
+            return
+        }
+        DataFetcher.sharedInstance.getUserByName(name) { user in
+            DataManager.sharedInstance.storeUser(user)
+            complete(user: user)
+        }
+    }
+
 }

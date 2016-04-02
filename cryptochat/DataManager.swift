@@ -105,6 +105,7 @@ class DataManager {
         let user = User()
         user.username = (result["username"] as? String) ?? ""
         user.public_key = (result["public_key"] as? String) ?? ""
+        user.exists = true
         return user
     }
 
@@ -117,6 +118,15 @@ class DataManager {
         } else {
             return nil
         }
+    }
+
+    func getUserByName(username : String) -> User? {
+        let sql = "SELECT * FROM user WHERE username = '\(username)'"
+        let result = db.query(sql)
+        if result.count == 0 {
+            return nil
+        }
+        return mapSingleUser(result[0])
     }
 
     func getUser(public_key : String) -> User? {

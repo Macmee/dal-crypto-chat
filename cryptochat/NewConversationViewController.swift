@@ -52,10 +52,10 @@ class NewConversationViewController: UIViewController {
             // Or by using the closure pattern
             readerVC.completionBlock = { (result: QRCodeReaderResult?) in
                 if result != nil {
-                    DataFetcher.sharedInstance.getUser((result?.value)!) {
-                        user in
+                    let public_key = (result?.value)!
+                    UserManager.sharedInstance.getUser(public_key) { user in
                         // set the result from the QR code to the destination textfield
-                        self.toUserTextField.text! = user.username
+                        self.toUserTextField.text! = user.username + (public_key != user.public_key ? " [UNVERIFIED]" : "")
                     }
                 }
             }
@@ -67,21 +67,28 @@ class NewConversationViewController: UIViewController {
     
     @IBAction func sendButton(sender: AnyObject) {
         let selfUser = DataManager.sharedInstance.getSelfUser()
-        DataFetcher.sharedInstance.getUserByName(self.toUserTextField.text!) {
-            user in
+        // note: if we got here from the QR flow, the user will already be in the database so it is SAFE to fetch
+        // by name - if the server returned another user with a DIFFERENT public_key then we already alerted
+        // our user by adding [UNVERIFIED] to the end of the username (see above QR logic)
+        UserManager.sharedInstance.getUserByName(self.toUserTextField.text!) { user in
             if user.exists {
                 self.otherUser = user
                 let message = MessageManager.sharedInstance.encrypt(self.otherUser!, message: self.messageTextField.text!)
                 let m = Message(sender: selfUser!.public_key, receiver: self.otherUser!.public_key, msg: message, id: DataManager.sharedInstance.randomStringWithLength(40), time: NSDate().formattedISO8601)
                 DataFetcher.sharedInstance.sendMessage(self.otherUser!.public_key, message: message, completion: { (success) in
-                    //                self.downloadAndReloadConversations()
+                    self.dismissViewControllerAnimated(true, completion: {
+                        self.delegate!.backFromNewMessage(user)
+                    })
                 })
                 m.msg = self.messageTextField.text!
                 DataManager.sharedInstance.storeMessage(m)
                 self.messageTextField.text = ""
-                self.dismissViewControllerAnimated(true, completion: {
-                    self.delegate!.backFromNewMessage(user)
-                })
+            } else {
+                let alert = UIAlertView()
+                alert.title = "Oh no 😢"
+                alert.message = "We're really sorry but no user exists with that username!"
+                alert.addButtonWithTitle("Okay")
+                alert.show()
             }
         }
     }
