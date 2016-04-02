@@ -29,8 +29,12 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         tableMessages.dataSource = self
         tableMessages.delegate = self
         self.navigationItem.title = user?.username
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self,
+                                                selector: #selector(ConversationViewController.keyboardWillShow(_:)),
+                                                         name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self,
+                                                selector: #selector(ConversationViewController.keyboardWillHide(_:)),
+                                                         name: UIKeyboardWillHideNotification, object: nil)
         reloadConversations()
     }
     
@@ -45,22 +49,20 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         
         if numberOfRows > 0 {
             let indexPath = NSIndexPath(forRow: numberOfRows-1, inSection: (numberOfSections-1))
-            self.tableMessages.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: animated)
+            self.tableMessages.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom,
+                                                      animated: animated)
         }
     }
     
     func reloadConversations() {
         if let user = user {
             self.messages = DataManager.sharedInstance.getMessages(user.public_key)
-            if let time = latestMessageTime {
-                if self.messages.last?.time != time {
-                    self.latestMessageTime = self.messages.last?.time
-                    self.tableMessages.reloadData()
-                    tableViewScrollToBottom(false)
-                }
-            } else {
+            let lastSeenMsgTime = latestMessageTime ?? "never"
+            let lastGotMsgTime = self.messages.last?.time ?? "now"
+            if lastSeenMsgTime != lastGotMsgTime {
                 self.tableMessages.reloadData()
                 tableViewScrollToBottom(false)
+                latestMessageTime = lastGotMsgTime
             }
         }
     }
@@ -76,7 +78,9 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         refreshTimer.invalidate()
-        refreshTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(ConversationViewController.downloadAndReloadConversations), userInfo: nil, repeats: true)
+        refreshTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self,
+                                                              selector: #selector(ConversationViewController.downloadAndReloadConversations), userInfo: nil,
+                                                              repeats: true)
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -87,8 +91,9 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     @IBAction func userSendButton(sender: AnyObject) {
         if let selfUser = DataManager.sharedInstance.getSelfUser(), let otherUser = user where userTextField.text != "" {
             let message = MessageManager.sharedInstance.encrypt(otherUser, message: userTextField.text!)
-            let m = Message(sender: selfUser.public_key, receiver: otherUser.public_key, msg: message, id: DataManager.sharedInstance.randomStringWithLength(40), time: NSDate().formattedISO8601)
-            DataFetcher.sharedInstance.sendMessage(otherUser.public_key, message: message, completion: { (success) in
+            let m = Message(sender: selfUser.public_key, receiver: otherUser.public_key, msg: message,
+                            id: DataManager.sharedInstance.randomStringWithLength(40), time: NSDate().formattedISO8601)
+            DataFetcher.sharedInstance.sendMessage(otherUser.public_key, message: message, completion: { success in
                 self.downloadAndReloadConversations()
             })
             m.msg = userTextField.text!
@@ -100,12 +105,13 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     
     func userSendImage(image : UIImage) {
         if let selfUser = DataManager.sharedInstance.getSelfUser(), let otherUser = user where userTextField.text == "" {
-            ImageCom.sharedInstance.toText(image) {
-                (text) in
+            ImageCom.sharedInstance.toText(image) { text in
                 let imageData = "IMG: " + (text as String)
                 let message = MessageManager.sharedInstance.encrypt(otherUser, message: imageData)
-                let m = Message(sender: selfUser.public_key, receiver: otherUser.public_key, msg: message, id: DataManager.sharedInstance.randomStringWithLength(40), time: NSDate().formattedISO8601)
-                DataFetcher.sharedInstance.sendMessage(otherUser.public_key, message: message, completion: { (success) in
+                let m = Message(sender: selfUser.public_key, receiver: otherUser.public_key, msg: message,
+                                id: DataManager.sharedInstance.randomStringWithLength(40),
+                                time: NSDate().formattedISO8601)
+                DataFetcher.sharedInstance.sendMessage(otherUser.public_key, message: message, completion: { success in
                     self.downloadAndReloadConversations()
                 })
                 m.msg = imageData
@@ -241,8 +247,6 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
                 let image = pickedImage.scaleWithNewWidth(300)
                 self.userSendImage(image)
             }
-        } else {
-            //video
         }
         self.dismissViewControllerAnimated(true , completion: nil)
     }

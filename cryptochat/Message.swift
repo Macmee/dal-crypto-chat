@@ -28,6 +28,12 @@ public class Message : NSObject {
             return decryptedMessage.hasPrefix("IMG: ")
         }
     }
+    var imageString: String {
+        get {
+            let index = decryptedMessage.startIndex.advancedBy(5)
+            return decryptedMessage.substringFromIndex(index)
+        }
+    }
 
     var _decryptedMessage : String?
     var decryptedMessage: String {
