@@ -1,0 +1,19 @@
+{
+  "name": "crypto-chat-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "backbone": "^1.2.3",
+    "enhanced-promises": "^1.0.4",
+    "hapi": "^13.0.0",
+    "joi": "^8.0.3",
+    "nedb": "^1.8.0",
+    "underscore": "^1.8.3"
+  }
+}

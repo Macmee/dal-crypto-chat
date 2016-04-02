@@ -1,0 +1,13 @@
+PODS:
+  - GoogleMaps (1.13.0)
+  - Heimdall (0.2.5)
+
+DEPENDENCIES:
+  - GoogleMaps
+  - Heimdall (~> 0.2.1)
+
+SPEC CHECKSUMS:
+  GoogleMaps: 7a6caeb8336d7cb42982e969fc9b1b20a889fe79
+  Heimdall: e388795a9bb50c8403e27cbc48093b9b0380c879
+
+COCOAPODS: 0.39.0
