@@ -20,6 +20,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     var messages = [Message]()
     var refreshTimer = NSTimer()
     var usrimg: UIImage?
+    var imageView: UIImageView!
     var latestMessageTime : String?
     var imagePicker: UIImagePickerController!
     
@@ -31,6 +32,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil)
         reloadConversations()
+        imageView = UIImageView(frame:CGRectMake(0, 0, 150, 150));
     }
     
     deinit {
@@ -47,6 +49,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
             self.tableMessages.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom, animated: animated)
         }
     }
+    
     func reloadConversations() {
         if let user = user {
             self.messages = DataManager.sharedInstance.getMessages(user.public_key)
@@ -54,11 +57,12 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
                 if self.messages.last?.time != time {
                     self.latestMessageTime = self.messages.last?.time
                     self.tableMessages.reloadData()
+                    tableViewScrollToBottom(false)
                 }
             } else {
                 self.tableMessages.reloadData()
+                tableViewScrollToBottom(false)
             }
-            tableViewScrollToBottom(false)
         }
     }
     
@@ -96,11 +100,11 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     func userSendImage() {
-        ImageCom.sharedInstance.toText(usrimg!) {
-            (text) in
-            if let selfUser = DataManager.sharedInstance.getSelfUser(), let otherUser = self.user /*where self.userTextField.text != ""*/ {
+        if let selfUser = DataManager.sharedInstance.getSelfUser(), let otherUser = user where userTextField.text == "" {
+           let image = imageView.image
+            ImageCom.sharedInstance.toText(image!) {
+                (text) in
                 let imageData = "IMG: " + (text as String)
-                
                 let message = MessageManager.sharedInstance.encrypt(otherUser, message: imageData)
                 let m = Message(sender: selfUser.public_key, receiver: otherUser.public_key, msg: message, id: DataManager.sharedInstance.randomStringWithLength(40), time: NSDate().formattedISO8601)
                 DataFetcher.sharedInstance.sendMessage(otherUser.public_key, message: message, completion: { (success) in
@@ -110,7 +114,6 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
                 DataManager.sharedInstance.storeMessage(m)
                 self.reloadConversations()
             }
-            
         }
     }
     
@@ -203,6 +206,17 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         self.presentViewController(imagePicker, animated: true, completion: nil)
     }
     
+    func resizeImage(image: UIImage, newWidth: CGFloat) -> UIImage {
+        
+        let scale = newWidth / image.size.width
+        let newHeight = image.size.height * scale
+        UIGraphicsBeginImageContext(CGSizeMake(newWidth, newHeight))
+        image.drawInRect(CGRectMake(0, 0, newWidth, newHeight))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage
+    }
 
 }
 
@@ -216,8 +230,10 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
         let mediaType = info[UIImagePickerControllerMediaType] as! String
         if mediaType == (kUTTypeImage as String) {
             //user picks a photo to send
-            self.usrimg = info[UIImagePickerControllerOriginalImage] as? UIImage
-            self.userSendImage()
+            if let pickedImage = info[UIImagePickerControllerOriginalImage] as? UIImage {
+                imageView.image = self.resizeImage(pickedImage, newWidth: 300)
+                self.userSendImage()
+            }
         } else {
             //video
         }
