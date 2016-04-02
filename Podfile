@@ -4,16 +4,19 @@
 use_frameworks!
 
 target 'cryptochat' do
+pod 'QRCode', '~> 0.5'
 pod 'PromiseKit'
 pod 'Heimdall', '~> 0.2.1'
 end
 
 target 'cryptochatTests' do
+pod 'QRCode', '~> 0.5'
 pod 'PromiseKit'
 pod 'Heimdall', '~> 0.2.1'
 end
 
 target 'cryptochatUITests' do
+pod 'QRCode', '~> 0.5'
 pod 'PromiseKit'
 pod 'Heimdall', '~> 0.2.1'
 end
