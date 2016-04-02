@@ -30,6 +30,7 @@ class NewConversationViewController: UIViewController {
         self.navigationItem.title = "New Message"
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NewConversationViewController.keyboardWillShow(_:)), name:UIKeyboardWillShowNotification, object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(NewConversationViewController.keyboardWillHide(_:)), name:UIKeyboardWillHideNotification, object: nil)
+        toUserTextField.autocorrectionType = .No
 
     }
     
