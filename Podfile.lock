@@ -20,16 +20,19 @@ PODS:
   - PromiseKit/UIKit (3.1.0):
     - PromiseKit/CorePromise
   - QRCode (0.5)
+  - QRCodeReader.swift (6.0.0)
 
 DEPENDENCIES:
   - Heimdall (~> 0.2.1)
   - PromiseKit
   - QRCode (~> 0.5)
+  - QRCodeReader.swift (~> 6.0.0)
 
 SPEC CHECKSUMS:
   Heimdall: e388795a9bb50c8403e27cbc48093b9b0380c879
   OMGHTTPURLRQ: 633f98ee745aeda02345935a52eec1784cddb589
   PromiseKit: 7ed2a3fc5217695305a55a8c47cb3a17ff5fde0d
   QRCode: a249ed747aeb0f4bf5f9c58b5b001b6b3bc80073
+  QRCodeReader.swift: 4aa8b0f88847a51312d6ffd2cafc387962da9dd8
 
 COCOAPODS: 0.39.0
