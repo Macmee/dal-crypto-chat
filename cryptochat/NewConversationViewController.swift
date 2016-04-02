@@ -22,8 +22,6 @@ class NewConversationViewController: UIViewController {
     var otherUser: User?
     var delegate: NewConversationDelegate! = nil
     @IBOutlet weak var sendButton: UIButton!
-    var readerVC = QRCodeReaderViewController(metadataObjectTypes: [AVMetadataObjectTypeQRCode])
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,21 +43,26 @@ class NewConversationViewController: UIViewController {
     }
     
     @IBAction func scanQRAction(sender: AnyObject) {
-        // Retrieve the QRCode content
-        // By using the delegate pattern
-        readerVC.delegate = self
-
-        // Or by using the closure pattern
-        readerVC.completionBlock = { (result: QRCodeReaderResult?) in
-            DataFetcher.sharedInstance.getUser((result?.value)!) {
-                user in
-                // set the result from the QR code to the destination textfield
-                self.toUserTextField.text! = user.username
+        if UIImagePickerController.isSourceTypeAvailable(.Camera){
+            let readerVC = QRCodeReaderViewController(metadataObjectTypes: [AVMetadataObjectTypeQRCode])
+            // Retrieve the QRCode content
+            // By using the delegate pattern
+            readerVC.delegate = self
+            
+            // Or by using the closure pattern
+            readerVC.completionBlock = { (result: QRCodeReaderResult?) in
+                if result != nil {
+                    DataFetcher.sharedInstance.getUser((result?.value)!) {
+                        user in
+                        // set the result from the QR code to the destination textfield
+                        self.toUserTextField.text! = user.username
+                    }
+                }
             }
+            // Presents the readerVC as modal form sheet
+            readerVC.modalPresentationStyle = .FormSheet
+            presentViewController(readerVC, animated: true, completion: nil)
         }
-        // Presents the readerVC as modal form sheet
-        readerVC.modalPresentationStyle = .FormSheet
-        presentViewController(readerVC, animated: true, completion: nil)
     }
     
     @IBAction func sendButton(sender: AnyObject) {
@@ -103,11 +106,11 @@ class NewConversationViewController: UIViewController {
 extension NewConversationViewController: QRCodeReaderViewControllerDelegate {
     func reader(reader: QRCodeReaderViewController, didScanResult result: QRCodeReaderResult) {
         self.dismissViewControllerAnimated(true, completion: nil)
-
+        
     }
     
     func readerDidCancel(reader: QRCodeReaderViewController) {
         self.dismissViewControllerAnimated(true, completion: nil)
-
+        
     }
 }
