@@ -79,10 +79,7 @@ class MessageTableViewCell : UITableViewCell {
 
         let text = message.decryptedMessage
         if message.isImage {
-            let index = text.startIndex.advancedBy(5)
-            let image = text.substringFromIndex(index)
-            ImageCom.sharedInstance.toImage(image) {
-                (image) in
+            ImageCom.sharedInstance.toImage(message.imageString) { image in
                 self.setImageMsg(image)
             }
         } else {
@@ -119,8 +116,7 @@ class MessageTableViewCell : UITableViewCell {
     func setImageMsg(img: UIImage) {
         imgUser.alpha = 1
         var point: CGPoint = CGPointZero
-        let image = img
-        let newImage = self.sizeForImage(image , size: CGSizeMake(150,150))
+        let newImage = img.scaleToFitSize(CGSizeMake(150, 150))
         
         if (currentMessage?.isFromUser) == false {
             point.x = 5
@@ -134,22 +130,6 @@ class MessageTableViewCell : UITableViewCell {
         imgUser.frame = rect
         imgUser.image = newImage
         imgUser.layer.cornerRadius = 10
-    }
-    
-    func sizeForImage(image: UIImage, size: CGSize) -> UIImage{
-        let scale = CGFloat(max(size.width/image.size.width,
-            size.height/image.size.height))
-        var bubbleSize: CGSize = CGSize()
-        bubbleSize.width  = image.size.width * scale
-        bubbleSize.height = image.size.height * scale
-        
-        let rr:CGRect = CGRectMake( 0, 0, bubbleSize.width, bubbleSize.height)
-        
-        UIGraphicsBeginImageContextWithOptions(size, false, 0);
-        image.drawInRect(rr)
-        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return newImage
     }
     
     override func prepareForReuse() {
