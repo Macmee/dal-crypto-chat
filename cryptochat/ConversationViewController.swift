@@ -19,7 +19,6 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     @IBOutlet weak var userTextField: UITextField!
     var messages = [Message]()
     var refreshTimer = NSTimer()
-    var usrimg: UIImage?
     var imageView: UIImageView!
     var latestMessageTime : String?
     var imagePicker: UIImagePickerController!

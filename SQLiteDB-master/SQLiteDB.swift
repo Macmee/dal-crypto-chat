@@ -233,7 +233,7 @@ class SQLiteDB {
 			sqlite3_finalize(stmt)
 			if let err = String.fromCString(sqlite3_errmsg(self.db)) {
 				let msg = "SQLiteDB - failed to execute SQL: \(sql), Error: \(err)"
-				print(msg)
+//				print(msg)
 			}
 			return 0
 		}
