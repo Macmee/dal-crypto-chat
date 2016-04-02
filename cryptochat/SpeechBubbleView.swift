@@ -9,100 +9,63 @@
 import Foundation
 import UIKit
 
-var font: UIFont? = nil
-
-var lefthandImage: UIImage? = nil
-
-var righthandImage: UIImage? = nil
-
-let VertPadding: CGFloat = 4
-
-// additional padding around the edges
-let HorzPadding: CGFloat = 4
-
-let TextLeftMargin: CGFloat = 19
-
-// insets for the text
-let TextRightMargin: CGFloat = 7
-
-let TextTopMargin: CGFloat = 11
-
-let TextBottomMargin: CGFloat = 11
-
-let MinBubbleWidth: CGFloat = 50
-
-// minimum width of the bubble
-let MinBubbleHeight: CGFloat = 40
-
-// minimum height of the bubble
-let WrapWidth: CGFloat = 200
-
-// maximum width of text in the bubble
 enum BubbleType : Int {
     case Lefthand = 0
     case Righthand
 }
 
-class SpeechBubbleView: UIView {
-    var text:NSString = ""
-    var bubbleType:BubbleType?
-    
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+let cellFont = UIFont.systemFontOfSize(UIFont.systemFontSize())
+
+let grayColor = UIColor(red: 241.0/255.0, green: 240.0/255.0, blue: 240.0/255.0, alpha: 1.0)
+
+let blueColor = UIColor(red: 32.0/255.0, green: 146.0/255.0, blue: 247.0/255.0, alpha: 1.0)
+
+let padding : CGFloat = 10.0
+
+class SpeechBubbleView: UILabel {
+
+    static let heightCalculatingLabel = SpeechBubbleView(frame: CGRectZero)
+
+    static var maxWidth : CGFloat {
+        get {
+            return UIScreen.mainScreen().bounds.size.width * 0.4
+        }
     }
-    
+
+    var bubbleType:BubbleType?
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override class func initialize() {
-        if self == SpeechBubbleView.self {
-            font = UIFont.systemFontOfSize(UIFont.systemFontSize())
-            lefthandImage = UIImage(named: "ballon_left.png")!.stretchableImageWithLeftCapWidth(20, topCapHeight: 19)
-            righthandImage = UIImage(named: "ballon_right.png")!.stretchableImageWithLeftCapWidth(20, topCapHeight: 19)
-        }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        font = cellFont
+        clipsToBounds = true
+        numberOfLines = 0
+        textAlignment = .Center
+        layer.cornerRadius = 13
     }
     
     class func sizeForText(text: String) -> CGSize {
-        let textSize: CGSize = text.boundingRectWithSize(CGSizeMake(WrapWidth, 9999), options:NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: [NSFontAttributeName: font!], context: nil).size
-        var bubbleSize: CGSize = CGSize()
-        bubbleSize.width = textSize.width + TextLeftMargin + TextRightMargin
-        bubbleSize.height = textSize.height + TextTopMargin + TextBottomMargin
-        if bubbleSize.width < MinBubbleWidth {
-            bubbleSize.width = MinBubbleWidth
-        }
-        if bubbleSize.height < MinBubbleHeight {
-            bubbleSize.height = MinBubbleHeight
-        }
-        bubbleSize.width += HorzPadding * 2
-        bubbleSize.height += VertPadding * 2
-        return bubbleSize
+        
+        heightCalculatingLabel.text = text
+        heightCalculatingLabel.frame = CGRectMake(0, 0, SpeechBubbleView.maxWidth, CGFloat.max)
+        var rect = heightCalculatingLabel.sizeThatFits(heightCalculatingLabel.frame.size)
+        rect.width += 2*padding
+        rect.height += 2*padding
+        return rect
     }
     
-    override func drawRect(rect: CGRect) {
-        self.backgroundColor!.setFill()
-        UIRectFill(rect)
-        let bubbleRect: CGRect = CGRectInset(self.bounds, VertPadding, HorzPadding)
-        var textRect: CGRect = CGRect()
-        textRect.origin.y = bubbleRect.origin.y + TextTopMargin
-        textRect.size.width = bubbleRect.size.width - TextLeftMargin - TextRightMargin
-        textRect.size.height = bubbleRect.size.height - TextTopMargin - TextBottomMargin
-        if bubbleType == BubbleType.Lefthand {
-            lefthandImage!.drawInRect(bubbleRect)
-            textRect.origin.x = bubbleRect.origin.x + TextLeftMargin
-        }
-        else {
-            righthandImage!.drawInRect(bubbleRect)
-            textRect.origin.x = bubbleRect.origin.x + TextRightMargin
-        }
-        UIColor.blackColor().set()
-        text.drawInRect(textRect, withAttributes: [NSFontAttributeName:font!])
-    }
-    
-    func setText(newText: NSString, bubbleType newBubbleType: BubbleType) {
-        self.text = newText.copy() as! NSString
+    func setText(newText: String, bubbleType newBubbleType: BubbleType) {
+        self.text = newText
         self.bubbleType = newBubbleType
-        self.setNeedsDisplay()
+        if bubbleType == BubbleType.Lefthand {
+            backgroundColor = grayColor
+            textColor = UIColor.blackColor()
+        } else {
+            backgroundColor = blueColor
+            textColor = UIColor.whiteColor()
+        }
 }
 }

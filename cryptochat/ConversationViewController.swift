@@ -28,6 +28,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         super.viewDidLoad()
         tableMessages.dataSource = self
         tableMessages.delegate = self
+        tableMessages.separatorStyle = .None
         self.navigationItem.title = user?.username
         NSNotificationCenter.defaultCenter().addObserver(self,
                                                 selector: #selector(ConversationViewController.keyboardWillShow(_:)),
