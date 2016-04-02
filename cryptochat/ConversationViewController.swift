@@ -20,6 +20,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     var messages = [Message]()
     var refreshTimer = NSTimer()
     var usrimg: UIImage?
+    var latestMessageTime : String?
     var imagePicker: UIImagePickerController!
     
     override func viewDidLoad() {
@@ -49,13 +50,19 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     func reloadConversations() {
         if let user = user {
             self.messages = DataManager.sharedInstance.getMessages(user.public_key)
-            self.tableMessages.reloadData()
+            if let time = latestMessageTime {
+                if self.messages.last?.time != time {
+                    self.latestMessageTime = self.messages.last?.time
+                    self.tableMessages.reloadData()
+                }
+            } else {
+                self.tableMessages.reloadData()
+            }
             tableViewScrollToBottom(false)
         }
     }
     
     func downloadAndReloadConversations() {
-        reloadConversations()
         if user != nil {
             MessageManager.sharedInstance.downloadAndStoreMessages {
                 self.reloadConversations()
@@ -76,8 +83,6 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     
     @IBAction func userSendButton(sender: AnyObject) {
         if let selfUser = DataManager.sharedInstance.getSelfUser(), let otherUser = user where userTextField.text != "" {
-            print("otherUser", otherUser.username)
-            
             let message = MessageManager.sharedInstance.encrypt(otherUser, message: userTextField.text!)
             let m = Message(sender: selfUser.public_key, receiver: otherUser.public_key, msg: message, id: DataManager.sharedInstance.randomStringWithLength(40), time: NSDate().formattedISO8601)
             DataFetcher.sharedInstance.sendMessage(otherUser.public_key, message: message, completion: { (success) in
@@ -87,6 +92,25 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
             DataManager.sharedInstance.storeMessage(m)
             userTextField.text = ""
             reloadConversations()
+        }
+    }
+    
+    func userSendImage() {
+        ImageCom.sharedInstance.toText(usrimg!) {
+            (text) in
+            if let selfUser = DataManager.sharedInstance.getSelfUser(), let otherUser = self.user /*where self.userTextField.text != ""*/ {
+                let imageData = "IMG: " + (text as String)
+                
+                let message = MessageManager.sharedInstance.encrypt(otherUser, message: imageData)
+                let m = Message(sender: selfUser.public_key, receiver: otherUser.public_key, msg: message, id: DataManager.sharedInstance.randomStringWithLength(40), time: NSDate().formattedISO8601)
+                DataFetcher.sharedInstance.sendMessage(otherUser.public_key, message: message, completion: { (success) in
+                    self.downloadAndReloadConversations()
+                })
+                m.msg = imageData
+                DataManager.sharedInstance.storeMessage(m)
+                self.reloadConversations()
+            }
+            
         }
     }
     
@@ -117,7 +141,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         let msg = messages[indexPath.row]
         let bublesize: CGSize
         var ret: CGFloat
-        if msg.msg.containsString("IMG: ") {
+        if msg.isImage {
             ret = 150 + 16
         } else {
             bublesize = SpeechBubbleView.sizeForText((msg.decryptedMessage)) as CGSize
@@ -179,24 +203,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         self.presentViewController(imagePicker, animated: true, completion: nil)
     }
     
-    func userSendImage() {
-        ImageCom.sharedInstance.toText(usrimg!) {
-            (text) in
-            if let selfUser = DataManager.sharedInstance.getSelfUser(), let otherUser = self.user /*where self.userTextField.text != ""*/ {
-                let imageData = "IMG: " + (text as String)
 
-                let message = MessageManager.sharedInstance.encrypt(otherUser, message: imageData)
-                let m = Message(sender: selfUser.public_key, receiver: otherUser.public_key, msg: message, id: DataManager.sharedInstance.randomStringWithLength(40), time: NSDate().formattedISO8601)
-                DataFetcher.sharedInstance.sendMessage(otherUser.public_key, message: "", completion: { (success) in
-                    self.downloadAndReloadConversations()
-                })
-                m.msg = imageData
-                DataManager.sharedInstance.storeMessage(m)
-                self.reloadConversations()
-            }
-            self.tableMessages.reloadData()
-        }
-    }
 }
 
 extension ConversationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {

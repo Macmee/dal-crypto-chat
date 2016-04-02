@@ -49,7 +49,7 @@ class MessageTableViewCell: UITableViewCell {
         self.label!.contentMode = .Redraw
         self.label!.autoresizingMask = UIViewAutoresizing.None
         self.label!.font = UIFont.systemFontOfSize(13)
-//        self.label!.textColor = UIColor(red: 64 / 255.0, green: 64 / 255.0, blue: 64 / 255.0, alpha: 1.0)
+        //        self.label!.textColor = UIColor(red: 64 / 255.0, green: 64 / 255.0, blue: 64 / 255.0, alpha: 1.0)
         self.label!.textColor =  UIColor(red: 220 / 255.0, green: 225 / 255.0, blue: 240 / 255.0, alpha: 1.0)
         //self.label!.textColor = UIColor.whiteColor()
         self.contentView.addSubview(label!)
@@ -58,7 +58,7 @@ class MessageTableViewCell: UITableViewCell {
         self.imgUser = UIImageView(frame: CGRectZero)
         self.imgUser!.layer.borderColor = UIColor.blueColor().CGColor
         self.contentView.addSubview(imgUser!)
-
+        
     }
     
     override func layoutSubviews() {
@@ -76,33 +76,31 @@ class MessageTableViewCell: UITableViewCell {
                 self.setImageMsg(image, message: message)
                 self.label?.text = nil
             }
-            return
         } else {
-            imgUser!.image = nil
+            imgUser?.image = nil
+            var point: CGPoint = CGPointZero
+            // We display messages that are sent by the user on the left-hand side of
+            // the screen. Incoming messages are displayed on the right-hand side.
+            var bubbleType: BubbleType
+            let bubbleSize: CGSize = SpeechBubbleView.sizeForText(text)
+            
+            if (message.isFromUser) == false {
+                bubbleType = BubbleType.Lefthand
+                self.label!.textAlignment = .Left
+            } else {
+                bubbleType = BubbleType.Righthand
+                point.x = self.bounds.size.width - bubbleSize.width
+            }
+            
+            // Resize the bubble view and tell it to display the message text
+            var rect: CGRect = CGRect()
+            rect.origin = point
+            rect.size = bubbleSize
+            self.bubbleView!.frame = rect
+            bubbleView!.setText(text, bubbleType: bubbleType)
+            label!.sizeToFit()
+            self.label!.frame = CGRectMake(8, bubbleSize.height, self.contentView.bounds.size.width - 16, 16)
         }
-        
-        var point: CGPoint = CGPointZero
-        // We display messages that are sent by the user on the left-hand side of
-        // the screen. Incoming messages are displayed on the right-hand side.
-        var bubbleType: BubbleType
-        let bubbleSize: CGSize = SpeechBubbleView.sizeForText(text)
-
-        if (message.isFromUser) == false {
-            bubbleType = BubbleType.Lefthand
-            self.label!.textAlignment = .Left
-        } else {
-            bubbleType = BubbleType.Righthand
-            point.x = self.bounds.size.width - bubbleSize.width
-        }
-
-        // Resize the bubble view and tell it to display the message text
-        var rect: CGRect = CGRect()
-        rect.origin = point
-        rect.size = bubbleSize
-        self.bubbleView!.frame = rect
-        bubbleView!.setText(text, bubbleType: bubbleType)
-        label!.sizeToFit()
-        self.label!.frame = CGRectMake(8, bubbleSize.height, self.contentView.bounds.size.width - 16, 16)
     }
     
     func setImageMsg(img: UIImage, message: Message) {
@@ -111,7 +109,7 @@ class MessageTableViewCell: UITableViewCell {
         let newImage = self.sizeForImage(image , size: CGSizeMake(150,150))
         
         if (message.isFromUser) == false {
-             point.x = 5
+            point.x = 5
         } else {
             point.x = self.bounds.size.width - 155
         }
@@ -122,10 +120,6 @@ class MessageTableViewCell: UITableViewCell {
         self.imgUser!.frame = rect
         imgUser!.image = newImage
         imgUser!.layer.cornerRadius = 10
-//        UIGraphicsBeginImageContextWithOptions(size, false, 0);
-//        image.drawInRect(rr)
-//        let newImage = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
     }
     
     func sizeForImage(image: UIImage, size: CGSize) -> UIImage{
@@ -145,20 +139,20 @@ class MessageTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
-//        imgUser!.image = nil
+        //        imgUser!.image = nil
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
-
+    
     override func setSelected(selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
-
-
-
+    
+    
+    
 }
