@@ -130,6 +130,41 @@ class ConversationInboxViewController: UIViewController, UITableViewDataSource, 
         }
     }
 
+    @IBAction func displayImagePickerActionSheet(sender: AnyObject) {
+        let optionOneText = "Delete Everything"
+        let optionTwoText = "Change Servers"
+        let optionThreeText = "Cancel"
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: UIAlertControllerStyle.ActionSheet)
+
+        let actionOne = UIAlertAction(title: optionOneText, style: .Destructive) { (ACTION) in
+            DataManager.sharedInstance.resetDatabase()
+            self.performSegueWithIdentifier("toRegistration", sender: self)
+        }
+        let actionTwo = UIAlertAction(title: optionTwoText, style: .Default) { (ACTION) in
+            self.showServerChangePrompt()
+        }
+        let actionThree = UIAlertAction(title: optionThreeText, style: .Default, handler: nil)
+
+        actionSheet.addAction(actionOne)
+        actionSheet.addAction(actionTwo)
+        actionSheet.addAction(actionThree)
+        self.presentViewController(actionSheet, animated: true, completion: nil)
+    }
+
+    func showServerChangePrompt() {
+        let alert = UIAlertController(title: "Change Server", message: "Enter a new server path without a trailing slash", preferredStyle: .Alert)
+        alert.addTextFieldWithConfigurationHandler({ (textField) -> Void in
+            textField.text = DataManager.sharedInstance.getSetting("serverPath")!
+        })
+        alert.addAction(UIAlertAction(title: "OK", style: .Default, handler: { (action) -> Void in
+            let textField = alert.textFields![0] as UITextField
+            DataManager.sharedInstance.setSetting("serverPath", value: textField.text!)
+        }))
+        
+        // 4. Present the alert.
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+
 }
 
 extension ConversationInboxViewController : NewConversationDelegate {

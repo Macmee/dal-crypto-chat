@@ -11,21 +11,34 @@ class DataManager {
     static let sharedInstance = DataManager()
     var myself : User?
     var namespace : String?
+    var cachedSettings = [String : String]()
     var db: SQLiteDB!
     
     init() {
         db = SQLiteDB.sharedInstance()
-        //db.execute("DROP TABLE IF EXISTS message")
-        //db.execute("DROP TABLE IF EXISTS user")
+        createTables()
+    }
+
+    func resetDatabase() {
+        destroyDatabase()
+        createTables()
+    }
+
+    func destroyDatabase() {
+        myself = nil
+        namespace = nil
+        db.execute("DROP TABLE IF EXISTS message")
+        db.execute("DROP TABLE IF EXISTS user")
+        db.execute("DROP TABLE IF EXISTS setting")
+    }
+
+    func createTables() {
         db.execute("CREATE TABLE IF NOT EXISTS message(sender text, receiver text, msg TEXT, id varchar(255) PRIMARY KEY, time varchar(255))")
         db.execute("CREATE TABLE IF NOT EXISTS user(username text, public_key text)")
         db.execute("CREATE TABLE IF NOT EXISTS setting(key text, value text)")
-        
-    }
-    
-    func initKeys(public_key: String,  private_key: String) {
-        let sql = "insert into keys(public_key, private_key) values('\(public_key)','\(private_key)')"
-        let result = db.execute(sql)
+        if getSetting("serverPath") == nil {
+            setSetting("serverPath", value: "http://davidz.xyz:8005")
+        }
     }
 
     public func randomStringWithLength (len : Int) -> String {
@@ -62,18 +75,24 @@ class DataManager {
     }
 
     func setSetting(key : String, value : String) {
+        cachedSettings[key] = value
         db.execute("DELETE FROM setting WHERE key = '\(key)'")
         let sql = "INSERT INTO setting(key, value) values('\(key)', '\(value)')"
         db.execute(sql)
     }
 
     func getSetting(key : String) -> String? {
+        if cachedSettings[key] != nil {
+            return cachedSettings[key]
+        }
         let sql = "SELECT * FROM setting WHERE key = '\(key)'"
         let result = db.query(sql)
         if result.count == 0 {
             return nil
         }
-        return (result[0]["value"] as? String) ?? ""
+        let value = (result[0]["value"] as? String) ?? ""
+        cachedSettings[key] = value
+        return value
     }
 
     func storeUser(m: User) {

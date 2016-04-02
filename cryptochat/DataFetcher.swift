@@ -16,14 +16,13 @@ class DataFetcher: NSObject {
     func sendMessage(to_user_id: String, message: String, completion:(success:Bool) ->Void) {
         let user_id = DataManager.sharedInstance.getSelfUser()?.public_key ?? ""
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)){
-            let url = NSURL(string: "http://davidz.xyz:8005/messages")
+            let url = NSURL(string: DataManager.sharedInstance.getSetting("serverPath")! + "/messages")
             let request = NSMutableURLRequest(URL: url!)
             request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
             request.HTTPMethod = "PUT"
             let paramString = "user_id=" + user_id + "&to_user_id=" + to_user_id + "&message=" + message
             request.HTTPBody = paramString.dataUsingEncoding(NSUTF8StringEncoding)
             let task = NSURLSession.sharedSession().dataTaskWithRequest(request) { (data, response, error) -> Void in
-                let response_data = NSString(data: data!, encoding: NSUTF8StringEncoding)!
                 dispatch_async(dispatch_get_main_queue(), {
                     completion(success:true)
                 })
@@ -36,7 +35,7 @@ class DataFetcher: NSObject {
         let user_id = DataManager.sharedInstance.getSelfUser()?.public_key ?? ""
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             var response_data = NSString()
-            let url = NSURL(string: "http://davidz.xyz:8005/messages?user_id=" + user_id)
+            let url = NSURL(string: DataManager.sharedInstance.getSetting("serverPath")! + "/messages?user_id=" + user_id)
             let request = NSMutableURLRequest(URL: url!)
             request.HTTPMethod = "GET"
             let session = NSURLSession.sharedSession()
@@ -84,7 +83,7 @@ class DataFetcher: NSObject {
     func getUserByName(username:String, complete:(user:User)->Void) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             var response_data = NSString()
-            let url = NSURL(string: "http://davidz.xyz:8005/users/" + username)
+            let url = NSURL(string: DataManager.sharedInstance.getSetting("serverPath")! + "/users/" + username)
             let request = NSMutableURLRequest(URL: url!)
             request.HTTPMethod = "GET"
             let session = NSURLSession.sharedSession()
@@ -111,7 +110,7 @@ class DataFetcher: NSObject {
     func getUser(public_key:String, complete:(user:User)->Void) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             var response_data = NSString()
-            let url = NSURL(string: "http://davidz.xyz:8005/public-key/" + public_key)
+            let url = NSURL(string: DataManager.sharedInstance.getSetting("serverPath")! + "/public-key/" + public_key)
             if url == nil {
                 complete(user: User.dummy())
                 return
@@ -142,7 +141,7 @@ class DataFetcher: NSObject {
     func register(username:String, public_key:String, complete:(success: Bool)->Void) {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), {
             var response_data = NSString()
-            let url = NSURL(string: "http://davidz.xyz:8005/users")
+            let url = NSURL(string: DataManager.sharedInstance.getSetting("serverPath")! + "/users")
             let request = NSMutableURLRequest(URL: url!)
             request.addValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
             request.HTTPMethod = "PUT"

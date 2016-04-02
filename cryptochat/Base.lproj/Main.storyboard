@@ -199,6 +199,9 @@
                                 <rect key="frame" x="20" y="11" width="22" height="22"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" image="setting"/>
+                                <connections>
+                                    <action selector="displayImagePickerActionSheet:" destination="hkx-ZS-Ysf" eventType="touchUpInside" id="a7y-e4-p57"/>
+                                </connections>
                             </button>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" style="plain" id="p9i-u2-15z">
@@ -216,6 +219,7 @@
                     <connections>
                         <outlet property="tableView" destination="BBN-g0-AlO" id="VgX-ni-ZAD"/>
                         <segue destination="fN3-gT-UFf" kind="show" identifier="toConvo" id="2iQ-0O-9wl"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="toRegistration" id="fxK-r7-goO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Ez-Ch-a8M" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -488,6 +492,7 @@
         <image name="setting" width="16" height="16"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="fxK-r7-goO"/>
         <segue reference="mHI-cG-AzO"/>
     </inferredMetricsTieBreakers>
 </document>
