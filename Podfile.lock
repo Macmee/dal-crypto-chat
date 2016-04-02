@@ -1,10 +1,32 @@
 PODS:
   - Heimdall (0.2.5)
+  - OMGHTTPURLRQ (3.1.1):
+    - OMGHTTPURLRQ/RQ (= 3.1.1)
+  - OMGHTTPURLRQ/FormURLEncode (3.1.1)
+  - OMGHTTPURLRQ/RQ (3.1.1):
+    - OMGHTTPURLRQ/FormURLEncode
+    - OMGHTTPURLRQ/UserAgent
+  - OMGHTTPURLRQ/UserAgent (3.1.1)
+  - PromiseKit (3.1.0):
+    - PromiseKit/Foundation (= 3.1.0)
+    - PromiseKit/QuartzCore (= 3.1.0)
+    - PromiseKit/UIKit (= 3.1.0)
+  - PromiseKit/CorePromise (3.1.0)
+  - PromiseKit/Foundation (3.1.0):
+    - OMGHTTPURLRQ (~> 3.1.0)
+    - PromiseKit/CorePromise
+  - PromiseKit/QuartzCore (3.1.0):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (3.1.0):
+    - PromiseKit/CorePromise
 
 DEPENDENCIES:
   - Heimdall (~> 0.2.1)
+  - PromiseKit
 
 SPEC CHECKSUMS:
   Heimdall: e388795a9bb50c8403e27cbc48093b9b0380c879
+  OMGHTTPURLRQ: 633f98ee745aeda02345935a52eec1784cddb589
+  PromiseKit: 7ed2a3fc5217695305a55a8c47cb3a17ff5fde0d
 
 COCOAPODS: 0.39.0

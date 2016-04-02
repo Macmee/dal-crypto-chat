@@ -55,12 +55,18 @@
 		975F4DE91CA9C50E002F4E89 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975F4DE81CA9C50E002F4E89 /* UserManager.swift */; };
 		975F4DEA1CA9C50E002F4E89 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975F4DE81CA9C50E002F4E89 /* UserManager.swift */; };
 		975F4DEB1CA9C50E002F4E89 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 975F4DE81CA9C50E002F4E89 /* UserManager.swift */; };
+		976DE09A1CB03E2A002A069A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976DE0991CB03E2A002A069A /* LocationManager.swift */; };
+		976DE09B1CB03E2B002A069A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976DE0991CB03E2A002A069A /* LocationManager.swift */; };
+		976DE09C1CB03E2B002A069A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 976DE0991CB03E2A002A069A /* LocationManager.swift */; };
 		97B4E3C51CA7358F00BFB545 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B4E3C31CA7358F00BFB545 /* CustomButton.swift */; };
 		97B4E3C61CA7358F00BFB545 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B4E3C31CA7358F00BFB545 /* CustomButton.swift */; };
 		97B4E3C71CA7358F00BFB545 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B4E3C31CA7358F00BFB545 /* CustomButton.swift */; };
 		97B4E3C81CA7358F00BFB545 /* CustomButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97B4E3C41CA7358F00BFB545 /* CustomButton.xib */; };
 		97B4E3C91CA7358F00BFB545 /* CustomButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97B4E3C41CA7358F00BFB545 /* CustomButton.xib */; };
 		97B4E3CA1CA7358F00BFB545 /* CustomButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97B4E3C41CA7358F00BFB545 /* CustomButton.xib */; };
+		97CFC4031CB049F300A9F91B /* UIImage+resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CFC4021CB049F300A9F91B /* UIImage+resize.swift */; };
+		97CFC4041CB049F300A9F91B /* UIImage+resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CFC4021CB049F300A9F91B /* UIImage+resize.swift */; };
+		97CFC4051CB049F300A9F91B /* UIImage+resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CFC4021CB049F300A9F91B /* UIImage+resize.swift */; };
 		A5FCD07D085D73F684DCDD73 /* Pods_cryptochatTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB3E803AD04AC0020DF9BD88 /* Pods_cryptochatTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -125,8 +131,10 @@
 		975F4DE01CA76D45002F4E89 /* CustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		975F4DE41CA7845F002F4E89 /* RegisterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		975F4DE81CA9C50E002F4E89 /* UserManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		976DE0991CB03E2A002A069A /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		97B4E3C31CA7358F00BFB545 /* CustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		97B4E3C41CA7358F00BFB545 /* CustomButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomButton.xib; sourceTree = "<group>"; };
+		97CFC4021CB049F300A9F91B /* UIImage+resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+resize.swift"; sourceTree = "<group>"; };
 		B983473CBBA6F39337063498 /* Pods-cryptochatUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cryptochatUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-cryptochatUITests/Pods-cryptochatUITests.release.xcconfig"; sourceTree = "<group>"; };
 		D5906FFE3A3AFDC3AA3F2439 /* Pods-cryptochatTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-cryptochatTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-cryptochatTests/Pods-cryptochatTests.release.xcconfig"; sourceTree = "<group>"; };
 		DB3E803AD04AC0020DF9BD88 /* Pods_cryptochatTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_cryptochatTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -238,6 +246,8 @@
 				971AC6081CAA0C4200557090 /* MessageManager.swift */,
 				971AC60C1CAA12BC00557090 /* NSDate+8601.swift */,
 				971AC6101CAA39EE00557090 /* String+Base64.swift */,
+				976DE0991CB03E2A002A069A /* LocationManager.swift */,
+				97CFC4021CB049F300A9F91B /* UIImage+resize.swift */,
 			);
 			path = cryptochat;
 			sourceTree = "<group>";
@@ -547,12 +557,14 @@
 			files = (
 				975B18B41C7E29C500F320D0 /* WelcomeViewController.swift in Sources */,
 				05EDE8581CA232D200B36131 /* DataFetcher.swift in Sources */,
+				976DE09A1CB03E2A002A069A /* LocationManager.swift in Sources */,
 				975B18881C7E24C500F320D0 /* ViewController.swift in Sources */,
 				05EF8A5D1CAA3D7600E2D321 /* ImageCom.swift in Sources */,
 				05EDE85A1CA232D200B36131 /* NewConversationViewController.swift in Sources */,
 				975F4DE51CA7845F002F4E89 /* RegisterViewController.swift in Sources */,
 				05EDE8571CA232D200B36131 /* ConversationViewController.swift in Sources */,
 				350DE6B91C948EC000FEC1CC /* SQLiteDB.swift in Sources */,
+				97CFC4031CB049F300A9F91B /* UIImage+resize.swift in Sources */,
 				05EDE8591CA232D200B36131 /* MessageTableViewCell.swift in Sources */,
 				975F4DDD1CA75D43002F4E89 /* User.swift in Sources */,
 				975F4DE11CA76D45002F4E89 /* CustomTextField.swift in Sources */,
@@ -579,7 +591,9 @@
 				975F4DDE1CA75D43002F4E89 /* User.swift in Sources */,
 				971AC60E1CAA12BC00557090 /* NSDate+8601.swift in Sources */,
 				97B4E3C61CA7358F00BFB545 /* CustomButton.swift in Sources */,
+				976DE09B1CB03E2B002A069A /* LocationManager.swift in Sources */,
 				975F4DEA1CA9C50E002F4E89 /* UserManager.swift in Sources */,
+				97CFC4041CB049F300A9F91B /* UIImage+resize.swift in Sources */,
 				975B189B1C7E24C500F320D0 /* cryptochatTests.swift in Sources */,
 				975F4DE61CA7845F002F4E89 /* RegisterViewController.swift in Sources */,
 				975F4DDA1CA7380C002F4E89 /* BaseViewController.swift in Sources */,
@@ -596,7 +610,9 @@
 				975F4DDF1CA75D43002F4E89 /* User.swift in Sources */,
 				971AC60F1CAA12BC00557090 /* NSDate+8601.swift in Sources */,
 				97B4E3C71CA7358F00BFB545 /* CustomButton.swift in Sources */,
+				976DE09C1CB03E2B002A069A /* LocationManager.swift in Sources */,
 				975F4DEB1CA9C50E002F4E89 /* UserManager.swift in Sources */,
+				97CFC4051CB049F300A9F91B /* UIImage+resize.swift in Sources */,
 				975B18A61C7E24C500F320D0 /* cryptochatUITests.swift in Sources */,
 				975F4DE71CA7845F002F4E89 /* RegisterViewController.swift in Sources */,
 				975F4DDB1CA7380C002F4E89 /* BaseViewController.swift in Sources */,
