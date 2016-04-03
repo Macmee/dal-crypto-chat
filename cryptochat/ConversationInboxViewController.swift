@@ -59,6 +59,7 @@ class ConversationInboxViewController: UIViewController, UITableViewDataSource, 
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        reload()
         // setup the timer to reload messages from the server every 2 seconds
         refreshTimer.invalidate()
         refreshTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self, selector: #selector(ConversationInboxViewController.reload), userInfo: nil, repeats: true)
@@ -87,6 +88,14 @@ class ConversationInboxViewController: UIViewController, UITableViewDataSource, 
         let cell = tableView.dequeueReusableCellWithIdentifier("ConversationCell", forIndexPath: indexPath)
         // next pull out the Message object from our messages array since its our data source
         let message = messages[indexPath.row]
+        // set the cell as non-bold if we havent read the message yet
+        if DataManager.sharedInstance.getReadStatus(message.id) || message.isFromUser {
+            cell.textLabel?.font = UIFont.systemFontOfSize(16)
+            cell.detailTextLabel?.font = UIFont.systemFontOfSize(10)
+        } else {
+            cell.textLabel?.font = UIFont.boldSystemFontOfSize(16)
+            cell.detailTextLabel?.font = UIFont.boldSystemFontOfSize(10)
+        }
         // fetch the name of the user who sent the message and assign it to the cell's header
         cell.textLabel?.text = "Loading..."
         UserManager.sharedInstance.getUser(message.otherUserId()) { (user) in
