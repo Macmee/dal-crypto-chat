@@ -33,16 +33,19 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // animate table in
         tableMessages.alpha = 0
+        // Animate changes to one or more views using the specified duration.
         UIView.animateWithDuration(2.0) {
+            // The view’s alpha value
             self.tableMessages.alpha = 1
         }
 
         // set this controller as the data source and delegate for our table
         tableMessages.dataSource = self
+        // The object that acts as the data source of the table view.
         tableMessages.delegate = self
+        // The style for table cells used as separators.
         tableMessages.separatorStyle = .None
         tableMessages.contentInset = UIEdgeInsetsMake(MessageTableViewCell.cellPadding, 0.0, 0.0, 0.0)
         // set the navigation title in the client to who it is having a conversation with
@@ -51,6 +54,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         NSNotificationCenter.defaultCenter().addObserver(self,
                                                          selector: #selector(ConversationViewController.keyboardWillShow(_:)),
                                                          name: UIKeyboardWillShowNotification, object: nil)
+        // Adds an entry to the receiver’s dispatch table with an observer, a notification selector and optional criteria: notification name and sender.
         NSNotificationCenter.defaultCenter().addObserver(self,
                                                          selector: #selector(ConversationViewController.keyboardWillHide(_:)),
                                                          name: UIKeyboardWillHideNotification, object: nil)
@@ -65,11 +69,15 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     
     // position to the bottom of the tableview cell
     func tableViewScrollToBottom(animated: Bool) {
+        // The number of sections in the table view.
         let numberOfSections = self.tableMessages.numberOfSections
+        // Returns the number of rows (table cells) in a specified section
         let numberOfRows = self.tableMessages.numberOfRowsInSection(numberOfSections-1)
         
         if numberOfRows > 0 {
+            // the path to a specific node in a tree of nested array collections. This path is known as an index path.
             let indexPath = NSIndexPath(forRow: numberOfRows-1, inSection: (numberOfSections-1))
+            // Scrolls through the table view until a row identified by index path is at a particular location on the screen.
             self.tableMessages.scrollToRowAtIndexPath(indexPath, atScrollPosition: UITableViewScrollPosition.Bottom,
                                                       animated: animated)
         }
@@ -78,12 +86,19 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     // Query the local SQLite database and retrieve any new message that has been sent.
     func reloadConversations() {
         if let user = user {
+            // Get an array of messages from the local sqlite db
             self.messages = DataManager.sharedInstance.getMessages(user.public_key)
+            // The last stored time
             let lastSeenMsgTime = latestMessageTime ?? "never"
+            // The last retrieved time
             let lastGotMsgTime = self.messages.last?.time ?? "now"
+            // Do a comparison on the time difference and detect if we need to poll the data
             if lastSeenMsgTime != lastGotMsgTime {
+                // If they are diferent then poll the data
                 self.tableMessages.reloadData()
+                // scroll to the bottom
                 tableViewScrollToBottom(true)
+                // change the updated time
                 latestMessageTime = lastGotMsgTime
             }
         }
@@ -91,7 +106,9 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     // Retrive all new messages from the server and store them locally in the SQLite database
     func downloadAndReloadConversations() {
         if user != nil {
+            // Download the messages from the server and store in SQLite db
             MessageManager.sharedInstance.downloadAndStoreMessages {
+                // perform a reload
                 self.reloadConversations()
             }
         }
@@ -100,7 +117,9 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
     // Once the conversation view has appeared, do downloadAndReloadConversation() and timer for every x intervals
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        // Stops the receiver from ever firing again and requests its removal from its run loop.
         refreshTimer.invalidate()
+        // a new NSTimer object and schedules it on the current run loop in the default mode.
         refreshTimer = NSTimer.scheduledTimerWithTimeInterval(2, target: self,
                                                               selector: #selector(ConversationViewController.downloadAndReloadConversations), userInfo: nil,
                                                               repeats: true)
@@ -109,12 +128,14 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        // position to the last cell
         tableViewScrollToBottom(true)
     }
 
     // Stop the downloading of conversation if we are not in this view anymore
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
+        // Stops the receiver from ever firing again and requests its removal from its run loop.
         refreshTimer.invalidate()
     }
     
