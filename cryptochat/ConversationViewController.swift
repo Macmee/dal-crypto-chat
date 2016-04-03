@@ -196,6 +196,7 @@ class ConversationViewController: UIViewController, UITableViewDelegate, UITable
         let msg = messages[indexPath.row]
         // configure and prepare the cell for rendering
         cell?.setMessage(msg)
+        DataManager.sharedInstance.setReadStatus(msg.id, value: true)
         return cell!
     }
     

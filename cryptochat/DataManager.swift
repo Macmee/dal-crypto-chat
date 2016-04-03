@@ -12,6 +12,7 @@ class DataManager {
     var myself : User?
     var namespace : String?
     var cachedSettings = [String : String]()
+    var cachedReadStatus = [String : Bool]()
     var db: SQLiteDB!
     
     init() {
@@ -36,6 +37,7 @@ class DataManager {
         db.execute("CREATE TABLE IF NOT EXISTS message(sender text, receiver text, msg TEXT, id varchar(255) PRIMARY KEY, time varchar(255))")
         db.execute("CREATE TABLE IF NOT EXISTS user(username text, public_key text)")
         db.execute("CREATE TABLE IF NOT EXISTS setting(key text, value text)")
+        db.execute("CREATE TABLE IF NOT EXISTS read(key text, value varchar(255))")
         if getSetting("serverPath") == nil {
             setSetting("serverPath", value: "http://davidz.xyz:8005")
         }
@@ -74,24 +76,66 @@ class DataManager {
         db.execute(sql)
     }
 
+    func setReadStatus(key : String, value : Bool) {
+        if cachedReadStatus[key] == value {
+            return
+        }
+        // update th ekey in our local cache
+        cachedReadStatus[key] = value
+        // perform query to delete the key if its already in the db (to simulate upserting)
+        db.execute("DELETE FROM read WHERE key = '\(key)'")
+        // insert the key into the db (now we dont have to care about duplicates)
+        let valueString = (value ? "1" : "0")
+        db.execute("INSERT INTO read(key, value) values('\(key)', '\(valueString)')")
+    }
+
+    func getReadStatus(key : String) -> Bool {
+        // check our cache first since its quicker than querying the db
+        if cachedReadStatus[key] != nil {
+            // if we got a cache hit return that
+            return cachedReadStatus[key]!
+        }
+        // perform fetch query
+        let result = db.query("SELECT * FROM read WHERE key = '\(key)'")
+        // bail if query returns no rows
+        if result.count == 0 {
+            return false
+        }
+        // if the query returned rows, grab the first row
+        let value = (result[0]["value"] as? String) ?? ""
+        // cache the row
+        let boolValue = (value == "1" ? true : false)
+        cachedReadStatus[key] = boolValue
+        // return the row as the value
+        return boolValue
+    }
+
     func setSetting(key : String, value : String) {
+        // update th ekey in our local cache
         cachedSettings[key] = value
+        // perform query to delete the key if its already in the db (to simulate upserting)
         db.execute("DELETE FROM setting WHERE key = '\(key)'")
-        let sql = "INSERT INTO setting(key, value) values('\(key)', '\(value)')"
-        db.execute(sql)
+        // insert the key into the db (now we dont have to care about duplicates)
+        db.execute("INSERT INTO setting(key, value) values('\(key)', '\(value)')")
     }
 
     func getSetting(key : String) -> String? {
+        // check our cache first since its quicker than querying the db
         if cachedSettings[key] != nil {
+            // if we got a cache hit return that
             return cachedSettings[key]
         }
-        let sql = "SELECT * FROM setting WHERE key = '\(key)'"
-        let result = db.query(sql)
+        // perform fetch query
+        let result = db.query("SELECT * FROM setting WHERE key = '\(key)'")
+        // bail if query returns no rows
         if result.count == 0 {
             return nil
         }
+        // if the query returned rows, grab the first row
         let value = (result[0]["value"] as? String) ?? ""
+        // cache the row
         cachedSettings[key] = value
+        // return the row as the value
         return value
     }
 
