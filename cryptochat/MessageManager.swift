@@ -56,7 +56,7 @@ public class MessageManager {
                 let decrypted = decryptedMessage
                 let verified = heimdall.verify(decrypted, signatureBase64: signature)
                 if !verified && !decrypted.hasPrefix("IMG:") {
-                    return "[UNVERIFIED] " + decrypted
+                    return decrypted
                 }
                 return decrypted
             }
