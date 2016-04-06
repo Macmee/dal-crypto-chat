@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="http://i.imgur.com/zE8xTg3.png" alt="Sublime's custom image"/>
+  <img src="http://i.imgur.com/jRx1xyX.png" alt="Sublime's custom image"/>
 </p>
 
 ## CryptoChat - A School Project
