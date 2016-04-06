@@ -1,4 +1,4 @@
-//
+//  Helper class for resizing UIImages
 //  UIImage+resize.swift
 //  cryptochat
 //
@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 extension UIImage {
-
+    // Scale to a square given a size, this is the scale for saving in the database
     func scaleWithNewWidth(newWidth: CGFloat) -> UIImage {
         let scale = newWidth / self.size.width
         let newHeight = self.size.height * scale
@@ -20,7 +20,8 @@ extension UIImage {
         UIGraphicsEndImageContext()
         return newImage
     }
-
+    
+    // Scale some more when rendering the image in the tableview
     func scaleToFitSize(size: CGSize) -> UIImage{
         let scale = CGFloat(max(size.width/self.size.width,
             size.height/self.size.height))

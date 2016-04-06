@@ -1,4 +1,4 @@
-//
+//  This is a help class for date formatting
 //  NSDate+8601.swift
 //  cryptochat
 //
@@ -11,11 +11,17 @@ import Foundation
 extension NSDate {
     struct Date {
         static let formatterISO8601: NSDateFormatter = {
+            // create a data object
             let formatter = NSDateFormatter()
+            //formate it
             formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)
+            // set the locale
             formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+            // set the timezone
             formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+            // set the format
             formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSX"
+            //return
             return formatter
         }()
     }
