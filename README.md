@@ -1,45 +1,26 @@
-###SERVER
+<p align="center">
+  <img src="http://i.imgur.com/70xkcAo.png" alt="Sublime's custom image"/>
+</p>
 
-**INSTALLING SERVER**
+## This is a school project
 
-it's located at `/server`:
+https://www.youtube.com/watch?v=OroRRxt-LG8&feature=youtu.be
 
-1. get nodejs 5.5.x
-2. run `npm install`
-3. `cd` into `/server/patches/import-export` and run `npm install` there too
-4. `cd` back to `/server` and run `node index`
+### Setting up the server
 
-**SEND MESSAGE ENDPOINT**
+The server requires nodejs (5.x.x) to be installed on your machine. Preferably you should be running OS X 10.11, Ubuntu > 12.04, Cent OS, etc.
 
-TYPE: `PUT`
+1. cd into `/server`
+2. type `npm install`
+3. cd into `/patches/enhanced-promises` and do `npm install` and also cd to `/patches/import-export` and do `npm install`
+4. go back to `/server` and type `node index` and the server should now be online
 
-URL: `http://localhost:8005/messages`
+### Setting up the client
 
-BODY PARAMS: `user_id`, `to_user_id`, `message`
+You need XCode 7.3 (7D175) for this because Apple changed selector syntax and our group (living on the edge) used this new syntax :)
 
-RESPONSE: `{ success: true }`
+The client users a small handful of libraries, QRCodeReader, QRCode, PromiseKit and Heimdall. You can install all of these easily with Cocoapods:
 
-**GET MESSAGES ENDPOINT**
-
-TYPE: `GET`
-
-URL: `localhost:8005/messages?user_id=USER_ID_HERE`
-
-RESPONSE:
-```
-{
-  "messages": [{
-      "user_id": "a",
-      "to_user_id": "b",
-      "message": "c",
-      "created_at": "2016-03-04T16:20:27.145Z",
-      "id": "smt34WSvJuRjwEjz"
-    }, {
-      "user_id": "a",
-      "to_user_id": "b",
-      "message": "c",
-      "created_at": "2016-03-04T16:36:47.062Z",
-      "id": "xZ7gYRfz0fWquW1p"
-    }]
-}
-```
+1. download and setup cocoapods with `sudo gem install cocoapods`
+2. cd to our project root and type `pod install`
+3. a file ending in `.xcodeworkspace` should be generated, you must open *this* file to run the project
